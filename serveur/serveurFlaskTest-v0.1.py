@@ -1,12 +1,11 @@
-#! /usr/bin/python
-# -*- coding:utf-8 -*-
-
-from flask import Flask
+from flask import Flask, request, jsonify
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-    return "Hello !"
+@app.route('/', methods=['POST'])
+def add_message():
+    content = request.json
+    print (content)
+    return jsonify(content)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host= '0.0.0.0',debug=True)
