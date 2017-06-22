@@ -9,7 +9,7 @@ import java.net.URL;
 public class TestHttp {
 
 	
-	public static void sendPost(String urlToRead) throws Exception {
+	public static void sendPost(String urlToRead, String speudo, String boisson, int nb) throws Exception {
 			
 			try {
 
@@ -21,8 +21,9 @@ public class TestHttp {
 		        
 		        Gson gson = new Gson();
 		        Data obj = new Data();
-		        //obj.username = user; // affectation data1
-		       // obj.password = pass; // affectation data2
+		        obj.player = speudo; // affectation data1
+		        obj.item = boisson; // affectation data2
+		        obj.quantity = nb; // affectation data3
 		        String json = gson.toJson(obj);// convertion en JSON
 		        System.out.println(json);  
 		        OutputStream os = conn.getOutputStream();
@@ -56,10 +57,35 @@ public class TestHttp {
 		     }
 	
 		}
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public static String getMap(URL url ) throws Exception {
+	   	int i =0;
+	      StringBuilder result = new StringBuilder();
+	       // crée un nouveau objet url
+	      HttpURLConnection conn = (HttpURLConnection) url.openConnection(); //
+	      conn.setRequestMethod("GET");// indique le type de la requête
+	      BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));// envoie le Get et place le retour dans un buffer
+	      String line;
+	      while ((line = rd.readLine()) != null) {
+	    	 
+	         result.append(line);
+	      }
+	      rd.close();
+	      System.out.println(result);
+	      return result.toString();
+	   }
+	
 	public static void main(String[] args) {
-		String urlToRead = "http://localhost:5000/sales";
+		String speudo ="toto";
+		String boisson = "bierre";
+		int nb = 4;
+		
 		try {
-			sendPost(urlToRead);
+			String urlToRead = "http://localhost:5000/sales";
+			URL url = new URL("http://localhost:5000/map"); 
+			sendPost(urlToRead,speudo,boisson,nb);
+			//getMap(url);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
