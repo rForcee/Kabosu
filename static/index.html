@@ -27,18 +27,18 @@
     <script src="js/bootstrap.min.js"></script>
 
     <script>
-	function envoyer(e) {
-		e.preventDefault()
+	  function envoyer(e) {
+  		e.preventDefault()
 
-	      var message = {
-		pseudo: $('#pseudo').val()
-	      }
-	      
-	      $.ajax('http://kabosu.herokuapp.com/pseudo', {
-		type: 'POST',
-		contentType: 'application/json',
-		data: JSON.stringify(message)
-	      })
+  	      var message = {
+  		      pseudo: $('#pseudo').val()
+  	      };
+  	      
+  	      $.ajax('http://kabosu.herokuapp.com/pseudo', {
+        		type: 'POST',
+        		contentType: 'application/json',
+        		data: JSON.stringify(message)
+  	      });
 		      
 	  }
     
