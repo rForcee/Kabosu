@@ -22,8 +22,8 @@
       <file leaf-file-name="serveurFlaskTest-v0.1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/serveurFlaskTest-v0.1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+            <state relative-caret-position="472">
+              <caret line="23" column="22" lean-forward="false" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -42,6 +42,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/serveurTest-v0.1.py" />
+        <option value="$PROJECT_DIR$/../main.py" />
         <option value="$PROJECT_DIR$/serveurFlaskTest-v0.1.py" />
       </list>
     </option>
@@ -468,10 +469,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/serveurFlaskTest-v0.1.py">
+    <entry file="file://$PROJECT_DIR$/../main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="555">
-          <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+          <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <marker date="1498120211907" expanded="true" signature="574:594" ph="SELECT * FRO... partie" />
+            <marker date="1498120211907" expanded="true" signature="798:842" ph="INSERT INTO partie... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/serveurFlaskTest-v0.1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="23" column="22" lean-forward="false" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
           <folding />
         </state>
       </provider>

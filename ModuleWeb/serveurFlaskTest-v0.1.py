@@ -22,7 +22,6 @@ def messageRecuC():
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
     content = "{toto}"
-    print (content)
     return jsonify(content)
 if __name__ == '__main__':
     app.run(host= '0.0.0.0',debug=True)
