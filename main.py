@@ -1,9 +1,11 @@
 import json, random
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from db import Db
 
 app = Flask(__name__)
 app.debug = True
+CORS(app)
 
 names = ["tree", "apple", "computer", "phone", "fruit"]
 verbs = ["eats", "cuts", "sleeps", "dies", "stops"]
