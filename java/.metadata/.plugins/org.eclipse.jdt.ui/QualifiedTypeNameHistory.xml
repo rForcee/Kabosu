@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.util.Base64"/>
-<fullyQualifiedTypeName name="org.apache.commons.codec.binary.Base64"/>
-<fullyQualifiedTypeName name="org.apache.http.client.fluent.Response"/>
-</qualifiedTypeNameHistroy>
