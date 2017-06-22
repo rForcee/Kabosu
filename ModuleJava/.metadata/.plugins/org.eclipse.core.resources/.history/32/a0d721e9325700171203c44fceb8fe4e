@@ -1,0 +1,10 @@
+package map;
+import map.Position;
+import map.Spand;
+public class map 
+{
+	
+	Position centre = new Position();
+	Spand pointSpand = new Spand();
+
+}

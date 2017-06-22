@@ -1,0 +1,7 @@
+package map;
+import map.Position;
+public class map 
+{
+	
+
+}

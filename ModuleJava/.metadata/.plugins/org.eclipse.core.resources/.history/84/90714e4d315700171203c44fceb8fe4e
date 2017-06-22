@@ -1,0 +1,24 @@
+package map;
+
+public class Position {
+	float coordX;
+	float coordY;
+	void position()
+	{
+		this.coordX = 0;
+		this.coordY = 0;
+	}
+	
+	public float getCoordX() {
+		return coordX;
+	}
+	public void setCoordX(float coordX) {
+		this.coordX = coordX;
+	}
+	public float getCoordY() {
+		return coordY;
+	}
+	public void setCoordY(float coordY) {
+		this.coordY = coordY;
+	}
+}

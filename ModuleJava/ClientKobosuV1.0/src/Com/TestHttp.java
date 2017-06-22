@@ -82,7 +82,7 @@ public class TestHttp {
 		int nb = 4;
 		
 		try {
-			String urlToRead = "http://localhost:5000/sales";
+			String urlToRead = "https://kabosu.herokuapp.com/sales/";
 			URL url = new URL("http://localhost:5000/map"); 
 			sendPost(urlToRead,speudo,boisson,nb);
 			//getMap(url);

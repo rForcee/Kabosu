@@ -1,0 +1,14 @@
+package map;
+import map.Position;
+import map.Spand;
+public class Map 
+{
+	Map(float X, float Y, float Sx, float Sy)
+	{
+		Position centre = new Position();
+		Spand pointSpand = new Spand();
+	}
+	void calculeDistance(){
+		
+	}
+}

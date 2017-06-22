@@ -1,0 +1,16 @@
+package map;
+import map.Position;
+import map.Spand;
+public class Map 
+{
+	float X,Y,Sx,Sy;
+	
+	
+		Position centre = new Position(X,Y);
+		Spand pointSpand = new Spand(Sx,Sy);
+	
+	void calculeDistance(){
+		
+		Math.sqrt((centre.coordY - centre.coordX),(pointSpand.coordY - pointSpand.coordX));
+	}
+}

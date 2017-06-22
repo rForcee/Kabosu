@@ -1,15 +1,1 @@
 INDEX VERSION 1.130+B:\projet1A\git\Kabosu\ModuleJava\.metadata\.plugins\org.eclipse.jdt.core
-2523276898.index
-1136575484.index
-4168586056.index
-2306950065.index
-2365410357.index
-3364422389.index
-1912721163.index
-4057717404.index
-4184562817.index
-1003609534.index
-2862817446.index
-3998450864.index
-249430738.index
-2432127385.index

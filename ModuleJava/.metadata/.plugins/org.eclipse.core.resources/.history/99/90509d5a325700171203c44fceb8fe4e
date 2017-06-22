@@ -1,0 +1,9 @@
+package map;
+import map.Position;
+import map.Span;
+public class map 
+{
+	
+	Position centre = new Position();
+
+}
