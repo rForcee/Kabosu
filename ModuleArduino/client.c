@@ -1,80 +1,44 @@
-*
- * tcpclient.c - A simple TCP client
- * usage: tcpclient <host> <port>
- */
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
+#include <curl/curl.h>
 
-#define BUFSIZE 1024
+int main(void)
+{
+    CURL *curl;
+     CURLcode res;
 
-/*
- * error - wrapper for perror
- */
-void error(char *msg) {
-    perror(msg);
-    exit(0);
-}
 
-int main(int argc, char **argv) {
-    int sockfd, portno, n;
-    struct sockaddr_in serveraddr;
-    struct hostent *server;
-    char *hostname;
-    char buf[BUFSIZE];
+     /* In windows, this will init the winsock stuff */
+     curl_global_init(CURL_GLOBAL_ALL);
 
-    /* check command line arguments */
-    if (argc != 3) {
-       fprintf(stderr,"usage: %s <hostname> <port>\n", argv[0]);
-       exit(0);
-    }
-    hostname = argv[1];
-    portno = atoi(argv[2]);
 
-    /* socket: create the socket */
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0)
-        error("ERROR opening socket");
+     /* get a curl handle */
+     curl = curl_easy_init();
+     if(curl) {
 
-    /* gethostbyname: get the server's DNS entry */
-    server = gethostbyname(hostname);
-    if (server == NULL) {
-        fprintf(stderr,"ERROR, no such host as %s\n", hostname);
-        exit(0);
-    }
 
-    /* build the server's Internet address */
-    bzero((char *) &serveraddr, sizeof(serveraddr));
-    serveraddr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr,
-      (char *)&serveraddr.sin_addr.s_addr, server->h_length);
-    serveraddr.sin_port = htons(portno);
+       /* First set the URL that is about to receive our POST. This URL can
+          just as well be a https:// URL if that is what should receive the
+          data. */
+       curl_easy_setopt(curl, CURLOPT_URL, "https://kabosu.herokuapp.com/test/c");
 
-    /* connect: create a connection with the server */
-    if (connect(sockfd, &serveraddr, sizeof(serveraddr)) < 0)
-      error("ERROR connecting");
 
-    /* get message line from the user */
-    printf("Please enter msg: ");
-    bzero(buf, BUFSIZE);
-    fgets(buf, BUFSIZE, stdin);
+       /* Now specify the POST data */
+       curl_easy_setopt(curl, CURLOPT_POSTFIELDS, ("name : John", "age : 25"));
 
-    /* send the message line to the server */
-    n = write(sockfd, buf, strlen(buf));
-    if (n < 0)
-      error("ERROR writing to socket");
 
-    /* print the server's reply */
-    bzero(buf, BUFSIZE);
-    n = read(sockfd, buf, BUFSIZE);
-    if (n < 0)
-      error("ERROR reading from socket");
-    printf("Echo from server: %s", buf);
-    close(sockfd);
-    return 0;
+       /* Perform the request, res will get the return code */
+       res = curl_easy_perform(curl);
+
+
+       /* Check for errors */
+       if(res != CURLE_OK)
+         fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                 curl_easy_strerror(res));
+
+ 
+       /* always cleanup */
+       curl_easy_cleanup(curl);
+     }
+     curl_global_cleanup();
+     return 0;
 }
