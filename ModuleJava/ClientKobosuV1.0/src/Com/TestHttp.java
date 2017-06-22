@@ -8,90 +8,90 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 public class TestHttp {
 
-	
-	public static void sendPost(String urlToRead, String speudo, String boisson, int nb) throws Exception {
-			
-			try {
+///////////////////////////////////////////////Methode post sales///////////////////////////////////////
+public static void sendPost(URL url , String speudo, String boisson, int nb) throws Exception {
 
-		        URL url = new URL(urlToRead);  // crée un nouveau objet url
-		        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		        conn.setDoOutput(true);
-		        conn.setRequestMethod("POST");// indique le type de la requête
-		        conn.setRequestProperty("Content-Type", "application/json");// indique la propriete de la requete
-		        
-		        Gson gson = new Gson();
-		        Data obj = new Data();
-		        obj.player = speudo; // affectation data1
-		        obj.item = boisson; // affectation data2
-		        obj.quantity = nb; // affectation data3
-		        String json = gson.toJson(obj);// convertion en JSON
-		        System.out.println(json);  
-		        OutputStream os = conn.getOutputStream();
-		        os.write(json.getBytes());
-		        os.flush();
+		try {
 
-		        if (conn.getResponseCode() !=200) {
-		            throw new RuntimeException("Failed : HTTP error code : "
-		                + conn.getResponseCode());
-		        }
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setDoOutput(true);
+			conn.setRequestMethod("POST");// indique le type de la requête
+			conn.setRequestProperty("Content-Type", "application/json");// indique la propriete de la requete
 
-		       BufferedReader br = new BufferedReader(new InputStreamReader(
-		                (conn.getInputStream())));
+			Gson gson = new Gson();
+			Data obj = new Data();
+			obj.player = speudo; // affectation data1
+			obj.item = boisson; // affectation data2
+			obj.quantity = nb; // affectation data3
+			String json = gson.toJson(obj);// convertion en JSON
+			System.out.println(json);  
+			OutputStream os = conn.getOutputStream();
+			os.write(json.getBytes());
+			os.flush();
 
-		        String output;
-		       System.out.println("Output from Server .... \n");
-		        while ((output = br.readLine()) != null) {
-		            System.out.println(output);
-		        }
+			if (conn.getResponseCode() !=200) {
+				throw new RuntimeException("Failed : HTTP error code : "
+						+ conn.getResponseCode());
+			}
 
-		        conn.disconnect();
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					(conn.getInputStream())));
 
-		      } catch (MalformedURLException e) {
+			String output;
+			System.out.println("Output from Server .... \n");
+			while ((output = br.readLine()) != null) {
+				System.out.println(output);
+			}
 
-		        e.printStackTrace();
+			conn.disconnect();
 
-		      } catch (IOException e) {
+		} catch (MalformedURLException e) {
 
-		        e.printStackTrace();
+			e.printStackTrace();
 
-		     }
-	
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
 		}
-	/////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public static String getMap(URL url ) throws Exception {
-	   	int i =0;
-	      StringBuilder result = new StringBuilder();
-	       // crée un nouveau objet url
-	      HttpURLConnection conn = (HttpURLConnection) url.openConnection(); //
-	      conn.setRequestMethod("GET");// indique le type de la requête
-	      BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));// envoie le Get et place le retour dans un buffer
-	      String line;
-	      while ((line = rd.readLine()) != null) {
-	    	 
-	         result.append(line);
-	      }
-	      rd.close();
-	      System.out.println(result);
-	      return result.toString();
-	   }
-	
+
+	}
+//////////////////////////////////////////////Methode get map/////////////////////////////////////////
+
+public static String getMap(URL url ) throws Exception {
+		int i =0;
+		StringBuilder result = new StringBuilder();
+		// crée un nouveau objet url
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection(); //
+		conn.setRequestMethod("GET");// indique le type de la requête
+		BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));// envoie le Get et place le retour dans un buffer
+		String line;
+		while ((line = rd.readLine()) != null) {
+
+			result.append(line);
+		}
+		rd.close();
+		System.out.println(result);
+		return result.toString();
+	}
+//main
 	public static void main(String[] args) {
 		String speudo ="toto";
 		String boisson = "bierre";
 		int nb = 4;
-		
+
 		try {
-			String urlToRead = "https://kabosu.herokuapp.com/sales/";
-			URL url = new URL("http://localhost:5000/map"); 
-			sendPost(urlToRead,speudo,boisson,nb);
-			//getMap(url);
+			URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
+			URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
+			
+			sendPost(urlPost,speudo,boisson,nb); // post vers https://kabosu.herokuapp.com/sales
+			getMap(urlGet); // get vers https://kabosu.herokuapp.com/map
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
-	
+
 
 }
