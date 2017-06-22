@@ -1,0 +1,10 @@
+package Com;
+
+public class Data {
+		  String player = "" ;
+		    String item= "";
+		    String quantity= "";
+		    String value= "";
+		    
+		   
+}
