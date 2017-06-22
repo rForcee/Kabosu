@@ -45,6 +45,11 @@ def randomSentence():
 	message = [name, adj, verb]
 	return json_response(message)
 
+@app.route('/test/c', methods=['POST'])
+def messageRecuC():
+    content = request.json
+    return jsonify({"success": True})
+
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
     content = request.json
