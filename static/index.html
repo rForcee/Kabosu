@@ -32,19 +32,20 @@
 
   	      var message = {
   		      pseudo: $('#pseudo').val()
-  	      };
+  	      }
   	      
   	      $.ajax('http://kabosu.herokuapp.com/pseudo', {
         		type: 'POST',
         		contentType: 'application/json',
         		data: JSON.stringify(message)
-  	      });
+  	      })
 		      
 	  }
     
     $(function(){    
       $('#send').on('click', envoyer);
     })
+
     </script>
 
   </body>
