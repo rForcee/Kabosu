@@ -17,7 +17,7 @@ def json_response(data="OK", status=200):
 @app.route("/phrases/random", methods=["GET"])
 def random_phrase():
   db = Db()
-  name = db.select("SELECT * FROM partie")
+  name = db.select("SELECT * FROM partie")[0]
   db.close()
   return json_response(name)
 
