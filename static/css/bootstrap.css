@@ -2258,7 +2258,7 @@ caption {
   text-align: left;
 }
 th {
-  text-align: left;
+  text-align: center;
 }
 .table {
   width: 100%;
@@ -2273,7 +2273,7 @@ th {
 .table > tfoot > tr > td {
   padding: 8px;
   line-height: 1.42857143;
-  vertical-align: top;
+  vertical-align: center;
   border-top: 1px solid #ddd;
 }
 .table > thead > tr > th {
@@ -2318,10 +2318,10 @@ th {
   border-bottom-width: 2px;
 }
 .table-striped > tbody > tr:nth-of-type(odd) {
-  background-color: #f9f9f9;
+  background-color: #22313F;
 }
 .table-hover > tbody > tr:hover {
-  background-color: #f5f5f5;
+  background-color: #34495e;
 }
 table col[class*="col-"] {
   position: static;
@@ -4274,7 +4274,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-brand {
   float: left;
   height: 50px;
-  padding: 15px 15px;
+  padding: 10px 15px 20px 20px;
   font-size: 18px;
   line-height: 20px;
 }
@@ -4509,6 +4509,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-default .navbar-nav > li > a {
   color: #f1c40f;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: bold;
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
@@ -6134,6 +6137,7 @@ button.close {
           box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
 
   line-break: auto;
+  color: black;
 }
 .popover.top {
   margin-top: -10px;

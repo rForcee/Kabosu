@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Kabosu | Résultats</title>
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <header>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="jeu.html"><img src="./image/Kabosu_06.png" alt="Kabosu" height="30"></a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li><a href="jeu.html">Gestion</a></li>
+            <li class="active"><a href="resultat.html">Résultats</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><img src="image/EPLS_01.png"></li>
+            <li><a href="index.html">Déconnexion</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <div class="row">
+
+      <div class="col-md-3">
+        <div class="well tilesTop">
+          <img src="image/sales.png" alt="Météo">
+          <h2 id="sales"> 32 </h2>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="well tilesTop">
+          <img src="image/coins.png" alt="Jour">
+          <h2 id="profit"> + 90.50€ </h2>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="well tilesTop">
+          <img src="image/pub.png" alt="Heure">
+          <h2 id="pub"> 3/17 </h2>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="well tilesTop">
+          <img src="image/medal.png" alt="Budget">
+          <h2 id="ranking"> 2/8 </h2>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="well tiles">
+          <table class="table table-hover table-striped tableProd">
+            <thead>
+              <tr>
+                <th>Jour</th>
+                <th>Production</th>
+                <th>Ventes</th>
+                <th>Gain</th>
+                <th>Publicités</th>
+                <th>Contribution des publicités</th>
+                <th>Météo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>25</td>
+                <td>25</td>
+                <td>50€</td>
+                <td>0</td>
+                <td>0</td>
+                <td>Ensoleillé</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>20</td>
+                <td>20</td>
+                <td>40€</td>
+                <td>1</td>
+                <td>3</td>
+                <td>Ensoleillé</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      <div id="footer">
+        <div class="container">
+          <p>Équipe <a href="jeu.html">Kabosu</a> : Valentin BRETON, Guillaume de CLAVERIE, Erwann FRANÇOIS, Marvin GEORGET et Franck MEROU.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
