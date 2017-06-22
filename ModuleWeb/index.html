@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Kabosu | Login</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="wrapper">
+      <form class="form-signin">       
+        <h2 class="form-signin-heading">Merci de rentrer un pseudo pour rejoindre le serveur</h2>
+        <input id="pseudo" type="text" class="form-control" name="username" placeholder="Pseudo" required="" autofocus="" />
+        <br>      
+        <button id="send" class="btn btn-lg btn-primary btn-block" type="submit">Jouer</button>   
+      </form>
+    </div>
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="js/bootstrap.min.js"></script>
+
+    <script>
+	function envoyer(e) {
+		e.preventDefault()
+
+	      var message = {
+		pseudo: $('#pseudo').val()
+	      }
+	      
+	      $.ajax('http://kabosu.herokuapp.com/pseudo', {
+		type: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify(message)
+	      })
+		      
+	  }
+    
+    $(function(){    
+      $('#send').on('click', envoyer);
+    })
+    </script>
+
+  </body>
+</html>
