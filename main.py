@@ -1,5 +1,5 @@
 import json, random
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from db import Db
 
 app = Flask(__name__)
@@ -45,7 +45,7 @@ def randomSentence():
 
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
-    content = request.get_json()
+    content = request.json
     return jsonify({"success": True})
 
 
