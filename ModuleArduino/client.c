@@ -1,4 +1,4 @@
-/*
+*
  * tcpclient.c - A simple TCP client
  * usage: tcpclient <host> <port>
  */
