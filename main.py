@@ -36,9 +36,7 @@ def add_elements():
   
   db = Db()
   db.execute("""
-    DELETE * FROM partie;
-  """)
-  db.execute("""
+  	DELETE * FROM partie;
     INSERT INTO partie(p_nom) VALUES (@(pseudo));
   """, elements)
   db.close()
