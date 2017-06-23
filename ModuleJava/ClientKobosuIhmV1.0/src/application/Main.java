@@ -17,20 +17,20 @@ public class Main extends Application {
 			//BorderPane root = new BorderPane();
 			
 			Map test = new Map(250,250, 200,0);
-			double rayon = test.calculeRayon(test.centre.getCoordX(), test.centre.getCoordY(), test.pointSpand.getCoordX(), test.pointSpand.getCoordY());
-			System.out.println(test.centre.getCoordX());
-			System.out.println(test.centre.getCoordY());
-			System.out.println(test.pointSpand.getCoordX());
-			System.out.println(test.pointSpand.getCoordY());
+			double rayon = test.calculeRayon(test.getCentre().getCoordX(), test.getCentre().getCoordY(), test.getPointSpand().getCoordX(), test.getPointSpand().getCoordY());
+			System.out.println(test.getCentre().getCoordX());
+			System.out.println(test.getCentre().getCoordY());
+			System.out.println(test.getPointSpand().getCoordX());
+			System.out.println(test.getPointSpand().getCoordY());
 			System.out.println(rayon);
 			//Drawing a Circle 
 		      Circle circle = new Circle() ; 
-		      Image img = new Image("/carte.png");
+		      //Image img = new Image("carte1.png");
 		      //Setting the properties of the circle 
-		      circle.setCenterX(test.centre.getCoordX()) ; 
-		      circle.setCenterY(test.centre.getCoordY()) ; 
+		      circle.setCenterX(test.getCentre().getCoordX()) ; 
+		      circle.setCenterY(test.getCentre().getCoordY()) ; 
 		      circle.setRadius(rayon) ; 
-		      circle.setFill(new ImagePattern(img));
+		     // circle.setFill(new ImagePattern(img));
 			 Group root = new Group(circle) ;
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
