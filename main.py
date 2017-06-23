@@ -49,18 +49,18 @@ def randomSentence():
 def messageRecuC():
     content = request.get_json()
     testc = content['meteo']
-    return jsonify(content)
+    return json_response(content)
 
 @app.route('/test/c', methods=['GET'])
 def messageGetC():
     
-    return jsonify(testc)
+    return json_response(testc)
 
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
     content = request.get_json()
 
-    return jsonify({"success": True})
+    return json_response({"success": True})
 
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
