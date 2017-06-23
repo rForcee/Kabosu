@@ -10,6 +10,7 @@ CORS(app)
 names = ["tree", "apple", "computer", "phone", "fruit"]
 verbs = ["eats", "cuts", "sleeps", "dies", "stops"]
 adjectives = ["beautiful", "cute", "gross", "horrible", "ugly"]
+testc = "toto"
 
 # DATABASE_URL=postgres://<username>@localhost/<dbname> python main.py
 
@@ -47,19 +48,19 @@ def randomSentence():
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
     content = request.get_json()
-    return jsonify({"success": True})
-
-@app.route('/sales', methods=['POST'])
-def messageRecuJava():
-    content = request.get_json()
-    print content
+    testc = content
     return json_response(content)
 
+@app.route('/test/c', methods=['GET'])
+def messageGetC():
+    
+    return json_response(testc)
+
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
     content = request.get_json()
 
-    return jsonify({"success": True})
+    return json_response({"success": True})
 
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
