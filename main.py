@@ -36,8 +36,8 @@ def add_elements():
 
   if len(players) == 0:
 	  db = Db()
-	  sqlDeclare = "DECLARE partieID;"
-	  sqlInsertPartie = "partieID => INSERT INTO partie(p_nom) VALUES('" + "partie" +"') RETURNING p_id;"
+	  sqlDeclare = "DECLARE partieID partie.p_id%TYPE;"
+	  sqlInsertPartie = "INSERT INTO partie(p_nom) VALUES('" + "partie" +"') RETURNING p_id INTO partieID;"
 	  sqlInsertMap = "INSERT INTO map(m_centreX, m_centreY, m_coordX, m_coordY, p_id) VALUES(100,100,50,50,partieID);"
 	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget, p_id) VALUES('"+ name +"','"+ str(budget) +"', partieID);"
 	  sql = sqlInsertPartie + sqlInsertMap + sqlInsertPlayer
