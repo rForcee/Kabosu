@@ -47,12 +47,12 @@ def randomSentence():
 
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
-    content = request.json
+    content = request.get_json()
     return jsonify({"success": True})
 
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
-    content = request.json
+    content = request.get_json()
     return jsonify({"success": True})
 
 @app.route('/map', methods=['GET'])
@@ -66,12 +66,11 @@ def envoieMapJava():
 def meteo():
     global meteo
     if request.method == 'POST':
-        content = request.json
+        content = request.get_json()
         meteo = content['meteo']
         return jsonify({"success": True})
     else:
         return jsonify(meteo)
-
 
 if __name__ == "__main__":
   app.run()
