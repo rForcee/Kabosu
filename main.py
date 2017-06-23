@@ -48,7 +48,7 @@ def randomSentence():
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
     content = request.get_json()
-    print content
+    print content['hour']
     global testc = content
     return json_response(content)
 
