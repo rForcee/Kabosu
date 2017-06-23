@@ -48,15 +48,26 @@ def randomSentence():
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
     content = request.get_json()
+
     return jsonify({"success": True})
 
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
     content = request.get_json()
+
+    print content
+    return jsonify(content)
+
+@app.route('/sales', methods=['POST'])
+def messageRecuJava():
+    content = request.json
+    print content
+
     return jsonify({"success": True})
 
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
+
     db = Db()
     infoMap = db.select("SELECT * FROM map")
     db.close()
