@@ -5,10 +5,10 @@ public class ItemJoueur {
 	private float rayonInfluence;
 	private String proprietaire;
 	private Position posItem;
-	public ItemJoueur(){
-		proprietaire = "NODEFINE";
-		rayonInfluence = 0;
-		setPosItem(new Position());
+	public ItemJoueur(String nomJoueur, float rayon, float x, float y){
+		proprietaire = nomJoueur;
+		rayonInfluence = rayon;
+		setPosItem(new Position(x,y));
 	}
 	public float getRayonInfluence() {
 		return rayonInfluence;
