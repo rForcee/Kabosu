@@ -32,7 +32,7 @@ def random_phrase():
 @app.route("/players", methods=["POST"])
 def add_elements():
   elements = request.get_json()
-  pseudo = elements['name']
+  name = elements['name']
 
   db = Db()
   db.execute("""
