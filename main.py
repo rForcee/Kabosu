@@ -54,10 +54,13 @@ def messageRecuC():
 def messageRecuJava():
     content = request.json
     return jsonify({"success": True})
+
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
-    content = "{Todo}"
-    return jsonify(content)
+    db = Db()
+    infoMap = db.select("SELECT * FROM map")
+    db.close()
+    return jsonify(infoMap)
 
 if __name__ == "__main__":
   app.run()
