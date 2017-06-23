@@ -7,10 +7,8 @@ app = Flask(__name__)
 app.debug = True
 CORS(app)
 
-names = ["tree", "apple", "computer", "phone", "fruit"]
-verbs = ["eats", "cuts", "sleeps", "dies", "stops"]
-adjectives = ["beautiful", "cute", "gross", "horrible", "ugly"]
-testc = ""
+players = []
+budget = 10
 
 # DATABASE_URL=postgres://<username>@localhost/<dbname> python main.py
 
@@ -33,15 +31,27 @@ def random_phrase():
 def add_elements():
   elements = request.get_json()
   name = elements['name']
+  
+  print players
 
-  db = Db()
-  db.execute("""
-    INSERT INTO partie(p_nom) VALUES (@(name));
-  """, elements)
+  if len(players) == 0:
+	  db = Db()
+	  sqlInsertPartie = "INSERT INTO partie(p_nom) VALUES('" + "partie" +"') RETURNING p_id INTO var;"
+	  sqlInsertMap = "INSERT INTO map(m_centreX, m_centreY, m_coordX, m_coordY, p_id) VALUES(100,100,50,50,var);"
+	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget, p_id) VALUES('"+ name +"','"+ budget +"', var);"
+	  sql = sqlInsertPartie + sqlInsertMap + sqlInsertPlayer
+	  db.execute(sql)
+	  db.close()
+	  players.append(name)
 
-  db.close()
+  else:
+  	  db = Db()
+  	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget, p_id) VALUES('"+ name +"','"+ budget +"', (SELECT p_id FROM partie LIMIT 1));"
+	  db.execute(sqlInsertPlayer)
+	  db.close()
+	  players.append(name)
 
-  return json_response(pseudo)
+  return json_response(players)
 
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
