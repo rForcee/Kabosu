@@ -18,17 +18,28 @@ def json_response(data="OK", status=200):
 
 # Fonction pour la route /phrases/random avec GET
 # Fonction de TEST : renvoie tout ce qu'il y a dans la table PARTIE
-@app.route("/phrases/random", methods=["GET"])
-def random_phrase():
+@app.route("/parties", methods=["GET"])
+def get_parties():
   db = Db()
-  name = db.select("SELECT * FROM partie")
+  sql = "SELECT * FROM partie"
+  result = db.select(sql)
   db.close()
-  return json_response(name)
+  return json_response(result)
+
+# Fonction pour la route /phrases/random avec GET
+# Fonction de TEST : renvoie tout ce qu'il y a dans la table PARTIE
+@app.route("/players", methods=["GET"])
+def get_players():
+  db = Db()
+  sql = "SELECT * FROM joueur"
+  result = db.select(sql)
+  db.close()
+  return json_response(result)
 
 # Fonction pour la route /players avec la methode POST
 # Permet d'ajouter un utilisateur a la table joueur avec le budget de base
 @app.route("/players", methods=["POST"])
-def add_elements():
+def add_player():
   elements = request.get_json()
   name = elements['name']
   
