@@ -1,5 +1,10 @@
 /* CSS POUR L'INDEX - FENETRE DE LOGIN */
 
+#button-center
+{
+	text-align: center !important;
+}
+
 .bodyIndex {
 	background: #95a5a6 !important;
 }
@@ -112,8 +117,5 @@
 	color: white;
 }
 
-#button-center
-{
-	text-align: center !important;
-}
+
 
