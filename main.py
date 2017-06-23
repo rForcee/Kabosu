@@ -60,7 +60,7 @@ def add_player():
 
   else:
   	  db = Db()
-  	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget, p_id) VALUES('"+ name +"','"+ budget +"', (SELECT p_id FROM partie LIMIT 1));"
+  	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget, p_id) VALUES('"+ name +"','"+ str(budget) +"', (SELECT p_id FROM partie LIMIT 1));"
 	  db.execute(sqlInsertPlayer)
 	  db.close()
 	  players.append(name)
