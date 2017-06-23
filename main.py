@@ -33,12 +33,13 @@ def random_phrase():
 def add_elements():
   elements = request.get_json()
   pseudo = elements['pseudo']
-  
+  print "test"
   db = Db()
   db.execute("""
   	DELETE * FROM partie;
     INSERT INTO partie(p_nom) VALUES (@(pseudo));
   """, elements)
+  print "Passed"
   db.close()
 
   return json_response(pseudo)
