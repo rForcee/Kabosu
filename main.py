@@ -38,7 +38,7 @@ def add_elements():
 	  db = Db()
 	  sqlInsertPartie = "INSERT INTO partie(p_nom) VALUES('" + "partie" +"') RETURNING p_id INTO var;"
 	  sqlInsertMap = "INSERT INTO map(m_centreX, m_centreY, m_coordX, m_coordY, p_id) VALUES(100,100,50,50,var);"
-	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget, p_id) VALUES('"+ name +"','"+ budget +"', var);"
+	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget, p_id) VALUES('"+ name +"','"+ str(budget) +"', var);"
 	  sql = sqlInsertPartie + sqlInsertMap + sqlInsertPlayer
 	  db.execute(sql)
 	  db.close()
