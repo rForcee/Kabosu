@@ -49,6 +49,7 @@ def randomSentence():
 def messageRecuC():
     content = request.get_json()
     print content['hour']
+    print content
     global testc 
     testc = content
     return json_response(content)
