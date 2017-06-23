@@ -48,7 +48,7 @@ def randomSentence():
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
     content = request.json
-    return jsonify({"success": True})
+    return jsonify({content})
 
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
@@ -57,21 +57,8 @@ def messageRecuJava():
 
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
-    db = Db()
-    infoMap = db.select("SELECT * FROM map")
-    db.close()
-    return jsonify(infoMap)
-
-@app.route('/metrology', methods=['GET','POST'])
-def meteo():
-    global meteo
-    if request.method == 'POST':
-        content = request.json
-        meteo = content['meteo']
-        return jsonify({"success": True})
-    else:
-        return jsonify(meteo)
-
+    content = "{Todo}"
+    return jsonify(content)
 
 if __name__ == "__main__":
   app.run()
