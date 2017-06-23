@@ -10,7 +10,7 @@ CORS(app)
 names = ["tree", "apple", "computer", "phone", "fruit"]
 verbs = ["eats", "cuts", "sleeps", "dies", "stops"]
 adjectives = ["beautiful", "cute", "gross", "horrible", "ugly"]
-testc = "toto"
+testc
 
 # DATABASE_URL=postgres://<username>@localhost/<dbname> python main.py
 
