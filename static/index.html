@@ -29,22 +29,6 @@
     <script src="js/bootstrap.min.js"></script>
 
     <script>
-	  function envoyer(e) {
-  		e.preventDefault()
-
-  	      var message = {
-  		      pseudo: $('#pseudo').val()
-  	      }
-
-          console.log(message);
-  	      
-  	      $.ajax('https://kabosu.herokuapp.com/pseudo', {
-        		type: 'POST',
-        		contentType: 'application/json',
-        		data: JSON.stringify(message)
-  	      })
-		      
-	  }
     
     $(function(){    
       $('#send').on('click', envoyer);

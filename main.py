@@ -24,7 +24,7 @@ def random_phrase():
   db.close()
   return json_response(name)
 
-@app.route("/pseudo", methods=["POST"])
+@app.route("/players", methods=["POST"])
 def add_elements():
   elements = request.get_json()
   pseudo = elements['pseudo']

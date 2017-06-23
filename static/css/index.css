@@ -91,7 +91,7 @@
 	color: white;
 }
 
-/* Set the fixed height of the footer here */
+/* FOOTER */
 #footer {
   height: 60px;
   margin-top:50px;
@@ -110,5 +110,10 @@
 #footer div p
 {
 	color: white;
+}
+
+.button-center
+{
+	text-align: center;
 }
 
