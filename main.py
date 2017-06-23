@@ -49,7 +49,7 @@ def randomSentence():
 def messageRecuC():
     content = request.get_json()
     print content
-    testc = content
+    global testc = content
     return json_response(content)
 
 @app.route('/test/c', methods=['GET'])
