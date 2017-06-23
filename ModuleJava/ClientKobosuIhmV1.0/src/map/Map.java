@@ -1,4 +1,6 @@
 package map;
+import javafx.scene.image.Image;
+
 import map.Position;
 import map.Spand;
 public class Map 
@@ -7,7 +9,7 @@ public class Map
 	
 	private Position centre ;
 	private Spand pointSpand ;
-
+	private Image skinMap = new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIhmV1.0/src/carte1.png");
 	public Map(float X,float Y,float Sx,float Sy){
 		
 		this.setCentre(new Position(X,Y));
@@ -39,6 +41,16 @@ public class Map
 
 	public void setPointSpand(Spand pointSpand) {
 		this.pointSpand = pointSpand;
+	}
+
+
+	public Image getSkinMap() {
+		return skinMap;
+	}
+
+
+	public void setSkinMap(Image skinMap) {
+		this.skinMap = skinMap;
 	}
 	
 }
