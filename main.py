@@ -42,7 +42,7 @@ def get_players():
 def add_player():
   elements = request.get_json()
   name = elements['name']
-  
+  global players
   print players
 
   if len(players) == 0:
