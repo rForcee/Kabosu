@@ -47,11 +47,11 @@ def add_player():
 
   if len(players) == 0:
 	  db = Db()
-	  sqlDeclare = "DECLARE paID int;"
-	  sqlInsertPartie = "INSERT INTO partie(p_nom) VALUES('" + "partie" +"') RETURNING p_id INTO paID;"
+	  sqlDeletePartie = "DELETE * FROM partie;"
+	  sqlInsertPartie = "INSERT INTO partie(p_nom) VALUES('" + "partie" +"');"
 	  sqlInsertMap = "INSERT INTO map(m_centreX, m_centreY, m_coordX, m_coordY, p_id) VALUES(100,100,50,50,(SELECT p_id FROM partie LIMIT 1));"
 	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget, p_id) VALUES('"+ name +"','"+ str(budget) +"', (SELECT p_id FROM partie LIMIT 1));"
-	  sql = sqlDeclare + sqlInsertPartie + sqlInsertMap + sqlInsertPlayer
+	  sql = sqlInsertPartie + sqlInsertMap + sqlInsertPlayer
 	  db.execute(sql)
 	  db.close()
 	  players.append(name)
