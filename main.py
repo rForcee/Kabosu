@@ -47,13 +47,14 @@ def randomSentence():
 
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
-    content = request.get_json()
-
+    content = request.json
+    print content
     return jsonify(content)
 
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
     content = request.json
+    print content
     return jsonify({"success": True})
 
 @app.route('/map', methods=['GET'])
