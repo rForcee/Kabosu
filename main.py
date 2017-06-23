@@ -52,7 +52,7 @@ def messageRecuC():
     return jsonify(content)
 
 @app.route('/test/c', methods=['GET'])
-def messageRecuC():
+def messageGetC():
     
     return jsonify(testc)
 
