@@ -114,5 +114,8 @@
 	color: white;
 }
 
-
+#button-center
+{
+  text-align: center !important;
+}
 
