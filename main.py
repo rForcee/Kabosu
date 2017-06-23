@@ -62,5 +62,16 @@ def envoieMapJava():
     db.close()
     return jsonify(infoMap)
 
+@app.route('/metrology', methods=['GET','POST'])
+def meteo():
+    global meteo
+    if request.method == 'POST':
+        content = request.json
+        meteo = content['meteo']
+        return jsonify({"success": True})
+    else:
+        return jsonify(meteo)
+
+
 if __name__ == "__main__":
   app.run()
