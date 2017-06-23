@@ -52,12 +52,6 @@ def messageRecuC():
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
     content = request.get_json()
-    
-    return json_response(content)
-
-@app.route('/sales', methods=['POST'])
-def messageRecuJava():
-    content = request.get_json()
 
     return jsonify({"success": True})
 
