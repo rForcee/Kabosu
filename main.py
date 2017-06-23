@@ -28,29 +28,20 @@ def random_phrase():
   return json_response(name)
 
 # Fonction pour la route /players avec la methode POST
-# Permet d'ajouter un 
+# Permet d'ajouter un utilisateur a la table joueur avec le budget de base
 @app.route("/players", methods=["POST"])
 def add_elements():
   elements = request.get_json()
-  pseudo = elements['pseudo']
-  print "test"
+  pseudo = elements['name']
+
   db = Db()
   db.execute("""
-  	DELETE FROM partie;
-    INSERT INTO partie(p_nom) VALUES (@(pseudo));
+    INSERT INTO partie(p_nom) VALUES (@(name));
   """, elements)
-  print "Passed"
+
   db.close()
 
   return json_response(pseudo)
-
-@app.route("/phrases/test", methods=['GET'])
-def randomSentence():
-	name = random.choice(names) 
-	verb = random.choice(verbs) 
-	adj = random.choice(adjectives)
-	message = [name, adj, verb]
-	return json_response(message)
 
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
