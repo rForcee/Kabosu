@@ -43,10 +43,12 @@
               type: 'POST',
               contentType: 'application/json',
               data: JSON.stringify(message)
-            })
+            }).done(function(){
+                window.open("jeu.html", "_self");
+            });
             
       }
-      
+
       $(function(){    
         $('#send').on('click', envoyer);
       })
