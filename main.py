@@ -14,7 +14,7 @@ testc = ""
 
 # DATABASE_URL=postgres://<username>@localhost/<dbname> python main.py
 
-# Fonction pour les réponses en Json
+# Fonction pour les reponses en Json
 def json_response(data="OK", status=200):
   return json.dumps(data), status, { "Content-Type": "application/json" }
 
@@ -27,7 +27,7 @@ def random_phrase():
   db.close()
   return json_response(name)
 
-# Fonction pour la route /players avec la méthode POST
+# Fonction pour la route /players avec la methode POST
 # Permet d'ajouter un 
 @app.route("/players", methods=["POST"])
 def add_elements():
@@ -36,6 +36,7 @@ def add_elements():
   
   db = Db()
   db.execute("""
+  	DELETE * FROM partie;
     INSERT INTO partie(p_nom) VALUES (@(pseudo));
   """, elements)
   db.close()
