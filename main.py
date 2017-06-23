@@ -48,6 +48,7 @@ def randomSentence():
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
     content = request.get_json()
+    testc = content
     return jsonify(content)
 
 @app.route('/test/c', methods=['GET'])
