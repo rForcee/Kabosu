@@ -77,8 +77,8 @@ def inscriptionBoisson():
 
     db = Db()
     sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "');"
-	db.execute(sql)
-	db.close()
+    db.execute(sql)
+    db.close()
     return json_response(content)
 
 @app.route('/inscrire/boisson', methods=['GET'])
@@ -97,8 +97,8 @@ def inscriptionIngredient():
 
     db = Db()
     sql = "INSERT INTO ingredient(i_nom, i_prix) VALUES('"+ nom +"','"+ str(prix) +"');"
-	db.execute(sql)
-	db.close()
+    db.execute(sql)
+    db.close()
     return json_response(content)
 
 @app.route('/inscrire/ingredient', methods=['GET'])
@@ -118,8 +118,8 @@ def inscriptionRecette():
 
     db = Db()
     sql = "INSERT INTO recette(b_id, i_id, r_qte) VALUES((SELECT b_id FROM boisson WHERE b_nom = '" + drink + "'),(SELECT i_id FROM ingredient WHERE i_nom = '" + ing + "'),'"+ str(qte) +"');"
-	db.execute(sql)
-	db.close()
+    db.execute(sql)
+    db.close()
     return json_response(content)
 
 @app.route('/inscrire/recette', methods=['GET'])
