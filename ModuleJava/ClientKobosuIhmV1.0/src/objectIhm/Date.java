@@ -2,26 +2,49 @@ package objectIhm;
 
 public class Date {
 	
-	private float heureServeur;
-	private float HeureJeux;
-	private int jour;
-	
-	
-	public float getHeureServeur() {
-		return heureServeur;
+	public Date(int heureServeur, int heureJeux, int jour) {
+		this.heureServeur = heureServeur;
+		HeureJeux = heureJeux;
+		this.jour = jour;
 	}
-	public void setHeureServeur(float heureServeur) {
+	private int heureServeur;
+	private int HeureJeux;
+	private int jour;
+	final private int dureUneJournee = 24;
+	
+//Methode
+	public int jourJeux(){
+		return jour = (heureServeur/dureUneJournee);
+	}
+	public int heureJeux(){
+		return HeureJeux = (heureServeur-(jour*dureUneJournee));
+		
+	}
+	
+// setter
+	public void setHeureServeur(int heureServeur) {
 		this.heureServeur = heureServeur;
 	}
-	public int getJour() {
-		return jour;
-	}
+	
 	public void setJour(int jour) {
 		this.jour = jour;
 	}
 	
-	public void date() {
-		
+	public void setHeureJeux(int heureJeux) {
+		HeureJeux = heureJeux;
+	}
+//getter	
+	public int getJour() {
+		return jour;
+	}
+	public float getHeureServeur() {
+		return heureServeur;
+	}
+	public float getHeureJeux() {
+		return HeureJeux;
+	}
+	public int getDureJour() {
+		return dureUneJournee;
 	}
 	
 

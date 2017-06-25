@@ -5,7 +5,7 @@ import javafx.scene.paint.ImagePattern;
 
 public class Meteo {
 	
-	private Image skin; //= new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIhmV1.0/src/canicule.png");
+	private Image skin;
 	private int meteo;
 	public Image getIcoMeteo()
 	{

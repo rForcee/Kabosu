@@ -4,18 +4,18 @@ import javafx.scene.image.Image;
 
 public class StandJoueur extends ItemJoueur {
 	
-	private float budget;
+	private float argent;
 	private Image skinStand = new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIhmV1.0/src/stand.png");
-	public StandJoueur(String nomJoueur, float standInfluence, float x, float y, float budgetDepart)
+	public StandJoueur(String nomJoueur, float standInfluence, float x, float y, float argentDepart)
 	{
 			super(nomJoueur, standInfluence, x, y);	
-			this.budget = budgetDepart;
+			this.argent = argentDepart;
 	}
-	public float getBudget() {
-		return budget;
+	public float getargent() {
+		return argent;
 	}
-	public void setBudget(float budget) {
-		this.budget = budget;
+	public void setargent(float argent) {
+		this.argent = argent;
 	}
 	public Image getSkinStand() {
 		return skinStand;
