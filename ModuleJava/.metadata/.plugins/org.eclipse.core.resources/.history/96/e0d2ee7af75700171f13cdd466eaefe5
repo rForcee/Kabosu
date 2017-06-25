@@ -1,0 +1,46 @@
+package objectMap;
+import java.util.Random;
+
+import map.Position;
+public class Client {
+	
+	//private boolean achat;
+	private int motivation;
+	private Boisson envie;
+	public Position pos;
+	private float X;
+	private float Y;
+	float minX = 50.0f;
+	float maxX = 100.0f;
+	float minY= 50.0f;
+	float maxY = 100.0f;
+
+	Random rand = new Random();
+ 
+	public Client ()
+	{
+		this.X = rand.nextFloat() * (maxX - minX) + minX;
+		this.Y = rand.nextFloat() * (maxY - minY) + minY;
+		this.motivation = 100;
+		this.pos = new Position(this.X,this.Y);
+	}
+	public int getMotivation() {
+		return motivation;
+	}
+	public void setMotivation(int motivation) {
+		this.motivation = motivation;
+	}
+	public Boisson getEnvie() {
+		return envie;
+	}
+	public void setEnvie(Boisson envie) {
+		this.envie = envie;
+	}
+	/*public boolean isAchat() {
+		return achat;
+	}
+	public void setAchat(boolean achat) {
+		this.achat = achat;
+	}*/
+	
+}

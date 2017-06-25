@@ -1,0 +1,15 @@
+package objectMap;
+import map.Position;
+public class Client {
+	
+	private boolean achat;
+	int motivation;
+	public Position pos = new Position();
+	public boolean isAchat() {
+		return achat;
+	}
+	public void setAchat(boolean achat) {
+		this.achat = achat;
+	}
+	
+}

@@ -1,0 +1,17 @@
+package objectIhm;
+
+import javafx.scene.image.Image;
+
+public class Meteo {
+	
+	private Image skin1 = new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIhmV1.0/src/canicule.png");
+	private int meteo;
+	public Image getSkin1() {
+		return skin1;
+	}
+
+	public void setSkin1(Image skin1) {
+		this.skin1 = skin1;
+	}
+
+}

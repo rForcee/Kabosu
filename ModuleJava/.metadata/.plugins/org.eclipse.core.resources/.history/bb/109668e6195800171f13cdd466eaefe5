@@ -1,0 +1,62 @@
+package application;
+	
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.image.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import map.*;
+import objectMap.*;
+import objectIhm.*;
+public class Main extends Application {
+	@Override
+	public void start(Stage primaryStage) {
+		try {
+			VBox vbox = new VBox(500);
+			//BorderPane root = new BorderPane();
+			int meteo = 1;
+			Meteo IcoMeteo = new Meteo();
+			IcoMeteo.setMeteo(1);
+			//dessine le cerlce pour la map
+		      Circle circle = new Circle() ; 
+		     TextField heure = new TextField ();
+		     vbox.getChildren().add(heure);
+		     Rectangle rectangle = new Rectangle();
+		    
+			 Group root = new Group(circle,rectangle,heure);
+			 Scene scene = new Scene(root,1000,1000); 
+			 Map test = new Map(500,200, 250,0);
+			 
+			double rayon = test.calculeRayon(test.getCentre().getCoordX(), test.getCentre().getCoordY(), test.getPointSpand().getCoordX(), test.getPointSpand().getCoordY());
+			 heure.getBoundsInParent();
+			  
+			 //parammetre du cercle 
+		     circle.setCenterX(test.getCentre().getCoordX()) ; 
+		     circle.setCenterY(test.getCentre().getCoordY()) ; 
+		     circle.setRadius(rayon) ; 
+		     circle.setFill(new ImagePattern(test.getSkinMap())); // ajoute le skins de la map dans le cercle
+			 rectangle.setX(scene.getWidth()-75);
+		     rectangle.setY(0);
+		     rectangle.setWidth(75);
+		     rectangle.setHeight(75);
+		     rectangle.setFill(new ImagePattern(IcoMeteo.getIcoMeteo()));
+		
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+}

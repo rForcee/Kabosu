@@ -1,0 +1,38 @@
+package objectIhm;
+
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+
+public class Meteo {
+	
+	private Image skin; //= new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIhmV1.0/src/canicule.png");
+	private int meteo;
+	public void setMeteo()
+	{
+		switch (this.meteo){
+    	case 1:
+    		skin = new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIhmV1.0/src/canicule.png");
+    	case 2:
+    	case 3:
+    	case 4:
+    	case 5:
+    		
+    }
+	}
+	public Image getSkin1() {
+		return skin1;
+	}
+
+	public void setSkin1(Image skin1) {
+		this.skin1 = skin1;
+	}
+
+	public int getMeteo() {
+		return meteo;
+	}
+
+	public void setMeteo(int meteo) {
+		this.meteo = meteo;
+	}
+
+}

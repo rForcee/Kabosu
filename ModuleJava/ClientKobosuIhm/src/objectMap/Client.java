@@ -1,0 +1,33 @@
+package objectMap;
+import map.Position;
+public class Client {
+	
+	//private boolean achat;
+	private int motivation;
+	private Boisson envie;
+	public Position pos;
+	public Client ()
+	{
+		this.motivation = 100;
+		this.pos = new Position();
+	}
+	public int getMotivation() {
+		return motivation;
+	}
+	public void setMotivation(int motivation) {
+		this.motivation = motivation;
+	}
+	public Boisson getEnvie() {
+		return envie;
+	}
+	public void setEnvie(Boisson envie) {
+		this.envie = envie;
+	}
+	/*public boolean isAchat() {
+		return achat;
+	}
+	public void setAchat(boolean achat) {
+		this.achat = achat;
+	}*/
+	
+}

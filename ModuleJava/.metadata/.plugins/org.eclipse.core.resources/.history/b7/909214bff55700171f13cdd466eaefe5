@@ -1,0 +1,8 @@
+package objectMap;
+
+public class ItemJoueur {
+	
+	private float rayoninfluence;
+	
+
+}

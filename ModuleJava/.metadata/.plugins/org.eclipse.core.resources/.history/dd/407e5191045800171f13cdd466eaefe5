@@ -1,0 +1,20 @@
+package objectMap;
+
+import javafx.scene.image.Image;
+
+public class StandJoueur extends ItemJoueur {
+	
+	private float budget;
+	Image skinStand = new Image("carte1.png");
+	public StandJoueur(String nomJoueur, float standInfluence, float x, float y, float budgetDepart)
+	{
+			super(nomJoueur, standInfluence, x, y);	
+			this.budget = budgetDepart;
+	}
+	public float getBudget() {
+		return budget;
+	}
+	public void setBudget(float budget) {
+		this.budget = budget;
+	}
+}

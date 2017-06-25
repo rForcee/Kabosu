@@ -1,0 +1,10 @@
+package objectMap;
+
+public class StandJoueur extends ItemJoueur {
+	
+	
+		public StandJoueur(String nomJoueur){
+			this.setProprietaire(nomJoueur);
+			
+		}
+}

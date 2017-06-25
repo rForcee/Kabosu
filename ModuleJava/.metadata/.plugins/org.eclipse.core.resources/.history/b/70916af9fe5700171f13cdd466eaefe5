@@ -1,0 +1,18 @@
+package objectMap;
+
+public class StandJoueur extends ItemJoueur {
+	
+	private float budget;
+	public StandJoueur(String nomJoueur, float standInfluence, float budgetDepart, float x, float y)
+	{
+			this.budget = budgetDepart;
+			super(nomJoueur, standInfluence, x, y);
+			
+		}
+	public float getBudget() {
+		return budget;
+	}
+	public void setBudget(float budget) {
+		this.budget = budget;
+	}
+}

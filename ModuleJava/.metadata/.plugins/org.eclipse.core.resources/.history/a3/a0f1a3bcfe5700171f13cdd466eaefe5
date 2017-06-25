@@ -1,0 +1,10 @@
+package objectMap;
+
+public class StandJoueur extends ItemJoueur {
+	
+	
+		public StandJoueur(String nomJoueur, float standInfluence, float x, float y){
+			super(nomJoueur, standInfluence, x, y);
+			
+		}
+}

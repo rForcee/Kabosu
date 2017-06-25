@@ -1,0 +1,10 @@
+package objectMap;
+
+public enum Boisson {
+Limonade,
+Cafe,
+The,
+Biere,
+Cola,
+Whisky
+}

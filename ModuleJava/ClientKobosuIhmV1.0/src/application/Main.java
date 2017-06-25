@@ -51,11 +51,7 @@ public class Main extends Application {
 				TextField heure = new TextField ();
 				gridpane.add(heure, 1, 1);
 				
-				
-
-				
-
-		     
+				 
 			 Group root = new Group(circle,rectangle);
 			 Scene scene = new Scene(root,1000,1000,Color.GREY); 
 			 Map test = new Map(500,300, 150,0);
