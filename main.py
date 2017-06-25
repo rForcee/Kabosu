@@ -76,7 +76,7 @@ def inscriptionBoisson():
     hot = content['hot']
 
     db = Db()
-  	sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "');"
+    sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "');"
 	db.execute(sql)
 	db.close()
     return json_response(content)
@@ -96,7 +96,7 @@ def inscriptionIngredient():
     prix = content['prix']
 
     db = Db()
-  	sql = "INSERT INTO ingredient(i_nom, i_prix) VALUES('"+ nom +"','"+ str(prix) +"');"
+    sql = "INSERT INTO ingredient(i_nom, i_prix) VALUES('"+ nom +"','"+ str(prix) +"');"
 	db.execute(sql)
 	db.close()
     return json_response(content)
@@ -117,7 +117,7 @@ def inscriptionRecette():
     qte = content['qte']
 
     db = Db()
-  	sql = "INSERT INTO recette(b_id, i_id, r_qte) VALUES((SELECT b_id FROM boisson WHERE b_nom = '" + drink + "'),(SELECT i_id FROM ingredient WHERE i_nom = '" + ing + "'),'"+ str(qte) +"');"
+    sql = "INSERT INTO recette(b_id, i_id, r_qte) VALUES((SELECT b_id FROM boisson WHERE b_nom = '" + drink + "'),(SELECT i_id FROM ingredient WHERE i_nom = '" + ing + "'),'"+ str(qte) +"');"
 	db.execute(sql)
 	db.close()
     return json_response(content)
