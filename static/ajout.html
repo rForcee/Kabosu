@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Kabosu | Ajout Admin</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <script type="js/kabosu.js"></script>
+  </head>
+  <body class="bodyIndex">
+
+    <div class="wrapper">
+      <form class="form-signin">
+        <img class="img-responsive" src="./image/Kabosu_06.png" alt="Kabosu">      
+        <h2 class="form-signin-heading">New ingredient</h2>
+        <input id="ingredient" type="text" class="form-control" name="username" placeholder="Nom"/>
+        <input id="ingPrix" type="text" class="form-control" name="username" placeholder="Prix"/>
+        <br>
+        <button id="sendIng" class="btn btn-lg btn-primary btn-block" type="submit">Inscrire</button>
+        <br>
+        <h2 class="form-signin-heading">New drink</h2>
+        <input id="drink" type="text" class="form-control" name="username" placeholder="Nom"/>
+        <input id="drinkAlcool" type="text" class="form-control" name="username" placeholder="Alcool 1 si oui 0 sinon"/>
+        <input id="drinkHot" type="text" class="form-control" name="username" placeholder="Hot 1 si oui 0 sinon"/>
+        <br>      
+        <button id="sendDrink" class="btn btn-lg btn-primary btn-block" type="submit">Inscrire</button>
+        <br>
+        <h2 class="form-signin-heading">New recette</h2>
+        <input id="recDrink" type="text" class="form-control" name="username" placeholder="Drink"/>
+        <input id="recIngredient" type="text" class="form-control" name="username" placeholder="Ingredient"/>
+        <input id="ingQte" type="text" class="form-control" name="username" placeholder="Quantite"/>
+        <br>      
+        <button id="sendRecette" class="btn btn-lg btn-primary btn-block" type="submit">Inscrire</button>
+        <img class="img-responsive" src="./image/EPLS_01.png" alt="Easy Peasy Lemon Squeezy">   
+      </form>
+    </div>
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="js/bootstrap.min.js"></script>
+
+    <script>
+    
+      function envoyerIng(e) {
+        e.preventDefault()
+
+            var message = {
+              nom: $('#ingredient').val(),
+              prix: $('#ingPrix').val()
+            }
+            
+            $.ajax('https://kabosu.herokuapp.com/inscrire/ingredient', {
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(message)
+            });
+            
+      }
+
+      function envoyerDrink(e) {
+        e.preventDefault()
+
+            var message = {
+              nom: $('#drink').val(),
+              alcool: $('#drinkAlcool').val(),
+              hot: $('#drinkHot').val()
+            }
+
+            $.ajax('https://kabosu.herokuapp.com/inscrire/boisson', {
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(message)
+            });
+            
+      }
+
+      function envoyerRec(e) {
+        e.preventDefault()
+
+            var message = {
+              ing: $('#recIng').val(),
+              drink: $('#recDrink').val(),
+              qte: $('#ingQte').val()
+            }
+            
+            $.ajax('https://kabosu.herokuapp.com/inscrire/recette', {
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(message)
+            });
+            
+      }
+
+      $(function(){    
+        $('#sendIng').on('click', envoyerIng);
+        $('#sendDrink').on('click', envoyerDrink);
+        $('#sendRecette').on('click', envoyerRec);
+      })
+
+    </script>
+
+  </body>
+</html>

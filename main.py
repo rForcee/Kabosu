@@ -64,8 +64,71 @@ def add_player():
 	  db.execute(sqlInsertPlayer)
 	  db.close()
 	  players.append(name)
+  
+  return json_response()
 
-  return json_response(players)
+
+@app.route('/inscrire/boisson', methods=['POST'])
+def inscriptionBoisson():
+    content = request.get_json()
+    nom = content['nom']
+    alcool = content['alcool']
+    hot = content['hot']
+
+    db = Db()
+  	sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "');"
+	db.execute(sql)
+	db.close()
+    return json_response(content)
+
+@app.route('/inscrire/boisson', methods=['GET'])
+def getBoisson():
+    db = Db()
+    sql = "SELECT * FROM boisson"
+    result = db.select(sql)
+    db.close()
+    return json_response(result)
+
+@app.route('/inscrire/ingredient', methods=['POST'])
+def inscriptionIngredient():
+    content = request.get_json()
+    nom = content['nom']
+    prix = content['prix']
+
+    db = Db()
+  	sql = "INSERT INTO ingredient(i_nom, i_prix) VALUES('"+ nom +"','"+ str(prix) +"');"
+	db.execute(sql)
+	db.close()
+    return json_response(content)
+
+@app.route('/inscrire/ingredient', methods=['GET'])
+def getIngredient():
+    db = Db()
+    sql = "SELECT * FROM ingredient"
+    result = db.select(sql)
+    db.close()
+    return json_response(result)
+
+@app.route('/inscrire/recette', methods=['POST'])
+def inscriptionRecette():
+    content = request.get_json()
+    ing = content['ing']
+    drink = content['drink']
+    qte = content['qte']
+
+    db = Db()
+  	sql = "INSERT INTO recette(b_id, i_id, r_qte) VALUES((SELECT b_id FROM boisson WHERE b_nom = '" + drink + "'),(SELECT i_id FROM ingredient WHERE i_nom = '" + ing + "'),'"+ str(qte) +"');"
+	db.execute(sql)
+	db.close()
+    return json_response(content)
+
+@app.route('/inscrire/recette', methods=['GET'])
+def getRecette():
+    db = Db()
+    sql = "SELECT * FROM recette"
+    result = db.select(sql)
+    db.close()
+    return json_response(result)
 
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
