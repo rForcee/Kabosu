@@ -63,7 +63,7 @@ def add_player():
     coordX = random.randrange(330,670,1)
     coordY = random.randrange(130,470,1)
     sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
-    sql = sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlInsertPlayer 
+    sql = sqlInsertJoueur 
     db = Db()
     db.execute(sql)
     db.close()
