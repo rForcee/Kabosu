@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import json, random
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -125,8 +124,8 @@ def messageRecuJava():
 # Fonction pour la route /actions/<player_name> avec POST
 # Actions pour le lendemain
 # Ne s'ajoute pas aux actions mais les remplace les actions du joueur
-# Répeter chaque jour pour le lendemain
-# Par défaut le serveur suppose qu'on ne veut rien faire
+# Repeter chaque jour pour le lendemain
+# Par defaut le serveur suppose qu'on ne veut rien faire
 @app.route('/actions/<player_name>', methods=['POST'])
 def action_player():
   content = request.get_json()
@@ -138,7 +137,7 @@ def action_player():
 
 
 # Fonction pour la route /map avec GET
-# JAVA : recupere les coordonnées de la map
+# JAVA : recupere les coordonnees de la map
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
   db = Db()
