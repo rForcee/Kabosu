@@ -156,7 +156,9 @@ def messageRecuJava():
   j_id = db.select(sqlJId)
   sqlBId = "SELECT b_id FROM boisson WHERE b_nom = '" + item + "';"
   b_id = db.select(sqlBId)
-  sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, j_id, b_id) VALUES('"+ quantity +"','"+ hour +"','"+ weather + "','"+j_id+"','"+b_id+"');"
+  sqlPrix = "SELECT b_prixvente FROM boisson WHERE b_nom = '" + item + "';"
+  prixVente = db.select(sqlPrix)
+  sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('"+ quantity +"','"+ hour +"','"+ weather + "','"+prixVente+"','"+j_id+"','"+b_id+"');"
   db.execute(sql)
   db.close()
   return json_response({"success": True})
