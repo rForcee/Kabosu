@@ -194,7 +194,7 @@ def action_player(player_name):
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
   db = Db()
-  sql = "SELECT * FROM map;"
+  sql = "SELECT * FROM map ,joueur, boisson;"
   infoMap = db.select(sql)
   db.close()
   return json_response(infoMap)
@@ -207,7 +207,7 @@ def envoieMapJava():
 @app.route('/map/<player_name>', methods=['GET'])
 def getMapPlayer(player_name):
   db = Db()
-  sql = "SELECT * FROM map, joueur, boisson;"
+  sql = "SELECT * FROM map;"
   infoMap = db.select(sql)
   db.close()
   return json_response(infoMap)
