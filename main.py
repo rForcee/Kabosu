@@ -282,24 +282,5 @@ def getRecette():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
-# route test du C
-@app.route('/test/c', methods=['POST'])
-def messageRecuC():
-  content = request.get_json()
-  print content['hour']
-  print content
-  global testc 
-  testc = content
-  return json_response(content)
-
-@app.route('/test/c', methods=['GET'])
-def messageGetC():
-    
-  return json_response(testc)
-
-
-#------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 if __name__ == "__main__":
   app.run()
