@@ -89,7 +89,7 @@ def inscriptionBoisson():
 @app.route('/inscrire/boisson', methods=['GET'])
 def getBoisson():
   db = Db()
-  sql = "SELECT * FROM boisson"
+  sql = "SELECT * FROM boisson WHERE b_id = 12"
   result = db.select(sql)
   db.close()
   return json_response(result)
