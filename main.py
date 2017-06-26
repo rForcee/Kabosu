@@ -67,7 +67,8 @@ def add_player():
   
   return json_response()
 
-
+# Fonction pour la route /inscrire/boisson avec POST
+# Ajout d'une boisson en BDD
 @app.route('/inscrire/boisson', methods=['POST'])
 def inscriptionBoisson():
     content = request.get_json()
@@ -81,6 +82,8 @@ def inscriptionBoisson():
     db.close()
     return json_response(content)
 
+# Fonction pour la route /inscrire/boisson avec GET
+# SELECT toutes les boissons
 @app.route('/inscrire/boisson', methods=['GET'])
 def getBoisson():
     db = Db()
@@ -89,6 +92,8 @@ def getBoisson():
     db.close()
     return json_response(result)
 
+# Fonction pour la route /inscrire/ingredient avec POST
+# Ajout d'un ingredient en BDD
 @app.route('/inscrire/ingredient', methods=['POST'])
 def inscriptionIngredient():
     content = request.get_json()
@@ -101,6 +106,8 @@ def inscriptionIngredient():
     db.close()
     return json_response(content)
 
+# Fonction pour la route /inscrire/ingredient avec GET
+# SELECT tous les ingrédients
 @app.route('/inscrire/ingredient', methods=['GET'])
 def getIngredient():
     db = Db()
@@ -109,6 +116,8 @@ def getIngredient():
     db.close()
     return json_response(result)
 
+# Fonction pour la route /inscrire/recette avec POST
+# Ajout d'une recette en BDD
 @app.route('/inscrire/recette', methods=['POST'])
 def inscriptionRecette():
     content = request.get_json()
@@ -122,6 +131,8 @@ def inscriptionRecette():
     db.close()
     return json_response(content)
 
+# Fonction pour la route /inscrire/recette avec GET
+# SELECT toutes les recettes
 @app.route('/inscrire/recette', methods=['GET'])
 def getRecette():
     db = Db()
