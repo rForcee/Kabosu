@@ -24,12 +24,11 @@ def json_response(data="OK", status=200):
 @app.route("/reset", methods=["GET"])
 def reset_partie():
   db = Db()
-  sqlDeleteMenu = "DELETE FROM menu;"
   sqlDeleteVentes = "DELETE FROM ventes;"
   sqlDeletePub = "DELETE FROM pub;"
   sqlDeleteJoueur = "DELETE FROM joueur;"
   sqlDeleteDayInfo = "DELETE FROM dayinfo;"
-  sql = sqlDeleteMenu + sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlDeleteDayInfo
+  sql = sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlDeleteDayInfo
   db.execute(sql)
   db.close()
   return json_response(result)
@@ -64,7 +63,7 @@ def add_player():
     coordX = random.randrange(330,670,1)
     coordY = random.randrange(130,470,1)
     sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
-    sql = sqlDeleteMenu + sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlInsertPlayer 
+    sql = sqlInsertJoueur 
     db = Db()
     db.execute(sql)
     db.close()
@@ -73,17 +72,23 @@ def add_player():
   db = Db()
   sqlCoord = "SELECT j_coordX, j_coordY FROM joueur WHERE j_pseudo = '"+ name +"';"
   sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ name +"';"
-  sqlSales = "SELECT SUM(v_qte) FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');"
-  coord = db.select(sqlCoord)
-  budgetBase = db.select(sqlBudget)
-  nbSales = db.select(sqlSales)
+  sqlSales = "SELECT SUM(v_qte) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');"
+  sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+name+"');"
+  coord = db.select(sqlCoord)[0]
+  budgetBase = db.select(sqlBudget)[0]['j_budget']
+  nbSales = db.select(sqlSales)[0]
+  drinksInfo = db.select(sqlDrinks)
   db.close()
+  print nbSales
+  print budgetBase
+  print drinksInfo
+  print coord
   profit = budgetBase - budget;
-  info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": []}
+  info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
 
-  #message = {"name": name, "location": coord, "info":}
+  message = {"name": name, "location": coord, "info": info}
 
-  return json_response({"success": True})
+  return json_response(message)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
