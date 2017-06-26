@@ -54,26 +54,45 @@ def get_players():
 def add_player():
   elements = request.get_json()
   name = elements['name']
-  global players
-  print players
 
-  if len(players) == 0:
-	  db = Db()
-	  sqlDeleteMap = "DELETE FROM map;"
-	  sqlDeleteJoueur = "DELETE FROM joueur;"
-	  sqlInsertMap = "INSERT INTO map(m_centreX, m_centreY, m_coordX, m_coordY) VALUES(100,100,50,50);"
-	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget) VALUES('"+ name +"','"+ str(budget) +"');"
-	  sql = sqlDeleteMap + sqlDeleteJoueur + sqlInsertMap + sqlInsertPlayer
-	  db.execute(sql)
-	  db.close()
+  db = Db()
+  sql = "SELECT * FROM joueur"
+  joueurs = db.select(sql)
+  db.close()
+
+  if joueurs == []:
+    coordX = random.randrange(330,670,1)
+    coordY = random.randrange(130,470,1)
+    sqlDeleteMenu = "DELETE FROM menu;"
+    sqlDeleteVentes = "DELETE FROM ventes;"
+    sqlDeletePub = "DELETE FROM pub;"
+    sqlDeleteJoueur = "DELETE FROM joueur;"
+    sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
+    sql = sqlDeleteMenu + sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlInsertPlayer 
+    db = Db()
+    db.execute(sql)
+    db.close()
 
   else:
-  	  db = Db()
-  	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget) VALUES('"+ name +"','"+ str(budget) +"');"
-	  db.execute(sqlInsertPlayer)
-	  db.close()
+    db = Db()
+    sql = "SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"';"
+    joueur = db.select(sql)
+    db.close()
 
-  return json_response()
+    if joueur == []:
+      db = Db()
+      sql = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
+      joueur = db.select(sql)
+      db.close()
+
+  sqlName = "SELECT j_coordX, j_coordY FROM joueur WHERE j_pseudo = '"+ name +"';"
+  db = Db()
+  coord = db.select(sql)
+  db.close()
+
+  #message = {"name": name, "location": coord, "info":}
+
+  return json_response({"success": True})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -139,11 +158,17 @@ def messageRecuJava():
   quantity = content['quantity']
   db = Db()
   sqlHour = "SELECT di_hour FROM dayinfo;"
-  sqlweather = "SELECT di_weather FROM dayinfo;"
-  sqlJId = "SELECT j-id FROM joueur WHERE J-pseudo = player;"
-  sqlBId = "SELECT b-id FROM boisson WHERE b-nom = item;"
-  sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, j_id, b_id) VALUES('"+ quantity +"','"+ sqlHour +"','"+ sqlweather + "','"+sqlJId+"','"+sqlJId+"');"
-return json_response({"success": True})
+  hour = db.select(sqlHour)
+  sqlWeather = "SELECT di_weather FROM dayinfo;"
+  weather = db.select(sqlWeather)
+  sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
+  j_id = db.select(sqlJId)
+  sqlBId = "SELECT b_id FROM boisson WHERE b_nom = '" + item + "';"
+  b_id = db.select(sqlBId)
+  sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, j_id, b_id) VALUES('"+ quantity +"','"+ hour +"','"+ weather + "','"+j_id+"','"+b_id+"');"
+  db.execute(sql)
+  db.close()
+  return json_response({"success": True})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -169,7 +194,7 @@ def action_player():
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
   db = Db()
-  sql = "SELECT * FROM map, boisson, joueur;"
+  sql = "SELECT * FROM map;"
   infoMap = db.select(sql)
   db.close()
   return json_response(infoMap)
