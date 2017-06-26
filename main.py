@@ -79,7 +79,7 @@ def add_player():
   nbSales = db.select(sqlSales)
   db.close()
   profit = budgetBase - budget;
-  info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": }
+  info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": []}
 
   #message = {"name": name, "location": coord, "info":}
 
