@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json, random
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -149,7 +150,7 @@ def envoieMapJava():
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Fonction pour la route /map/<player_name> avec GET
-# Récupère les détails d'une partie
+# Recupere les details d'une partie
 @app.route('/map/<player_name>', methods=['GET'])
 def envoieMapJava():
   db = Db()
@@ -162,7 +163,7 @@ def envoieMapJava():
 
 
 # Fonction pour la route /ingredients avec GET
-# Récupère la liste des ingrédients
+# Recupere la liste des ingredients
 @app.route('/ingredients', methods=['GET'])
 def envoieMapJava():
   db = Db()
