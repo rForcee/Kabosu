@@ -73,8 +73,6 @@ def add_player():
 	  db.execute(sqlInsertPlayer)
 	  db.close()
 
-  
-  
   return json_response()
 
 
@@ -122,15 +120,12 @@ def meteo():
       db.execute(sql)
       db.close()
 
-    return json_response(content)
-
-  else:
-    db = Db()
-    sql = "SELECT di_hour, di_weather FROM dayinfo;"
-    result = db.select(sql)
-    db.close()
-    print result
-    return json_response(result)
+  db = Db()
+  sql = "SELECT di_hour, di_weather, di_forecast FROM dayinfo;"
+  result = db.select(sql)
+  db.close()
+  print result
+  return json_response(result)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
