@@ -103,6 +103,7 @@ def meteo():
   global meteo
   if request.method == 'POST':
       content = request.get_json()
+      print content
       meteo = content['meteo']
       return jsonify({"success": True})
   else:
