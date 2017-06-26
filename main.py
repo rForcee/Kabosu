@@ -97,7 +97,8 @@ def delete_player():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+#C: post la meteo et l'heure
+#JAVA: fait un get regulier pour recupere la meteo et l'heure.
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
   global meteo
@@ -111,11 +112,10 @@ def meteo():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+# JAVA: post la trame suivante au serveur {"joueur": String, "item": String, "quantity": int }
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
   content = request.get_json()
-
   return json_response({"success": True})
 
 
@@ -125,7 +125,7 @@ def messageRecuJava():
 # Fonction pour la route /actions/<player_name> avec POST
 # Actions pour le lendemain
 # Ne s'ajoute pas aux actions mais les remplace les actions du joueur
-# Répéter chaque jour pour le lendemain
+# Répeter chaque jour pour le lendemain
 # Par défaut le serveur suppose qu'on ne veut rien faire
 @app.route('/actions/<player_name>', methods=['POST'])
 def action_player():
@@ -138,7 +138,7 @@ def action_player():
 
 
 # Fonction pour la route /map avec GET
-# JAVA : récupère les coordonnées de la map
+# JAVA : recupere les coordonnées de la map
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
   db = Db()
@@ -274,7 +274,7 @@ def getRecette():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+# route test du C
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
   content = request.get_json()

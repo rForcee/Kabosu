@@ -1,13 +1,9 @@
 package Calcul;
 
-import java.util.ArrayList;
-
-import objectMap.ItemJoueur;
-
 public class Calcul {
 
 	//fonction retournant le nbre de zone d'influence touchant un client et placant les stands positifs dans un arraylist
-	/*int rayonInfluence(float ClientCoordX, float ClientCoordY, ArrayList<ItemJoueur> Items)//Prend en paramètre les coordonnées d'un client ainsi que la list de tout les stand de la map
+	int rayonInfluence(float ClientCoordX, float ClientCoordY, ArrayList<ItemJoueur> Items)//Prend en paramètre les coordonnées d'un client ainsi que la list de tout les stand de la map
 	{
 		int nb_area = 0;//mon compteur de stand positif
 		ArrayList<ItemJoueur> Stands = new ArrayList();//mon array list de stands positif
@@ -22,7 +18,7 @@ public class Calcul {
 			}
 		}
 		return nb_area;//retour du compteur, voir comment récupérer l'arret list par la suite
-	}*/
+	}
 	
 	int myRandom(int min, int max){
 		int nbRandom = min + (int)(Math.random() * ((max - min) + 1));
@@ -74,6 +70,16 @@ public class Calcul {
 		return achat
 	}
 	
-		
+	standChoice(int rayonInfluence()){
+		int rayonInfluence = rayonInfluence();
+		if(rayonInfluence > 0){
+			if(rayonInfluence == 1){
+				Vente(ItemJoueur.getProprietaire(), BoissonVoulue());
+			}else{
+				int i = rayonInfluence;
+				
+			}
+		}
+	}
 	
 }
