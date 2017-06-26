@@ -72,11 +72,11 @@ def add_player():
   db = Db()
   sqlCoord = "SELECT j_coordX, j_coordY FROM joueur WHERE j_pseudo = '"+ name +"';"
   sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ name +"';"
-  sqlSales = "SELECT SUM(v_qte) FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');"
+  sqlSales = "SELECT SUM(v_qte) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');"
   sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+name+"');"
-  coord = db.select(sqlCoord)
-  budgetBase = db.select(sqlBudget)
-  nbSales = db.select(sqlSales)
+  coord = db.select(sqlCoord)[0]
+  budgetBase = db.select(sqlBudget)[0]['j_budget']
+  nbSales = db.select(sqlSales)[0]['nbSales']
   drinksInfo = db.select(sqlDrinks)
   db.close()
   profit = budgetBase - budget;
