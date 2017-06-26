@@ -16,18 +16,13 @@ budget = 10
 def json_response(data="OK", status=200):
   return json.dumps(data), status, { "Content-Type": "application/json" }
 
-# Fonction pour la route /phrases/random avec GET
-# Fonction de TEST : renvoie tout ce qu'il y a dans la table PARTIE
-@app.route("/parties", methods=["GET"])
-def get_parties():
-  db = Db()
-  sql = "SELECT * FROM partie"
-  result = db.select(sql)
-  db.close()
-  return json_response(result)
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # Fonction pour la route /reset avec GET
 # Reinitialise une partie
+#TODO
 @app.route("/reset", methods=["GET"])
 def reset_partie():
   db = Db()
@@ -35,6 +30,10 @@ def reset_partie():
   result = db.select(sql)
   db.close()
   return json_response(result)
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # Fonction pour la route /phrases/random avec GET
 # Fonction de TEST : renvoie tout ce qu'il y a dans la table PARTIE
@@ -79,6 +78,116 @@ def add_player():
   
   return json_response()
 
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# Fonction pour la route /players/<player_name> avec DELETE
+# Supprime un joueur de la partie
+# OPTIONNEL
+@app.route("/players/<player_name>", methods=["DELETE"])
+def delete_player():
+  db = Db()
+  sql = "SELECT * FROM joueur"
+  result = db.select(sql)
+  db.close()
+  return json_response(result)
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+@app.route('/metrology', methods=['GET','POST'])
+def meteo():
+  global meteo
+  if request.method == 'POST':
+      content = request.get_json()
+      meteo = content['meteo']
+      return jsonify({"success": True})
+  else:
+      return json_response(meteo)
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+@app.route('/sales', methods=['POST'])
+def messageRecuJava():
+  content = request.get_json()
+
+  return json_response({"success": True})
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# Fonction pour la route /actions/<player_name> avec POST
+# Actions pour le lendemain
+# Ne s'ajoute pas aux actions mais les remplace les actions du joueur
+# Répéter chaque jour pour le lendemain
+# Par défaut le serveur suppose qu'on ne veut rien faire
+@app.route('/actions/<player_name>', methods=['POST'])
+def action_player():
+  content = request.get_json()
+
+  return json_response({"success": True})
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# Fonction pour la route /map avec GET
+# JAVA : récupère les coordonnées de la map
+@app.route('/map', methods=['GET'])
+def envoieMapJava():
+  db = Db()
+  infoMap = db.select("SELECT * FROM map")
+  db.close()
+  return json_response(infoMap)
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Fonction pour la route /map/<player_name> avec GET
+# Récupère les détails d'une partie
+@app.route('/map/<player_name>', methods=['GET'])
+def envoieMapJava():
+  db = Db()
+  infoMap = db.select("SELECT * FROM map")
+  db.close()
+  return json_response(infoMap)
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# Fonction pour la route /ingredients avec GET
+# Récupère la liste des ingrédients
+@app.route('/ingredients', methods=['GET'])
+def envoieMapJava():
+  db = Db()
+  infoMap = db.select("SELECT * FROM ingredient")
+  db.close()
+  return json_response(infoMap)
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# Fonction pour la route /phrases/random avec GET
+# Fonction de TEST : renvoie tout ce qu'il y a dans la table PARTIE
+@app.route("/parties", methods=["GET"])
+def get_parties():
+  db = Db()
+  sql = "SELECT * FROM partie"
+  result = db.select(sql)
+  db.close()
+  return json_response(result)
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 # Fonction pour la route /inscrire/boisson avec POST
 # Ajout d'une boisson en BDD
 @app.route('/inscrire/boisson', methods=['POST'])
@@ -99,12 +208,14 @@ def inscriptionBoisson():
 @app.route('/inscrire/boisson', methods=['GET'])
 def getBoisson():
   db = Db()
-  sql = "SELECT * FROM boisson WHERE b_id = 12"
+  sql = "SELECT * FROM boisson"
   result = db.select(sql)
   db.close()
-  if result == []:
-    print "INSIDE"
   return json_response(result)
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # Fonction pour la route /inscrire/ingredient avec POST
 # Ajout d'un ingredient en BDD
@@ -129,6 +240,10 @@ def getIngredient():
   result = db.select(sql)
   db.close()
   return json_response(result)
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # Fonction pour la route /inscrire/recette avec POST
 # Ajout d'une recette en BDD
@@ -155,6 +270,10 @@ def getRecette():
   db.close()
   return json_response(result)
 
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
   content = request.get_json()
@@ -169,28 +288,9 @@ def messageGetC():
     
   return json_response(testc)
 
-@app.route('/sales', methods=['POST'])
-def messageRecuJava():
-  content = request.get_json()
 
-  return json_response({"success": True})
+#------------------------------------------------------------------------------------------------------------------------------------------------
 
-@app.route('/map', methods=['GET'])
-def envoieMapJava():
-  db = Db()
-  infoMap = db.select("SELECT * FROM map")
-  db.close()
-  return json_response(infoMap)
-
-@app.route('/metrology', methods=['GET','POST'])
-def meteo():
-  global meteo
-  if request.method == 'POST':
-      content = request.get_json()
-      meteo = content['meteo']
-      return jsonify({"success": True})
-  else:
-      return json_response(meteo)
 
 if __name__ == "__main__":
   app.run()
