@@ -100,7 +100,7 @@ def add_player():
 # Supprime un joueur de la partie
 # OPTIONNEL
 @app.route("/players/<player_name>", methods=["DELETE"])
-def delete_player():
+def delete_player(player_name):
   db = Db()
   sql = "DELETE FROM joueur WHERE j_pseudo = '" + player_name + "';"
   result = db.select(sql)
@@ -180,7 +180,7 @@ def messageRecuJava():
 # Repeter chaque jour pour le lendemain
 # Par defaut le serveur suppose qu'on ne veut rien faire
 @app.route('/actions/<player_name>', methods=['POST'])
-def action_player():
+def action_player(player_name):
   content = request.get_json()
 
   return json_response({"success": True})
@@ -205,7 +205,7 @@ def envoieMapJava():
 # Fonction pour la route /map/<player_name> avec GET
 # Recupere les details d'une partie
 @app.route('/map/<player_name>', methods=['GET'])
-def getMapPlayer():
+def getMapPlayer(player_name):
   db = Db()
   sql = "SELECT * FROM map, joueur, boisson;"
   infoMap = db.select(sql)
@@ -219,7 +219,7 @@ def getMapPlayer():
 # Fonction pour la route /ingredients avec GET
 # Recupere la liste des ingredients
 @app.route('/ingredients/<player_name>', methods=['GET'])
-def get_ingredients():
+def get_ingredients(player_name):
   db = Db()
   sql = "SELECT b_nom as boisson, b_alcool as hasAlcool, b_chaud as isHot, i_nom as ingredient, i_prix as ingPrix, r_qte as quantite FROM ingredient INNER JOIN recette ON recette.i_id = ingredient.i_id INNER JOIN boisson ON boisson.b_id = recette.b_id WHERE boisson.b_id IN (SELECT b_id FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name +"'));"
   ingredients = db.select(sql)
