@@ -73,9 +73,13 @@ def add_player():
   db = Db()
   sqlCoord = "SELECT j_coordX, j_coordY FROM joueur WHERE j_pseudo = '"+ name +"';"
   sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ name +"';"
+  sqlSales = "SELECT SUM(v_qte) FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');"
   coord = db.select(sqlCoord)
-  budget = db.select(sqlBudget)
+  budgetBase = db.select(sqlBudget)
+  nbSales = db.select(sqlSales)
   db.close()
+  profit = budgetBase - budget;
+  info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": }
 
   #message = {"name": name, "location": coord, "info":}
 
@@ -227,7 +231,7 @@ def inscriptionBoisson():
   hot = content['hot']
 
   db = Db()
-  sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "');"
+  sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud, b_prixvente) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "', 0);"
   db.execute(sql)
   db.close()
   return json_response(content)
