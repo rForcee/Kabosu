@@ -76,7 +76,7 @@ def add_player():
   sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + name +"');"
   coord = db.select(sqlCoord)[0]
   budgetBase = db.select(sqlBudget)[0]['j_budget']
-  nbSales = db.select(sqlSales)[0]['nbSales']
+  nbSales = db.select(sqlSales)[0]
   drinksInfo = db.select(sqlDrinks)
   db.close()
   print nbSales
