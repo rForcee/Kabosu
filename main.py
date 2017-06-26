@@ -24,12 +24,11 @@ def json_response(data="OK", status=200):
 @app.route("/reset", methods=["GET"])
 def reset_partie():
   db = Db()
-  sqlDeleteMenu = "DELETE FROM menu;"
   sqlDeleteVentes = "DELETE FROM ventes;"
   sqlDeletePub = "DELETE FROM pub;"
   sqlDeleteJoueur = "DELETE FROM joueur;"
   sqlDeleteDayInfo = "DELETE FROM dayinfo;"
-  sql = sqlDeleteMenu + sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlDeleteDayInfo
+  sql = sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlDeleteDayInfo
   db.execute(sql)
   db.close()
   return json_response(result)
@@ -64,7 +63,7 @@ def add_player():
     coordX = random.randrange(330,670,1)
     coordY = random.randrange(130,470,1)
     sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
-    sql = sqlDeleteMenu + sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlInsertPlayer 
+    sql = sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlInsertPlayer 
     db = Db()
     db.execute(sql)
     db.close()
