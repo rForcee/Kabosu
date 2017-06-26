@@ -73,8 +73,6 @@ def add_player():
 	  db.execute(sqlInsertPlayer)
 	  db.close()
 
-  
-  
   return json_response()
 
 
@@ -122,15 +120,12 @@ def meteo():
       db.execute(sql)
       db.close()
 
-    return json_response(content)
-
-  else:
-    db = Db()
-    sql = "SELECT di_hour, di_weather FROM dayinfo;"
-    result = db.select(sql)
-    db.close()
-    print result
-    return json_response(result)
+  db = Db()
+  sql = "SELECT di_hour, di_weather, di_forecast FROM dayinfo;"
+  result = db.select(sql)
+  db.close()
+  print result
+  return json_response(result)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -139,7 +134,16 @@ def meteo():
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
   content = request.get_json()
-  return json_response({"success": True})
+  player = content['player']
+  item = content['item']
+  quantity = content['quantity']
+  db = Db()
+  sqlHour = "SELECT di_hour FROM dayinfo;"
+  sqlweather = "SELECT di_weather FROM dayinfo;"
+  sqlJId = "SELECT j-id FROM joueur WHERE J-pseudo = player;"
+  sqlBId = "SELECT b-id FROM boisson WHERE b-nom = item;"
+  sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, j_id, b_id) VALUES('"+ quantity +"','"+ sqlHour +"','"+ sqlweather + "','"+sqlJId+"','"+sqlJId+"');"
+return json_response({"success": True})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
