@@ -1,5 +1,7 @@
 package application;
 	
+import java.util.HashMap;
+
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -23,11 +25,11 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			//BorderPane root = new BorderPane();
-			int meteo = 1;
+			
+			
 			Meteo IcoMeteo = new Meteo();
-			IcoMeteo.setMeteo(1);
-			//dessine le cerlce pour la map
+			IcoMeteo.setMeteo(2); // selectionne la l'icone en fonction de la météo
+			//creer le cercle pour la map
 		      Circle circle = new Circle() ; 
 		     Rectangle rectangle = new Rectangle();
 		    
@@ -39,7 +41,7 @@ public class Main extends Application {
 				VBox vbox = new VBox();
 				vbox.setLayoutX(150);
 				vbox.setLayoutY(90);
-				
+				Map test = new Map(500,300, 150,0);
 				Label labelJour = new Label("jour:");
 				GridPane.setHalignment(labelJour, HPos.LEFT);
 				gridpane.add(labelJour, 0, 0);
@@ -51,25 +53,28 @@ public class Main extends Application {
 				TextField heure = new TextField ();
 				gridpane.add(heure, 1, 1);
 				
-				 
-			 Group root = new Group(circle,rectangle);
+				   HashMap<String,  Rectangle> mymapRec; 
+		     mymapRec = test.generationPopulationClient(); 
+			 Group root = new Group(circle,rectangle,mymapRec.get("rectangle"+1));
 			 Scene scene = new Scene(root,1000,1000,Color.GREY); 
-			 Map test = new Map(500,300, 150,0);
+			 
 			 
 			 double rayon = test.calculeRayon(test.getCentre().getCoordX(), test.getCentre().getCoordY(), test.getPointSpand().getCoordX(), test.getPointSpand().getCoordY());
+			System.out.println(rayon);
 			
-			  
+		     
 			 //parammetre du cercle 
-		     circle.setCenterX(test.getCentre().getCoordX()) ; 
-		     circle.setCenterY(test.getCentre().getCoordY()) ; 
-		     circle.setRadius(rayon) ; 
-		     circle.setFill(new ImagePattern(test.getSkinMap())); // ajoute le skins de la map dans le cercle
+		     //circle.setCenterX(test.getCentre().getCoordX()) ; 
+		     //circle.setCenterY(test.getCentre().getCoordY()) ; 
+		     //circle.setRadius(rayon) ; 
+		     //circle.setFill(new ImagePattern(test.getSkinMap())); // ajoute le skins de la map dans le cercle
 			 rectangle.setX(scene.getWidth()-75);
 		     rectangle.setY(0);
 		     rectangle.setWidth(75);
 		     rectangle.setHeight(75);
 		     rectangle.setFill(new ImagePattern(IcoMeteo.getIcoMeteo()));
-		
+		     
+		    
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			((Group) scene.getRoot()).getChildren().add(vbox);
 			root.getChildren().add(gridpane);

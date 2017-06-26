@@ -1,6 +1,7 @@
 package objectMap;
 import java.util.Random;
 
+import javafx.scene.image.Image;
 import map.Position;
 public class Client {
 	
@@ -10,11 +11,11 @@ public class Client {
 	private Position pos;
 	private float X;
 	private float Y;
-	final private float minX = 50.0f;
-	final private float maxX = 200.0f;
-	final private float minY= 50.0f;
-	final private float maxY = 200.0f;
-
+	final private float minX = 275.0f;
+	final private float maxX = 725.0f;
+	final private float minY= 75.0f;
+	final private float maxY = 525.0f;
+	private Image skinClient;
 	Random rand = new Random();
  
 	public Client ()
@@ -23,6 +24,7 @@ public class Client {
 		this.Y = rand.nextFloat() * (maxY - minY) + minY;
 		this.motivation = 100;
 		this.setPos(new Position(this.X,this.Y));
+		setSkinClient(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIhmV1.0/src/client.png"));
 	}
 	public int getMotivation() {
 		return motivation;
@@ -53,5 +55,11 @@ public class Client {
 	}
 	public void setPos(Position pos) {
 		this.pos = pos;
+	}
+	public Image getSkinClient() {
+		return skinClient;
+	}
+	public void setSkinClient(Image skinClient) {
+		this.skinClient = skinClient;
 	}
 }
