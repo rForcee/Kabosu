@@ -35,8 +35,8 @@ def reset_partie():
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-# Fonction pour la route /phrases/random avec GET
-# Fonction de TEST : renvoie tout ce qu'il y a dans la table PARTIE
+# Fonction pour la route /players avec GET
+# Renvoie tout ce qu'il y a dans la table players
 @app.route("/players", methods=["GET"])
 def get_players():
   db = Db()
@@ -58,18 +58,16 @@ def add_player():
 	  db = Db()
 	  sqlDeleteMap = "DELETE FROM map;"
 	  sqlDeleteJoueur = "DELETE FROM joueur;"
-	  sqlDeletePartie = "DELETE FROM partie;"
-	  sqlInsertPartie = "INSERT INTO partie(p_nom) VALUES('" + "partie" +"');"
-	  sqlInsertMap = "INSERT INTO map(m_centreX, m_centreY, m_coordX, m_coordY, p_id) VALUES(100,100,50,50,(SELECT p_id FROM partie LIMIT 1));"
-	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget, p_id) VALUES('"+ name +"','"+ str(budget) +"', (SELECT p_id FROM partie LIMIT 1));"
-	  sql = sqlDeleteMap + sqlDeleteJoueur + sqlDeletePartie + sqlInsertPartie + sqlInsertMap + sqlInsertPlayer
+	  sqlInsertMap = "INSERT INTO map(m_centreX, m_centreY, m_coordX, m_coordY) VALUES(100,100,50,50);"
+	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget) VALUES('"+ name +"','"+ str(budget) +"');"
+	  sql = sqlDeleteMap + sqlDeleteJoueur + sqlInsertMap + sqlInsertPlayer
 	  db.execute(sql)
 	  db.close()
 	  players.append(name)
 
   else:
   	  db = Db()
-  	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget, p_id) VALUES('"+ name +"','"+ str(budget) +"', (SELECT p_id FROM partie LIMIT 1));"
+  	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget) VALUES('"+ name +"','"+ str(budget) +"');"
 	  db.execute(sqlInsertPlayer)
 	  db.close()
 	  players.append(name)
@@ -170,20 +168,6 @@ def get_ingredients():
   infoMap = db.select("SELECT * FROM ingredient")
   db.close()
   return json_response(infoMap)
-
-
-#------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-# Fonction pour la route /phrases/random avec GET
-# Fonction de TEST : renvoie tout ce qu'il y a dans la table PARTIE
-@app.route("/parties", methods=["GET"])
-def get_parties():
-  db = Db()
-  sql = "SELECT * FROM partie"
-  result = db.select(sql)
-  db.close()
-  return json_response(result)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
