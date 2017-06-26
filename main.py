@@ -139,7 +139,7 @@ def meteo():
 
   db = Db()
   sql = "SELECT di_hour, di_weather, di_forecast FROM dayinfo;"
-  result = db.select(sql)
+  result = db.select(sql)[0]
   db.close()
   print result
   return json_response({"hour": result['di_hour'], "weather": result['di_weather'], "forecast": result['di_forecast']})
