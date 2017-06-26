@@ -105,14 +105,14 @@ def meteo():
     hour = content['hour']
     forecast = content['forecast']
 
-    return jsonify({"success": True})
+    return json_response({"success": True})
   else:
     db = Db()
     sql = "SELECT di_hour, di_weather FROM dayinfo;"
     result = db.select(sql)
     db.close()
-
-    return json_response(meteo)
+    print result
+    return json_response(result)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
