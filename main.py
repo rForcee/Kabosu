@@ -151,7 +151,7 @@ def envoieMapJava():
 # Fonction pour la route /map/<player_name> avec GET
 # Recupere les details d'une partie
 @app.route('/map/<player_name>', methods=['GET'])
-def envoieMapJava():
+def getMapPlayer():
   db = Db()
   infoMap = db.select("SELECT * FROM map")
   db.close()
@@ -164,7 +164,7 @@ def envoieMapJava():
 # Fonction pour la route /ingredients avec GET
 # Recupere la liste des ingredients
 @app.route('/ingredients', methods=['GET'])
-def envoieMapJava():
+def get_ingredients():
   db = Db()
   infoMap = db.select("SELECT * FROM ingredient")
   db.close()
