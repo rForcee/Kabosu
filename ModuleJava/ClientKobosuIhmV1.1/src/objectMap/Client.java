@@ -11,10 +11,10 @@ public class Client {
 	private Position pos;
 	private float X;
 	private float Y;
-	final private float minX = 275.0f;
-	final private float maxX = 725.0f;
-	final private float minY= 75.0f;
-	final private float maxY = 525.0f;
+	final private float minX = 330.0f;
+	final private float maxX = 670.0f;
+	final private float minY= 130.0f;
+	final private float maxY = 470.0f;
 	private Image skinClient;
 	Random rand = new Random();
  

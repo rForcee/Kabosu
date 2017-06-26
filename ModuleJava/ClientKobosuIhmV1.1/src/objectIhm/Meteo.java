@@ -1,7 +1,10 @@
 package objectIhm;
 
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
 
 public class Meteo {
 	
@@ -29,7 +32,15 @@ public class Meteo {
 		}
 		return skin;
 	}
-
+	public void afficheMeteo(Group root,Scene scene){
+		Rectangle rectangle = new Rectangle();
+		rectangle.setX(scene.getWidth()-75);
+		rectangle.setY(0);
+		rectangle.setWidth(75);
+		rectangle.setHeight(75);
+		rectangle.setFill(new ImagePattern(getIcoMeteo()));
+		root.getChildren().add(rectangle);
+	}
 	public int getMeteo() {
 		return meteo;
 	}
