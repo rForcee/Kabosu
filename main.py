@@ -76,7 +76,7 @@ def add_player():
   sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + name +"');"
   coord = db.select(sqlCoord)[0]
   budgetBase = db.select(sqlBudget)[0]['j_budget']
-  nbSales = db.select(sqlSales)[0]
+  nbSales = db.select(sqlSales)[0]['nbsales']
   drinksInfo = db.select(sqlDrinks)
   db.close()
   print nbSales
@@ -156,13 +156,13 @@ def messageRecuJava():
   quantity = content['quantity']
   db = Db()
   sqlHour = "SELECT di_hour FROM dayinfo;"
-  hour = db.select(sqlHour)[0][di_hour]
+  hour = db.select(sqlHour)[0]['di_hour']
   sqlWeather = "SELECT di_weather FROM dayinfo;"
-  weather = db.select(sqlWeather)[0][di_weather]
+  weather = db.select(sqlWeather)[0]['di_weather']
   sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
-  j_id = db.select(sqlJId)[0][j_id]
+  j_id = db.select(sqlJId)[0]['j_id']
   sqlBId = "SELECT b_id FROM boisson WHERE b_nom = '" + item + "';"
-  b_id = db.select(sqlBId)[0][b_id]
+  b_id = db.select(sqlBId)[0]['b_id']
   sqlPrix = "SELECT b_prixvente FROM boisson WHERE b_nom = '" + item + "';"
   prixVente = db.select(sqlPrix)[0]['b_prixvente']
   sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('"+ quantity +"','"+ hour +"','"+ weather + "','"+prixVente+"','"+j_id+"','"+b_id+"');"
