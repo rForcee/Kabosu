@@ -94,7 +94,7 @@ def delete_player():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
-#C: post la meteo et l heure
+#C: poste la meteo et l heure
 #JAVA: fait un get regulier pour recupere la meteo et l heure.
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
@@ -148,7 +148,8 @@ def action_player():
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
   db = Db()
-  infoMap = db.select("SELECT * FROM map * FROM boisson * FROM joueur;")
+  sql = "SELECT * FROM map, boisson, joueur;"
+  infoMap = db.select(sql)
   db.close()
   return json_response(infoMap)
 
@@ -160,7 +161,8 @@ def envoieMapJava():
 @app.route('/map/<player_name>', methods=['GET'])
 def getMapPlayer():
   db = Db()
-  infoMap = db.select("SELECT * FROM map;")
+  sql = "SELECT * FROM map;"
+  infoMap = db.select(sql)
   db.close()
   return json_response(infoMap)
 
@@ -173,7 +175,8 @@ def getMapPlayer():
 @app.route('/ingredients', methods=['GET'])
 def get_ingredients():
   db = Db()
-  infoMap = db.select("SELECT * FROM ingredient;")
+  sql = "SELECT * FROM ingredient;"
+  infoMap = db.select(sql)
   db.close()
   return json_response(infoMap)
 
