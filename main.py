@@ -90,9 +90,9 @@ def add_player():
   coord = db.select(sql)
   db.close()
 
-  message = {"name": name, "location": coord, "info":}
+  #message = {"name": name, "location": coord, "info":}
 
-  return json_response()
+  return json_response({"success": True})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
