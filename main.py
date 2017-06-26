@@ -73,7 +73,7 @@ def add_player():
   sqlCoord = "SELECT j_coordX as latitude, j_coordY as longitude FROM joueur WHERE j_pseudo = '"+ name +"';"
   sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ name +"';"
   sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');"
-  sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = 'Erwann');"
+  sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + name +"');"
   coord = db.select(sqlCoord)[0]
   budgetBase = db.select(sqlBudget)[0]['j_budget']
   nbSales = db.select(sqlSales)[0]['nbSales']
