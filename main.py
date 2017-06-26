@@ -21,7 +21,6 @@ def json_response(data="OK", status=200):
 
 # Fonction pour la route /reset avec GET
 # Reinitialise une partie
-#TODO
 @app.route("/reset", methods=["GET"])
 def reset_partie():
   db = Db()
@@ -29,7 +28,8 @@ def reset_partie():
   sqlDeleteVentes = "DELETE FROM ventes;"
   sqlDeletePub = "DELETE FROM pub;"
   sqlDeleteJoueur = "DELETE FROM joueur;"
-  sql = sqlDeleteMenu + sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur
+  sqlDeleteDayInfo = "DELETE FROM dayinfo;"
+  sql = sqlDeleteMenu + sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlDeleteDayInfo
   db.execute(sql)
   db.close()
   return json_response(result)
@@ -56,38 +56,25 @@ def add_player():
   name = elements['name']
 
   db = Db()
-  sql = "SELECT * FROM joueur"
-  joueurs = db.select(sql)
+  sql = "SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"';"
+  joueur = db.select(sql)
   db.close()
 
-  if joueurs == []:
+  if joueur == []:
     coordX = random.randrange(330,670,1)
     coordY = random.randrange(130,470,1)
-    sqlDeleteMenu = "DELETE FROM menu;"
-    sqlDeleteVentes = "DELETE FROM ventes;"
-    sqlDeletePub = "DELETE FROM pub;"
-    sqlDeleteJoueur = "DELETE FROM joueur;"
     sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
     sql = sqlDeleteMenu + sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlInsertPlayer 
     db = Db()
     db.execute(sql)
     db.close()
 
-  else:
-    db = Db()
-    sql = "SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"';"
-    joueur = db.select(sql)
-    db.close()
-
-    if joueur == []:
-      db = Db()
-      sql = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
-      joueur = db.select(sql)
-      db.close()
-
-  sqlName = "SELECT j_coordX, j_coordY FROM joueur WHERE j_pseudo = '"+ name +"';"
+  
   db = Db()
-  coord = db.select(sql)
+  sqlCoord = "SELECT j_coordX, j_coordY FROM joueur WHERE j_pseudo = '"+ name +"';"
+  sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ name +"';"
+  coord = db.select(sqlCoord)
+  budget = db.select(sqlBudget)
   db.close()
 
   #message = {"name": name, "location": coord, "info":}
@@ -144,7 +131,7 @@ def meteo():
   result = db.select(sql)
   db.close()
   print result
-  return json_response(result)
+  return json_response({"hour": result['di_hour'], "weather": result['di_weather'], "forecast": result['di_forecast']})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
