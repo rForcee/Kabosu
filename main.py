@@ -7,7 +7,6 @@ app = Flask(__name__)
 app.debug = True
 CORS(app)
 
-players = []
 budget = 10
 
 # DATABASE_URL=postgres://<username>@localhost/<dbname> python main.py
@@ -63,14 +62,12 @@ def add_player():
 	  sql = sqlDeleteMap + sqlDeleteJoueur + sqlInsertMap + sqlInsertPlayer
 	  db.execute(sql)
 	  db.close()
-	  players.append(name)
 
   else:
   	  db = Db()
   	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget) VALUES('"+ name +"','"+ str(budget) +"');"
 	  db.execute(sqlInsertPlayer)
 	  db.close()
-	  players.append(name)
 
   
   
@@ -104,6 +101,22 @@ def meteo():
     meteo = content['meteo']
     hour = content['hour']
     forecast = content['forecast']
+
+    db = Db()
+    sql = "SELECT * FROM dayinfo;"
+    result = db.select(sql)
+    db.close()
+
+    if result == []:
+      db = Db()
+  	  sql = "INSERT INTO dayinfo(di_hour, di_weather, di_forecast) VALUES('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
+	  db.execute(sql)
+	  db.close()
+	else:
+	  db = Db()
+  	  sql = "UPDATE dayinfo SET (di_hour, di_weather, di_forecast) = ('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
+	  db.execute(sql)
+	  db.close()
 
     return json_response(content)
 
