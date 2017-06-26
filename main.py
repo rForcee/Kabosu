@@ -25,8 +25,12 @@ def json_response(data="OK", status=200):
 @app.route("/reset", methods=["GET"])
 def reset_partie():
   db = Db()
-  sql = "SELECT * FROM joueur;"
-  result = db.select(sql)
+  sqlDeleteMenu = "DELETE FROM menu;"
+  sqlDeleteVentes = "DELETE FROM ventes;"
+  sqlDeletePub = "DELETE FROM pub;"
+  sqlDeleteJoueur = "DELETE FROM joueur;"
+  sql = sqlDeleteMenu + sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur
+  db.execute(sql)
   db.close()
   return json_response(result)
 
