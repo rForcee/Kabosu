@@ -632,3 +632,277 @@ org.eclipse.core.internal.resources.ResourceException: Resource '/ClientKobosuIh
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1519)
 !SUBENTRY 1 org.eclipse.core.resources 4 368 2017-06-23 14:51:34.733
 !MESSAGE Resource '/ClientKobosuIhmV1.0/src/ressource/soleil.png' does not exist.
+!SESSION 2017-06-25 13:55:36.119 -----------------------------------------------
+eclipse.buildId=4.6.3.M20170301-0400
+java.version=1.8.0_131
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_FR
+Framework arguments:  -product org.eclipse.epp.package.java.product -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product -data B:\projet1A\git\Kabosu\ModuleJava -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.equinox.ds 1 0 2017-06-25 13:55:50.163
+!MESSAGE Could not bind a reference of component org.eclipse.fx.core.internal.JUtilLoggerFactory. The reference is: Reference[name = registerHandler, interface = java.util.logging.Handler, policy = dynamic, policy-option = greedy, cardinality = 0..n, target = null, bind = registerHandler, unbind = unregisterHandler, updated = null]
+
+!ENTRY org.eclipse.egit.ui 2 0 2017-06-25 13:55:53.052
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\ASUS'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2017-06-25 13:56:00.108
+!MESSAGE Setup tasks were performed during startup updating 246 preferences. See 'C:\Users\ASUS\eclipse\java-neon\eclipse\configuration\org.eclipse.oomph.setup\setup.log' for details
+
+!ENTRY org.eclipse.equinox.ds 1 0 2017-06-25 13:56:01.789
+!MESSAGE Could not bind a reference of component org.eclipse.fx.ide.css.cssext.ui.internal.DefaultCssExtProvider. The reference is: Reference[name = ICSSExtModelProvider, interface = org.eclipse.fx.ide.css.cssext.ICSSExtModelProvider, policy = dynamic, cardinality = 0..n, target = null, bind = bindCssExtensionModelProvider, unbind = unbindCssExtensionModelProvider]
+!SESSION 2017-06-25 13:58:28.592 -----------------------------------------------
+eclipse.buildId=4.6.3.M20170301-0400
+java.version=1.8.0_131
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_FR
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2017-06-25 13:58:43.156
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\ASUS'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.equinox.ds 1 0 2017-06-25 13:58:43.698
+!MESSAGE Could not bind a reference of component org.eclipse.fx.core.internal.JUtilLoggerFactory. The reference is: Reference[name = registerHandler, interface = java.util.logging.Handler, policy = dynamic, policy-option = greedy, cardinality = 0..n, target = null, bind = registerHandler, unbind = unregisterHandler, updated = null]
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2017-06-25 13:58:50.648
+!MESSAGE Setup tasks were performed during startup updating 246 preferences. See 'C:\Users\ASUS\eclipse\java-neon\eclipse\configuration\org.eclipse.oomph.setup\setup.log' for details
+
+!ENTRY org.eclipse.equinox.ds 1 0 2017-06-25 13:58:50.952
+!MESSAGE Could not bind a reference of component org.eclipse.fx.ide.css.cssext.ui.internal.DefaultCssExtProvider. The reference is: Reference[name = ICSSExtModelProvider, interface = org.eclipse.fx.ide.css.cssext.ICSSExtModelProvider, policy = dynamic, cardinality = 0..n, target = null, bind = bindCssExtensionModelProvider, unbind = unbindCssExtensionModelProvider]
+!SESSION 2017-06-26 08:25:53.859 -----------------------------------------------
+eclipse.buildId=4.6.3.M20170301-0400
+java.version=1.8.0_131
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_FR
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.equinox.ds 1 0 2017-06-26 08:26:23.633
+!MESSAGE Could not bind a reference of component org.eclipse.fx.core.internal.JUtilLoggerFactory. The reference is: Reference[name = registerHandler, interface = java.util.logging.Handler, policy = dynamic, policy-option = greedy, cardinality = 0..n, target = null, bind = registerHandler, unbind = unregisterHandler, updated = null]
+
+!ENTRY org.eclipse.egit.ui 2 0 2017-06-26 08:26:24.679
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\ASUS'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2017-06-26 08:26:30.732
+!MESSAGE Setup tasks were performed during startup updating 246 preferences. See 'C:\Users\ASUS\eclipse\java-neon\eclipse\configuration\org.eclipse.oomph.setup\setup.log' for details
+
+!ENTRY org.eclipse.equinox.ds 1 0 2017-06-26 08:26:30.899
+!MESSAGE Could not bind a reference of component org.eclipse.fx.ide.css.cssext.ui.internal.DefaultCssExtProvider. The reference is: Reference[name = ICSSExtModelProvider, interface = org.eclipse.fx.ide.css.cssext.ICSSExtModelProvider, policy = dynamic, cardinality = 0..n, target = null, bind = bindCssExtensionModelProvider, unbind = unbindCssExtensionModelProvider]
+!SESSION 2017-06-26 11:31:47.437 -----------------------------------------------
+eclipse.buildId=4.6.3.M20170301-0400
+java.version=1.8.0_131
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_FR
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2017-06-26 11:31:52.242
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.equinox.ds 1 0 2017-06-26 11:31:55.608
+!MESSAGE Could not bind a reference of component org.eclipse.fx.core.internal.JUtilLoggerFactory. The reference is: Reference[name = registerHandler, interface = java.util.logging.Handler, policy = dynamic, policy-option = greedy, cardinality = 0..n, target = null, bind = registerHandler, unbind = unregisterHandler, updated = null]
+
+!ENTRY org.eclipse.equinox.ds 1 0 2017-06-26 11:31:58.812
+!MESSAGE Could not bind a reference of component org.eclipse.fx.ide.css.cssext.ui.internal.DefaultCssExtProvider. The reference is: Reference[name = ICSSExtModelProvider, interface = org.eclipse.fx.ide.css.cssext.ICSSExtModelProvider, policy = dynamic, cardinality = 0..n, target = null, bind = bindCssExtensionModelProvider, unbind = unbindCssExtensionModelProvider]
+
+!ENTRY org.eclipse.egit.ui 2 0 2017-06-26 11:32:04.646
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\ASUS'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.oomph.setup.ui 1 0 2017-06-26 11:32:10.154
+!MESSAGE Setup tasks were performed during startup updating 246 preferences. See 'C:\Users\ASUS\eclipse\java-neon\eclipse\configuration\org.eclipse.oomph.setup\setup.log' for details
+
+!ENTRY org.eclipse.equinox.p2.engine 4 4 2017-06-26 12:21:32.899
+!MESSAGE An error occurred while collecting items to be installed
+!SUBENTRY 1 org.eclipse.equinox.p2.engine 4 0 2017-06-26 12:21:32.900
+!MESSAGE session context was:(profile=C__Users_ASUS_eclipse_java-neon_eclipse, phase=org.eclipse.equinox.internal.p2.engine.phases.Collect, operand=, action=).
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.apidocs,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.apidocs.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.calls,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.calls.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.chain.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.completion.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.constructors,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.constructors.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.coordinates,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.coordinates.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.injection,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.jayes,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.jayes.io,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.jdt,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.models,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.models.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.mylyn.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.net,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.overrides,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.overrides.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.snipmatch,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.snipmatch.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.subwords.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.types.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.utils,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.recommenders.utils.rcp,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.apache.maven.resolver.api,1.0.3.v20170405-0725
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.apache.maven.resolver.connector.basic,1.0.3.v20170405-0725
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.apache.maven.resolver.impl,1.0.3.v20170405-0725
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.apache.maven.resolver.spi,1.0.3.v20170405-0725
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.apache.maven.resolver.transport.file,1.0.3.v20170405-0725
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.apache.maven.resolver.transport.http,1.0.3.v20170405-0725
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: osgi.bundle,org.apache.maven.resolver.util,1.0.3.v20170405-0725
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: org.eclipse.update.feature,org.eclipse.recommenders.mylyn.rcp.feature,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: org.eclipse.update.feature,org.eclipse.recommenders.rcp.feature,2.4.9.v20170613-1301
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2017-06-26 12:21:32.900
+!MESSAGE No repository found containing: org.eclipse.update.feature,org.eclipse.recommenders.snipmatch.rcp.feature,2.4.9.v20170613-1301
+
+!ENTRY org.eclipse.core.resources 4 2 2017-06-26 12:47:56.220
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.core.resources".
+!STACK 1
+org.eclipse.core.runtime.CoreException: Problems while saving variables and containers
+	at org.eclipse.jdt.internal.core.JavaModelManager.saveVariablesAndContainers(JavaModelManager.java:4195)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saving(JavaModelManager.java:4423)
+	at org.eclipse.core.internal.resources.SaveManager.executeLifecycle(SaveManager.java:389)
+	at org.eclipse.core.internal.resources.SaveManager$1.run(SaveManager.java:198)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.resources.SaveManager.broadcastLifecycle(SaveManager.java:201)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1186)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1165)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:52)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Caused by: java.io.FileNotFoundException: B:\projet1A\git\Kabosu\ModuleJava\.metadata\.plugins\org.eclipse.jdt.core\variablesAndContainers.dat (L’opération demandée n’a pu s’accomplir sur un fichier ayant une section mappée utilisateur ouverte)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saveVariablesAndContainers(JavaModelManager.java:4190)
+	... 9 more
+!SUBENTRY 1 org.eclipse.jdt.core 4 4 2017-06-26 12:47:56.235
+!MESSAGE Problems while saving variables and containers
+!STACK 0
+java.io.FileNotFoundException: B:\projet1A\git\Kabosu\ModuleJava\.metadata\.plugins\org.eclipse.jdt.core\variablesAndContainers.dat (L’opération demandée n’a pu s’accomplir sur un fichier ayant une section mappée utilisateur ouverte)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saveVariablesAndContainers(JavaModelManager.java:4190)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saving(JavaModelManager.java:4423)
+	at org.eclipse.core.internal.resources.SaveManager.executeLifecycle(SaveManager.java:389)
+	at org.eclipse.core.internal.resources.SaveManager$1.run(SaveManager.java:198)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.resources.SaveManager.broadcastLifecycle(SaveManager.java:201)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1186)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1165)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:52)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.jdt.core 4 4 2017-06-26 12:47:56.235
+!MESSAGE Problems while saving variables and containers
+!STACK 0
+java.io.FileNotFoundException: B:\projet1A\git\Kabosu\ModuleJava\.metadata\.plugins\org.eclipse.jdt.core\variablesAndContainers.dat (L’opération demandée n’a pu s’accomplir sur un fichier ayant une section mappée utilisateur ouverte)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saveVariablesAndContainers(JavaModelManager.java:4190)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saving(JavaModelManager.java:4423)
+	at org.eclipse.core.internal.resources.SaveManager.executeLifecycle(SaveManager.java:389)
+	at org.eclipse.core.internal.resources.SaveManager$1.run(SaveManager.java:198)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.resources.SaveManager.broadcastLifecycle(SaveManager.java:201)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1186)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1165)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:52)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.core.resources 2 2 2017-06-26 12:47:56.247
+!MESSAGE Save operation warnings.
+!SUBENTRY 1 org.eclipse.core.resources 2 566 2017-06-26 12:47:56.247
+!MESSAGE Problems occurred during save.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Problems while saving variables and containers
+	at org.eclipse.jdt.internal.core.JavaModelManager.saveVariablesAndContainers(JavaModelManager.java:4195)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saving(JavaModelManager.java:4423)
+	at org.eclipse.core.internal.resources.SaveManager.executeLifecycle(SaveManager.java:389)
+	at org.eclipse.core.internal.resources.SaveManager$1.run(SaveManager.java:198)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.resources.SaveManager.broadcastLifecycle(SaveManager.java:201)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1186)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1165)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:52)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Caused by: java.io.FileNotFoundException: B:\projet1A\git\Kabosu\ModuleJava\.metadata\.plugins\org.eclipse.jdt.core\variablesAndContainers.dat (L’opération demandée n’a pu s’accomplir sur un fichier ayant une section mappée utilisateur ouverte)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saveVariablesAndContainers(JavaModelManager.java:4190)
+	... 9 more
+!SUBENTRY 2 org.eclipse.jdt.core 4 4 2017-06-26 12:47:56.247
+!MESSAGE Problems while saving variables and containers
+!STACK 0
+java.io.FileNotFoundException: B:\projet1A\git\Kabosu\ModuleJava\.metadata\.plugins\org.eclipse.jdt.core\variablesAndContainers.dat (L’opération demandée n’a pu s’accomplir sur un fichier ayant une section mappée utilisateur ouverte)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saveVariablesAndContainers(JavaModelManager.java:4190)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saving(JavaModelManager.java:4423)
+	at org.eclipse.core.internal.resources.SaveManager.executeLifecycle(SaveManager.java:389)
+	at org.eclipse.core.internal.resources.SaveManager$1.run(SaveManager.java:198)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.resources.SaveManager.broadcastLifecycle(SaveManager.java:201)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1186)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1165)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:52)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)

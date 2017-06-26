@@ -35,8 +35,8 @@ def reset_partie():
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-# Fonction pour la route /phrases/random avec GET
-# Fonction de TEST : renvoie tout ce qu'il y a dans la table PARTIE
+# Fonction pour la route /players avec GET
+# Renvoie tout ce qu'il y a dans la table players
 @app.route("/players", methods=["GET"])
 def get_players():
   db = Db()
@@ -58,18 +58,16 @@ def add_player():
 	  db = Db()
 	  sqlDeleteMap = "DELETE FROM map;"
 	  sqlDeleteJoueur = "DELETE FROM joueur;"
-	  sqlDeletePartie = "DELETE FROM partie;"
-	  sqlInsertPartie = "INSERT INTO partie(p_nom) VALUES('" + "partie" +"');"
-	  sqlInsertMap = "INSERT INTO map(m_centreX, m_centreY, m_coordX, m_coordY, p_id) VALUES(100,100,50,50,(SELECT p_id FROM partie LIMIT 1));"
-	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget, p_id) VALUES('"+ name +"','"+ str(budget) +"', (SELECT p_id FROM partie LIMIT 1));"
-	  sql = sqlDeleteMap + sqlDeleteJoueur + sqlDeletePartie + sqlInsertPartie + sqlInsertMap + sqlInsertPlayer
+	  sqlInsertMap = "INSERT INTO map(m_centreX, m_centreY, m_coordX, m_coordY) VALUES(100,100,50,50);"
+	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget) VALUES('"+ name +"','"+ str(budget) +"');"
+	  sql = sqlDeleteMap + sqlDeleteJoueur + sqlInsertMap + sqlInsertPlayer
 	  db.execute(sql)
 	  db.close()
 	  players.append(name)
 
   else:
   	  db = Db()
-  	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget, p_id) VALUES('"+ name +"','"+ str(budget) +"', (SELECT p_id FROM partie LIMIT 1));"
+  	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget) VALUES('"+ name +"','"+ str(budget) +"');"
 	  db.execute(sqlInsertPlayer)
 	  db.close()
 	  players.append(name)
@@ -96,12 +94,14 @@ def delete_player():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+#C: post la meteo et l heure
+#JAVA: fait un get regulier pour recupere la meteo et l heure.
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
   global meteo
   if request.method == 'POST':
       content = request.get_json()
+      print content
       meteo = content['meteo']
       return jsonify({"success": True})
   else:
@@ -110,11 +110,10 @@ def meteo():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+# JAVA: post la trame suivante au serveur {"joueur": String, "item": String, "quantity": int }
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
   content = request.get_json()
-
   return json_response({"success": True})
 
 
@@ -124,8 +123,8 @@ def messageRecuJava():
 # Fonction pour la route /actions/<player_name> avec POST
 # Actions pour le lendemain
 # Ne s'ajoute pas aux actions mais les remplace les actions du joueur
-# Répéter chaque jour pour le lendemain
-# Par défaut le serveur suppose qu'on ne veut rien faire
+# Repeter chaque jour pour le lendemain
+# Par defaut le serveur suppose qu'on ne veut rien faire
 @app.route('/actions/<player_name>', methods=['POST'])
 def action_player():
   content = request.get_json()
@@ -137,7 +136,7 @@ def action_player():
 
 
 # Fonction pour la route /map avec GET
-# JAVA : récupère les coordonnées de la map
+# JAVA : recupere les coordonnees de la map
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
   db = Db()
@@ -149,9 +148,9 @@ def envoieMapJava():
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Fonction pour la route /map/<player_name> avec GET
-# Récupère les détails d'une partie
+# Recupere les details d'une partie
 @app.route('/map/<player_name>', methods=['GET'])
-def envoieMapJava():
+def getMapPlayer():
   db = Db()
   infoMap = db.select("SELECT * FROM map")
   db.close()
@@ -162,27 +161,13 @@ def envoieMapJava():
 
 
 # Fonction pour la route /ingredients avec GET
-# Récupère la liste des ingrédients
+# Recupere la liste des ingredients
 @app.route('/ingredients', methods=['GET'])
-def envoieMapJava():
+def get_ingredients():
   db = Db()
   infoMap = db.select("SELECT * FROM ingredient")
   db.close()
   return json_response(infoMap)
-
-
-#------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-# Fonction pour la route /phrases/random avec GET
-# Fonction de TEST : renvoie tout ce qu'il y a dans la table PARTIE
-@app.route("/parties", methods=["GET"])
-def get_parties():
-  db = Db()
-  sql = "SELECT * FROM partie"
-  result = db.select(sql)
-  db.close()
-  return json_response(result)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -273,7 +258,7 @@ def getRecette():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+# route test du C
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
   content = request.get_json()

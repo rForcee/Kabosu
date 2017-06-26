@@ -1,0 +1,16 @@
+package objectMap;
+
+public class Boisson {
+	private String nomBoisson;
+	private  boolean chaude;
+	private float prix;
+	private int quantiter;
+	public Boisson(String nomBoisson, boolean chaude, float prix, int quantiter) {
+		this.nomBoisson = nomBoisson;
+		this.chaude = chaude;
+		this.prix = prix;
+		this.quantiter = quantiter;
+	}
+	
+
+}

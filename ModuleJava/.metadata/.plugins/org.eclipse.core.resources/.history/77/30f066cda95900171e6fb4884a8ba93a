@@ -1,0 +1,32 @@
+package objectMap;
+
+public class Joueur {
+	
+	private String speudo;
+	private float budget;
+	private int vente;
+	public Joueur(String speudo, float budget, int vente) {
+		this.speudo = speudo;
+		this.budget = budget;
+		this.vente = vente;
+	}
+	public String getSpeudo() {
+		return speudo;
+	}
+	public void setSpeudo(String speudo) {
+		this.speudo = speudo;
+	}
+	public float getBudget() {
+		return budget;
+	}
+	public void setBudget(float budget) {
+		this.budget = budget;
+	}
+	public int getVente() {
+		return vente;
+	}
+	public void setVente(int vente) {
+		this.vente = vente;
+	}
+	
+}

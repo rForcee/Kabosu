@@ -1,0 +1,13 @@
+package objectMap;
+
+public class Joueur {
+	public Joueur(String speudo, float budget, int vente) {
+		
+		this.speudo = speudo;
+		this.budget = budget;
+		this.vente = vente;
+	}
+	private String speudo;
+	private float budget;
+	private int vente;
+}
