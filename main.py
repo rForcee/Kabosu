@@ -121,6 +121,7 @@ def getIngredient():
 @app.route('/inscrire/recette', methods=['POST'])
 def inscriptionRecette():
     content = request.get_json()
+    print content
     ing = content['ing']
     drink = content['drink']
     qte = content['qte']
