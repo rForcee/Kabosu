@@ -1,0 +1,22 @@
+package objectMap;
+
+public class Publicite extends ItemJoueur {
+
+	private float prix;
+	final private int  prixBasePub = 50;
+	public Publicite(String nomJoueur, float rayon, float x, float y) {
+		super(nomJoueur, rayon, x, y);
+		prix = prixBasePub*rayon;
+	}
+	
+	public float getPrix() {
+		return prix;
+	}
+	public void setPrix(float prix) {
+		this.prix = prix;
+	}
+	public int getPrixBasePub() {
+		return prixBasePub;
+	}
+
+}
