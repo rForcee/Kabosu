@@ -72,8 +72,8 @@ def add_player():
   db = Db()
   sqlCoord = "SELECT j_coordX, j_coordY FROM joueur WHERE j_pseudo = '"+ name +"';"
   sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ name +"';"
-  sqlSales = "SELECT SUM(v_qte) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');"
-  sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+name+"');"
+  sqlSales = "SELECT SUM(v_qte) FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');"
+  sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = 'Erwann');"
   coord = db.select(sqlCoord)[0]
   budgetBase = db.select(sqlBudget)[0]['j_budget']
   nbSales = db.select(sqlSales)[0]
@@ -88,6 +88,8 @@ def add_player():
 
   message = {"name": name, "location": coord, "info": info}
 
+  print message;
+
   return json_response(message)
 
 
@@ -100,7 +102,7 @@ def add_player():
 @app.route("/players/<player_name>", methods=["DELETE"])
 def delete_player():
   db = Db()
-  sql = "SELECT * FROM joueur;"
+  sql = "DELETE FROM joueur WHERE j_pseudo = '" + player_name + "';"
   result = db.select(sql)
   db.close()
   return json_response(result)
