@@ -113,14 +113,14 @@ def meteo():
 
     if result == []:
       db = Db()
-  	  sql = "INSERT INTO dayinfo(di_hour, di_weather, di_forecast) VALUES('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
-	  db.execute(sql)
-	  db.close()
-	else:
-	  db = Db()
-  	  sql = "UPDATE dayinfo SET (di_hour, di_weather, di_forecast) = ('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
-	  db.execute(sql)
-	  db.close()
+      sql = "INSERT INTO dayinfo(di_hour, di_weather, di_forecast) VALUES('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
+      db.execute(sql)
+      db.close()
+    else:
+      db = Db()
+      sql = "UPDATE dayinfo SET (di_hour, di_weather, di_forecast) = ('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
+      db.execute(sql)
+      db.close()
 
     return json_response(content)
 
