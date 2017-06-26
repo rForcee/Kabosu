@@ -7,7 +7,6 @@ app = Flask(__name__)
 app.debug = True
 CORS(app)
 
-players = []
 budget = 10
 
 # DATABASE_URL=postgres://<username>@localhost/<dbname> python main.py
@@ -26,8 +25,12 @@ def json_response(data="OK", status=200):
 @app.route("/reset", methods=["GET"])
 def reset_partie():
   db = Db()
-  sql = "SELECT * FROM joueur"
-  result = db.select(sql)
+  sqlDeleteMenu = "DELETE FROM menu;"
+  sqlDeleteVentes = "DELETE FROM ventes;"
+  sqlDeletePub = "DELETE FROM pub;"
+  sqlDeleteJoueur = "DELETE FROM joueur;"
+  sql = sqlDeleteMenu + sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur
+  db.execute(sql)
   db.close()
   return json_response(result)
 
@@ -63,14 +66,12 @@ def add_player():
 	  sql = sqlDeleteMap + sqlDeleteJoueur + sqlInsertMap + sqlInsertPlayer
 	  db.execute(sql)
 	  db.close()
-	  players.append(name)
 
   else:
   	  db = Db()
   	  sqlInsertPlayer = "INSERT INTO joueur(j_pseudo, j_budget) VALUES('"+ name +"','"+ str(budget) +"');"
 	  db.execute(sqlInsertPlayer)
 	  db.close()
-	  players.append(name)
 
   
   
@@ -86,7 +87,7 @@ def add_player():
 @app.route("/players/<player_name>", methods=["DELETE"])
 def delete_player():
   db = Db()
-  sql = "SELECT * FROM joueur"
+  sql = "SELECT * FROM joueur;"
   result = db.select(sql)
   db.close()
   return json_response(result)
@@ -94,18 +95,42 @@ def delete_player():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
-#C: post la meteo et l heure
+#C: poste la meteo et l heure
 #JAVA: fait un get regulier pour recupere la meteo et l heure.
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
-  global meteo
   if request.method == 'POST':
-      content = request.get_json()
-      print content
-      meteo = content['meteo']
-      return jsonify({"success": True})
+    content = request.get_json()
+    print content
+    meteo = content['meteo']
+    hour = content['hour']
+    forecast = content['forecast']
+
+    db = Db()
+    sql = "SELECT * FROM dayinfo;"
+    result = db.select(sql)
+    db.close()
+
+    if result == []:
+      db = Db()
+      sql = "INSERT INTO dayinfo(di_hour, di_weather, di_forecast) VALUES('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
+      db.execute(sql)
+      db.close()
+    else:
+      db = Db()
+      sql = "UPDATE dayinfo SET (di_hour, di_weather, di_forecast) = ('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
+      db.execute(sql)
+      db.close()
+
+    return json_response(content)
+
   else:
-      return json_response(meteo)
+    db = Db()
+    sql = "SELECT di_hour, di_weather FROM dayinfo;"
+    result = db.select(sql)
+    db.close()
+    print result
+    return json_response(result)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -140,7 +165,8 @@ def action_player():
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
   db = Db()
-  infoMap = db.select("SELECT * FROM map")
+  sql = "SELECT * FROM map, boisson, joueur;"
+  infoMap = db.select(sql)
   db.close()
   return json_response(infoMap)
 
@@ -152,7 +178,8 @@ def envoieMapJava():
 @app.route('/map/<player_name>', methods=['GET'])
 def getMapPlayer():
   db = Db()
-  infoMap = db.select("SELECT * FROM map")
+  sql = "SELECT * FROM map;"
+  infoMap = db.select(sql)
   db.close()
   return json_response(infoMap)
 
@@ -165,7 +192,8 @@ def getMapPlayer():
 @app.route('/ingredients', methods=['GET'])
 def get_ingredients():
   db = Db()
-  infoMap = db.select("SELECT * FROM ingredient")
+  sql = "SELECT * FROM ingredient;"
+  infoMap = db.select(sql)
   db.close()
   return json_response(infoMap)
 
@@ -193,7 +221,7 @@ def inscriptionBoisson():
 @app.route('/inscrire/boisson', methods=['GET'])
 def getBoisson():
   db = Db()
-  sql = "SELECT * FROM boisson"
+  sql = "SELECT * FROM boisson;"
   result = db.select(sql)
   db.close()
   return json_response(result)
@@ -221,7 +249,7 @@ def inscriptionIngredient():
 @app.route('/inscrire/ingredient', methods=['GET'])
 def getIngredient():
   db = Db()
-  sql = "SELECT * FROM ingredient"
+  sql = "SELECT * FROM ingredient;"
   result = db.select(sql)
   db.close()
   return json_response(result)
@@ -250,32 +278,13 @@ def inscriptionRecette():
 @app.route('/inscrire/recette', methods=['GET'])
 def getRecette():
   db = Db()
-  sql = "SELECT * FROM recette"
+  sql = "SELECT * FROM recette;"
   result = db.select(sql)
   db.close()
   return json_response(result)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
-
-# route test du C
-@app.route('/test/c', methods=['POST'])
-def messageRecuC():
-  content = request.get_json()
-  print content['hour']
-  print content
-  global testc 
-  testc = content
-  return json_response(content)
-
-@app.route('/test/c', methods=['GET'])
-def messageGetC():
-    
-  return json_response(testc)
-
-
-#------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 if __name__ == "__main__":
   app.run()
