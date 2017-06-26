@@ -1,0 +1,7 @@
+package objectMap;
+
+public class Boisson {
+	private String nomBoisson;
+	private chaude
+
+}

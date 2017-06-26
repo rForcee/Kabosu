@@ -1,0 +1,34 @@
+package objectIhm;
+
+public class Date {
+	
+	private float heureServeur;
+	private float HeureJeux;
+	private int jour;
+	
+	
+	public float getHeureServeur() {
+		return heureServeur;
+	}
+	public void setHeureServeur(float heureServeur) {
+		this.heureServeur = heureServeur;
+	}
+	public int getJour() {
+		return jour;
+	}
+	public void setJour(int jour) {
+		this.jour = jour;
+	}
+	
+	public void date() {
+		
+	}
+	public float getHeureJeux() {
+		return HeureJeux;
+	}
+	public void setHeureJeux(float heureJeux) {
+		HeureJeux = heureJeux;
+	}
+	
+
+}

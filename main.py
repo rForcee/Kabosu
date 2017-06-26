@@ -96,8 +96,8 @@ def delete_player():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
-#C: post la meteo et l'heure
-#JAVA: fait un get regulier pour recupere la meteo et l'heure.
+#C: post la meteo et l heure
+#JAVA: fait un get regulier pour recupere la meteo et l heure.
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
   global meteo
