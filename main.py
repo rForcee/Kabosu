@@ -218,13 +218,13 @@ def getMapPlayer():
 
 # Fonction pour la route /ingredients avec GET
 # Recupere la liste des ingredients
-@app.route('/ingredients', methods=['GET'])
+@app.route('/ingredients/<player_name>', methods=['GET'])
 def get_ingredients():
   db = Db()
-  sql = "SELECT * FROM ingredient;"
-  infoMap = db.select(sql)
+  sql = "SELECT b_nom as boisson, b_alcool as hasAlcool, b_chaud as isHot, i_nom as ingredient, i_prix as ingPrix, r_qte as quantite FROM ingredient INNER JOIN recette ON recette.i_id = ingredient.i_id INNER JOIN boisson ON boisson.b_id = recette.b_id WHERE boisson.b_id IN (SELECT b_id FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name +"'));"
+  ingredients = db.select(sql)
   db.close()
-  return json_response(infoMap)
+  return json_response(ingredients)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
