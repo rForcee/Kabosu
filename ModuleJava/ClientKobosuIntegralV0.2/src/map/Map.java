@@ -13,13 +13,17 @@ import map.Spand;
 import objectIhm.Meteo;
 import objectMap.Client;
 import objectMap.ItemJoueur;
+import Com.*;
 public class Map 
 {
 	private Position centre ;
 	private Spand pointSpand ;
 	private Image skinMap = new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.2/src/skyrim.png");
-	public Map(float X,float Y,float Sx,float Sy, int nbClient){
-		
+	public Map(int nbClient, DataTrameRecu data){
+		this.setCentre(new Position(data.getMapX(),data.getMapY()));
+		this.setPointSpand(new Spand(data.getMapSx(),data.getMapSy()));
+	}
+	public Map(float X,float Y,float Sx,float Sy, int nbClient){	
 		this.setCentre(new Position(X,Y));
 		this.setPointSpand(new Spand(Sx,Sy));
 

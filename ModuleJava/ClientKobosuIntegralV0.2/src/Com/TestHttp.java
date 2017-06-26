@@ -80,18 +80,23 @@ public static String getMap(URL url ) throws Exception {
 	}
 //main
 
-public static void traitementTrame(String trame){
-		
+public static DataTrameRecu traitementTrame(String trame){
+		DataTrameRecu data = new DataTrameRecu();
 	trame = trame.replaceAll("[\\[\\]]", "");
 		JsonElement jelement = new JsonParser().parse(trame);
 		JsonObject json = jelement.getAsJsonObject();
 		System.out.println(json.toString());
+		data.setMapX(json.get("m_centrex").getAsInt());
+		data.setMapY(json.get("m_centrey").getAsInt());
+		data.setMapSx(json.get("m_coordx").getAsInt());
+		data.setMapSy(json.get("m_coordy").getAsInt());
+		//System.out.println(data.getMapX());
+		return data;
 }
 	public static void main(String[] args) {
 		String speudo ="toto";
 		String boisson = "bierre";
 		int nb = 4;
-
 		try {
 			URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 			URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 

@@ -1,7 +1,10 @@
 package application;
 
+import java.net.URL;
 import java.util.HashMap;
 
+import Com.DataTrameRecu;
+import Com.TestHttp;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -27,11 +30,21 @@ public class Main extends Application {
 		try {
 			Group root = new Group();
 			Scene scene = new Scene(root,1000,1000,Color.GREY);
-			
+			DataTrameRecu data = new DataTrameRecu();
+			TestHttp reseau = new TestHttp();
+			try {
+				URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
+				URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
+				data = TestHttp.traitementTrame(TestHttp.getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			int nbClient = 15;
 			Meteo IcoMeteo = new Meteo();
 			IcoMeteo.setMeteo(3); // selectionne la l'icone en fonction de la météo
-			Map test = new Map(500,300, 150,0, nbClient);
+			Map test = new Map(nbClient,data);
 			HashMap<String,  Rectangle> mymapRec; 
 			GridPane gridpane = new GridPane();
 			gridpane.setPadding(new Insets(5));
