@@ -158,11 +158,17 @@ def messageRecuJava():
   quantity = content['quantity']
   db = Db()
   sqlHour = "SELECT di_hour FROM dayinfo;"
-  sqlweather = "SELECT di_weather FROM dayinfo;"
-  sqlJId = "SELECT j-id FROM joueur WHERE J-pseudo = player;"
-  sqlBId = "SELECT b-id FROM boisson WHERE b-nom = item;"
-  sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, j_id, b_id) VALUES('"+ quantity +"','"+ sqlHour +"','"+ sqlweather + "','"+sqlJId+"','"+sqlJId+"');"
-return json_response({"success": True})
+  hour = db.select(sqlHour)
+  sqlWeather = "SELECT di_weather FROM dayinfo;"
+  weather = db.select(sqlWeather)
+  sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
+  j_id = db.select(sqlJId)
+  sqlBId = "SELECT b_id FROM boisson WHERE b_nom = '" + item + "';"
+  b_id = db.select(sqlBId)
+  sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, j_id, b_id) VALUES('"+ quantity +"','"+ hour +"','"+ weather + "','"+j_id+"','"+b_id+"');"
+  db.execute(sql)
+  db.close()
+  return json_response({"success": True})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
