@@ -24,8 +24,56 @@ public class Calcul {
 		return nb_area;//retour du compteur, voir comment récupérer l'arret list par la suite
 	}*/
 	
+	int myRandom(int min, int max){
+		int nbRandom = min + (int)(Math.random() * ((max - min) + 1));
+		return nbRandom;
+	}
 	 
+	populationGenerator(){
+		int population = 0;
+		population = myRandom(200, 500);
+		for(int i = 0; i <= population; i++){
+			Client.setCoordX(myRandom(minMapX, maxMapX));
+			Client.setCoordY(myRandom(minMapY, maxMapY));
+			Client.setMotivation(motivation(Meteo));
+		}
+	}
+		
+	boolean motivation(Meteo){
+		int ChanceAchat = myRandom(0, 100);
+		boolean Achat = false;
+		switch(Meteo){
+			case "rainy":
+				if(ChanceAchat >= 0 && ChanceAchat >= 15){
+					Achat = true;
+				}else{
+					Achat = false;
+				}	
+				break;
+			case "cloudy":
+				if(ChanceAchat >= 0 && ChanceAchat >= 30){
+					Achat = true;
+				}else{
+					Achat = false;
+				}
+				break;
+			case "sunny":
+				if(ChanceAchat >= 0 && ChanceAchat >= 75){
+					Achat = true;
+				}else{
+					Achat = false;
+				}
+				break;
+			case "heatwave":
+				Achat = true;
+				break;
+			case "thunderstorm":
+				Achat = false;
+				break;
+		}
+		return achat
+	}
 	
-	
+		
 	
 }

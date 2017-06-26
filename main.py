@@ -26,6 +26,16 @@ def get_parties():
   db.close()
   return json_response(result)
 
+# Fonction pour la route /reset avec GET
+# Reinitialise une partie
+@app.route("/reset", methods=["GET"])
+def reset_partie():
+  db = Db()
+  sql = "SELECT * FROM joueur"
+  result = db.select(sql)
+  db.close()
+  return json_response(result)
+
 # Fonction pour la route /phrases/random avec GET
 # Fonction de TEST : renvoie tout ce qu'il y a dans la table PARTIE
 @app.route("/players", methods=["GET"])
@@ -64,6 +74,8 @@ def add_player():
 	  db.execute(sqlInsertPlayer)
 	  db.close()
 	  players.append(name)
+
+  
   
   return json_response()
 
@@ -71,112 +83,114 @@ def add_player():
 # Ajout d'une boisson en BDD
 @app.route('/inscrire/boisson', methods=['POST'])
 def inscriptionBoisson():
-    content = request.get_json()
-    nom = content['nom']
-    alcool = content['alcool']
-    hot = content['hot']
+  content = request.get_json()
+  nom = content['nom']
+  alcool = content['alcool']
+  hot = content['hot']
 
-    db = Db()
-    sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "');"
-    db.execute(sql)
-    db.close()
-    return json_response(content)
+  db = Db()
+  sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "');"
+  db.execute(sql)
+  db.close()
+  return json_response(content)
 
 # Fonction pour la route /inscrire/boisson avec GET
 # SELECT toutes les boissons
 @app.route('/inscrire/boisson', methods=['GET'])
 def getBoisson():
-    db = Db()
-    sql = "SELECT * FROM boisson"
-    result = db.select(sql)
-    db.close()
-    return json_response(result)
+  db = Db()
+  sql = "SELECT * FROM boisson WHERE b_id = 12"
+  result = db.select(sql)
+  db.close()
+  if result == []:
+    print "INSIDE"
+  return json_response(result)
 
 # Fonction pour la route /inscrire/ingredient avec POST
 # Ajout d'un ingredient en BDD
 @app.route('/inscrire/ingredient', methods=['POST'])
 def inscriptionIngredient():
-    content = request.get_json()
-    nom = content['nom']
-    prix = content['prix']
+  content = request.get_json()
+  nom = content['nom']
+  prix = content['prix']
 
-    db = Db()
-    sql = "INSERT INTO ingredient(i_nom, i_prix) VALUES('"+ nom +"','"+ str(prix) +"');"
-    db.execute(sql)
-    db.close()
-    return json_response(content)
+  db = Db()
+  sql = "INSERT INTO ingredient(i_nom, i_prix) VALUES('"+ nom +"','"+ str(prix) +"');"
+  db.execute(sql)
+  db.close()
+  return json_response(content)
 
 # Fonction pour la route /inscrire/ingredient avec GET
 # SELECT tous les ingredients
 @app.route('/inscrire/ingredient', methods=['GET'])
 def getIngredient():
-    db = Db()
-    sql = "SELECT * FROM ingredient"
-    result = db.select(sql)
-    db.close()
-    return json_response(result)
+  db = Db()
+  sql = "SELECT * FROM ingredient"
+  result = db.select(sql)
+  db.close()
+  return json_response(result)
 
 # Fonction pour la route /inscrire/recette avec POST
 # Ajout d'une recette en BDD
 @app.route('/inscrire/recette', methods=['POST'])
 def inscriptionRecette():
-    content = request.get_json()
-    ing = content['ing']
-    drink = content['drink']
-    qte = content['qte']
+  content = request.get_json()
+  ing = content['ing']
+  drink = content['drink']
+  qte = content['qte']
 
-    db = Db()
-    sql = "INSERT INTO recette(b_id, i_id, r_qte) VALUES((SELECT b_id FROM boisson WHERE b_nom = '" + drink + "'),(SELECT i_id FROM ingredient WHERE i_nom = '" + ing + "'),'"+ str(qte) +"');"
-    db.execute(sql)
-    db.close()
-    return json_response(content)
+  db = Db()
+  sql = "INSERT INTO recette(b_id, i_id, r_qte) VALUES((SELECT b_id FROM boisson WHERE b_nom = '" + drink + "'),(SELECT i_id FROM ingredient WHERE i_nom = '" + ing + "'),'"+ str(qte) +"');"
+  db.execute(sql)
+  db.close()
+  return json_response(content)
 
 # Fonction pour la route /inscrire/recette avec GET
 # SELECT toutes les recettes
 @app.route('/inscrire/recette', methods=['GET'])
 def getRecette():
-    db = Db()
-    sql = "SELECT * FROM recette"
-    result = db.select(sql)
-    db.close()
-    return json_response(result)
+  db = Db()
+  sql = "SELECT * FROM recette"
+  result = db.select(sql)
+  db.close()
+  return json_response(result)
 
 @app.route('/test/c', methods=['POST'])
 def messageRecuC():
-    content = request.get_json()
-    print content['hour']
-    print content
-    global testc 
-    testc = content
-    return json_response(content)
+  content = request.get_json()
+  print content['hour']
+  print content
+  global testc 
+  testc = content
+  return json_response(content)
 
 @app.route('/test/c', methods=['GET'])
 def messageGetC():
     
-    return json_response(testc)
+  return json_response(testc)
 
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
-    content = request.get_json()
+  content = request.get_json()
 
-    return json_response({"success": True})
+  return json_response({"success": True})
 
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
-    db = Db()
-    infoMap = db.select("SELECT * FROM map")
-    db.close()
-    return json_response(infoMap)
+  db = Db()
+  infoMap = db.select("SELECT * FROM map")
+  db.close()
+  return json_response(infoMap)
 
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
-    global meteo
-    if request.method == 'POST':
-        content = request.get_json()
-        meteo = content['meteo']
-        return jsonify({"success": True})
-    else:
-        return json_response(meteo)
+  global meteo
+  if request.method == 'POST':
+      content = request.get_json()
+      meteo = content['meteo']
+      return jsonify({"success": True})
+  else:
+      return json_response(meteo)
 
 if __name__ == "__main__":
   app.run()
