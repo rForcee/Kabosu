@@ -26,6 +26,16 @@ def get_parties():
   db.close()
   return json_response(result)
 
+# Fonction pour la route /reset avec GET
+# Reinitialise une partie
+@app.route("/reset", methods=["GET"])
+def reset_partie():
+  db = Db()
+  sql = "SELECT * FROM joueur"
+  result = db.select(sql)
+  db.close()
+  return json_response(result)
+
 # Fonction pour la route /phrases/random avec GET
 # Fonction de TEST : renvoie tout ce qu'il y a dans la table PARTIE
 @app.route("/players", methods=["GET"])
@@ -92,6 +102,8 @@ def getBoisson():
   sql = "SELECT * FROM boisson WHERE b_id = 12"
   result = db.select(sql)
   db.close()
+  if result == []:
+    print "INSIDE"
   return json_response(result)
 
 # Fonction pour la route /inscrire/ingredient avec POST
