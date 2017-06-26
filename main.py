@@ -103,6 +103,7 @@ def meteo():
   global meteo
   if request.method == 'POST':
       content = request.get_json()
+      print content
       meteo = content['meteo']
       return jsonify({"success": True})
   else:
@@ -124,8 +125,8 @@ def messageRecuJava():
 # Fonction pour la route /actions/<player_name> avec POST
 # Actions pour le lendemain
 # Ne s'ajoute pas aux actions mais les remplace les actions du joueur
-# Répeter chaque jour pour le lendemain
-# Par défaut le serveur suppose qu'on ne veut rien faire
+# Repeter chaque jour pour le lendemain
+# Par defaut le serveur suppose qu'on ne veut rien faire
 @app.route('/actions/<player_name>', methods=['POST'])
 def action_player():
   content = request.get_json()
@@ -137,7 +138,7 @@ def action_player():
 
 
 # Fonction pour la route /map avec GET
-# JAVA : recupere les coordonnées de la map
+# JAVA : recupere les coordonnees de la map
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
   db = Db()
@@ -149,9 +150,9 @@ def envoieMapJava():
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Fonction pour la route /map/<player_name> avec GET
-# Récupère les details d'une partie
+# Recupere les details d'une partie
 @app.route('/map/<player_name>', methods=['GET'])
-def envoieMapJava():
+def getMapPlayer():
   db = Db()
   infoMap = db.select("SELECT * FROM map")
   db.close()
@@ -162,9 +163,9 @@ def envoieMapJava():
 
 
 # Fonction pour la route /ingredients avec GET
-# Récupère la liste des ingrédients
+# Recupere la liste des ingredients
 @app.route('/ingredients', methods=['GET'])
-def envoieMapJava():
+def get_ingredients():
   db = Db()
   infoMap = db.select("SELECT * FROM ingredient")
   db.close()
