@@ -74,16 +74,18 @@ def add_player():
   sqlCoord = "SELECT j_coordX, j_coordY FROM joueur WHERE j_pseudo = '"+ name +"';"
   sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ name +"';"
   sqlSales = "SELECT SUM(v_qte) FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');"
+  sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+name+"');"
   coord = db.select(sqlCoord)
   budgetBase = db.select(sqlBudget)
   nbSales = db.select(sqlSales)
+  drinksInfo = db.select(sqlDrinks)
   db.close()
   profit = budgetBase - budget;
-  info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": []}
+  info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
 
-  #message = {"name": name, "location": coord, "info":}
+  message = {"name": name, "location": coord, "info": info}
 
-  return json_response({"success": True})
+  return json_response(message)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
