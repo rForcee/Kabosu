@@ -107,7 +107,7 @@ def inscriptionIngredient():
     return json_response(content)
 
 # Fonction pour la route /inscrire/ingredient avec GET
-# SELECT tous les ingrédients
+# SELECT tous les ingredients
 @app.route('/inscrire/ingredient', methods=['GET'])
 def getIngredient():
     db = Db()
