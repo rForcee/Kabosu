@@ -80,10 +80,10 @@ def add_player():
     db.close()
 
     if joueur == []:
-    db = Db()
-    sql = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
-    joueur = db.select(sql)
-    db.close()
+      db = Db()
+      sql = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
+      joueur = db.select(sql)
+      db.close()
 
   sqlName = "SELECT j_coordX, j_coordY FROM joueur WHERE j_pseudo = '"+ name +"';"
   db = Db()
