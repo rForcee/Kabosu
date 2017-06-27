@@ -256,8 +256,8 @@ def getMapPlayer(player_name):
   coordinatesSpan = db.select(sqlSpan)[0]
   db.close()
 
-  region = {"coordinates": coordinates, "span": span}
-
+  region = {"center": coordinates, "span": span}
+  print region
   db = Db()
   sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name + "');"
   sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player_name +"';"
