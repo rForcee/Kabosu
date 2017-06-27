@@ -203,14 +203,14 @@ def envoieMapJava():
   db = Db()
   sqlMap = "SELECT * FROM map;"
   infoMap = db.select(sqlMap)
-  sqlItem = "SELECT z_type, z_centerX, z_centerY, z_rayon, j_pseudo FROM zone joueur;"
+  sqlItem = "SELECT z_type, z_centerX, z_centerY, z_rayon, j_pseudo FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id;"
   item = db.select(sqlItem)
   sqlJoueur = "SELECT j_budget FROM joueur;"
   infoJoueur = db.select(sqlJoueur)[0]['j_budget']
   profit  = infoJoueur-budget_depart
   sqlBoisson = "SELECT b_id, b_nom, b_alcool, b_chaud, b_prixvente FROM boisson;"
   infoBoisson = db.select(sqlBoisson)
-  sqlSales = "SELECT v_qte FROM ventes;"
+  sqlSales = "SELECT COALESCE(0,SUM(v_qte FROM ventes;"
   sales  = db.select(sqlSales)
   sqlRank = "SELECT j_pseudo FROM joueur ORDER BY j_budget;"
   rank = []
@@ -265,7 +265,7 @@ def inscriptionBoisson():
   hot = content['hot']
 
   db = Db()
-  sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud, b_prixvente) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "', 0);"
+  sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud, b_prixvente, b_prixprod, j_id) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "', 0);"
   db.execute(sql)
   db.close()
   return json_response(content)
