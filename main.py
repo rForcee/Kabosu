@@ -261,7 +261,7 @@ def envoieMapJava():
   sqlSpan = "SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;"
   coordinatesSpan = db.select(sqlSpan)[0]
   sqlRank = "SELECT j_pseudo as name FROM JOUEUR ORDER BY j_budget DESC;"
-  ranking = db.select(sqlRank)[0]['name']
+  ranking = db.select(sqlRank)
   db.close()
 
   region = {"center": coordinates, "span": coordinatesSpan}
@@ -273,12 +273,12 @@ def envoieMapJava():
   print ranking
   print "----------"
   for i in ranking:
-  	  print i
+  	  print i['name']
 	  db = Db()
-	  sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i + "');"
-	  sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ i +"';"
-	  sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ i +"');"
-	  sqlDrinks = "SELECT b_nom as name, b_prixvente as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i +"');"
+	  sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i['name'] + "');"
+	  sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ i['name'] +"';"
+	  sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ i['name'] +"');"
+	  sqlDrinks = "SELECT b_nom as name, b_prixvente as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i['name'] +"');"
 	  coord = db.select(sqlCoord)[0]
 	  budgetBase = db.select(sqlBudget)[0]['j_budget']
 	  nbSales = db.select(sqlSales)[0]['nbsales']
@@ -286,13 +286,13 @@ def envoieMapJava():
 	  db.close()
 	  profit = budgetBase - budget_depart;
 	  info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
-	  playerInfo[i] = info
+	  playerInfo[i['name']] = info
 
-	  sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + i +"';"
+	  sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + i['name'] +"';"
 	  db = Db()
 	  items = db.select(sqlItems)[0]
 	  db.close()
-	  itemsByPlayer[i] = items
+	  itemsByPlayer[i['name']] = items
 
   mapInfo = {"region" : region, "ranking" : ranking, "itemsByPlayer": itemsByPlayer,"playerInfo": playerInfo}
 
