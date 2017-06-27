@@ -205,7 +205,6 @@ def envoieMapJava():
   infoMap = db.select(sqlMap)
   sqlItem = "SELECT z_type, z_centerX, z_centerY, z_rayon, j_pseudo FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id;"
   item = db.select(sqlItem)
-<<<<<<< HEAD
   sqlTabJoueur = "SELECT j_pseudo FROM joueur ;"
   name = db.select(sqlBudget)
   sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ name +"';"
@@ -222,15 +221,6 @@ def envoieMapJava():
   print coord
   profit = budgetBase - budget_depart;
   info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
-=======
-  sqlJoueur = "SELECT j_budget FROM joueur;"
-  infoJoueur = db.select(sqlJoueur)[0]['j_budget']
-  profit  = infoJoueur-budget_depart
-  sqlBoisson = "SELECT b_id, b_nom, b_alcool, b_chaud, b_prixvente FROM boisson;"
-  infoBoisson = db.select(sqlBoisson)
-  sqlSales = "SELECT COALESCE(0,SUM(v_qte FROM ventes;"
-  sales  = db.select(sqlSales)
->>>>>>> be3131aa425dd69ebfcd7190f03098eb4319070a
   sqlRank = "SELECT j_pseudo FROM joueur ORDER BY j_budget;"
   rank = []
   rank.append(db.select(sqlRank)[0]['j_pseudo'])
