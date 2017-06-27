@@ -37,34 +37,43 @@ public class Calcul {
 		
 	boolean motivation(Meteo){
 		int ChanceAchat = myRandom(0, 100);
-		boolean Achat = false;
+		boolean AchatFroid = false;
+		boolean AchatChaud = false;
 		switch(Meteo){
 			case "rainy":
 				if(ChanceAchat >= 0 && ChanceAchat >= 15){
-					Achat = true;
+					AchatFroid = true;
+					AchatChaud = false;
 				}else{
-					Achat = false;
+					AchatFroid = false;
+					AchatChaud = true;
 				}	
 				break;
 			case "cloudy":
 				if(ChanceAchat >= 0 && ChanceAchat >= 30){
-					Achat = true;
+					AchatFroid = true;
+					AchatChaud = false;
 				}else{
-					Achat = false;
+					AchatFroid = false;
+					AchatChaud = true;
 				}
 				break;
 			case "sunny":
 				if(ChanceAchat >= 0 && ChanceAchat >= 75){
-					Achat = true;
+					AchatFroid = true;
+					AchatChaud = false;
 				}else{
-					Achat = false;
+					AchatFroid = false;
+					AchatChaud = true;
 				}
 				break;
 			case "heatwave":
-				Achat = true;
+				AchatFroid = true;
+				AchatChaud = false;
 				break;
 			case "thunderstorm":
-				Achat = false;
+				AchatChaud = true;
+				AchatFroid = false;
 				break;
 		}
 		return achat
@@ -74,10 +83,11 @@ public class Calcul {
 		int rayonInfluence = rayonInfluence();
 		if(rayonInfluence > 0){
 			if(rayonInfluence == 1){
-				Vente(ItemJoueur.getProprietaire(), BoissonVoulue());
+				Vente(ItemJoueur.getProprietaire(), boissonVoulue());
 			}else{
-				int i = rayonInfluence;
-				
+				for (int i = 0; i < rayonInfluence; i++){
+					ArrayList<stand>
+				}
 			}
 		}
 	}
