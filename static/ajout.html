@@ -103,10 +103,10 @@
             var message = {
               player: 'Erwann',
               item: 'Limonade',
-              quantity: 12
+              quantity: 17
             }
             
-            $.ajax('https://kabosu.herokuapp.com/testDico', {
+            $.ajax('https://kabosu.herokuapp.com/sales', {
               type: 'POST',
               contentType: 'application/json',
               data: JSON.stringify(message)
@@ -148,7 +148,7 @@
 
             var message = {
               kind: "drinks",
-              prepare: {"Limonade":15},
+              prepare: {"Limonade":20},
               price: {"Limonade":2.4}
             }
 
