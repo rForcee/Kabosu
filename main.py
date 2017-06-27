@@ -228,11 +228,10 @@ def envoieMapJava():
   profit = budgetBase - budget_depart;
   info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
   sqlRank = "SELECT j_pseudo FROM joueur ORDER BY j_budget;"
-  rank = []
-  rank.append(db.select(sqlRank)[0]['j_pseudo'])
+  ranking = db.select(sqlRank)[0]['j_pseudo']
   map = infoMap+item
   db.close()
-  print rank
+  print [ranking]
   print infoMap
   print playerInfo
   print map
