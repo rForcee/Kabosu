@@ -306,6 +306,22 @@ def test_lecture():
 
   return json_response(dicoTest)
 
+# Fonction pour la route /ingredients avec GET
+# Recupere la liste des ingredients
+@app.route('/testDico', methods=['POST'])
+def test_lecture():
+  content = request.get_json()
+  player = content['player']
+  item = content['item']
+  quantity = content['quantity']
+  for i in dicoTest:
+  	if i == player:
+  		for i in actions:
+  			if actions[i]['kind'] == 'drinks':
+  				print "INNNNNNNN"
+
+  return json_response(dicoTest)
+
 
 # Fonction pour la route /ingredients avec GET
 # Recupere la liste des ingredients
