@@ -198,7 +198,7 @@ def messageRecuJava():
 @app.route('/actions/<player_name>', methods=['POST'])
 def action_player(player_name):
   content = request.get_json()
-
+  dicoAction[player_name] = content
   return json_response({"success": True})
 
 
