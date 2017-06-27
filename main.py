@@ -167,8 +167,10 @@ def messageRecuJava():
   prixVente = db.select(sqlPrix)[0]['b_prixvente']
   sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('"+ quantity +"','"+ hour +"','"+ weather + "','"+prixVente+"','"+j_id+"','"+b_id+"');"
   db.execute(sql)
-  budget = quantity*prixVente
-  sqlBudget = "INSERT INTO joueur(j_budget) VALUES('" +budget +"')";
+  sqlGetBudget = SELECT j_budget FROM joueur
+  budget = db.select(sqlGetBudget)[0]['j_budget']
+  calBudget = budget + quantity*prixVente
+  sqlBudget = "INSERT INTO joueur(j_budget) VALUES('" +calBudget +"')";
   db.execute(sqlBudget)
   db.close()
   return json_response({"success": True})
