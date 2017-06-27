@@ -217,7 +217,6 @@ def envoieMapJava():
   sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo;"
   sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo );"
   sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo);"
-  coord = db.select(sqlCoord)[0]
   budgetBase = db.select(sqlBudget)[0]['j_budget']
   nbSales = db.select(sqlSales)[0]['nbsales']
   drinksInfo = db.select(sqlDrinks)
