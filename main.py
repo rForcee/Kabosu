@@ -269,7 +269,7 @@ def envoieMapJava():
 
   playerInfo = {}
   itemsByPlayer = {}
-  
+
 
   for i in ranking:
 	  db = Db()
@@ -292,7 +292,7 @@ def envoieMapJava():
 	  db.close()
 	  itemsByPlayer[i] = items
 
-  mapInfo = {"region" : region, "ranking" : ranking, "itemsByPlayer": ,"playerInfo": playerInfo}
+  mapInfo = {"region" : region, "ranking" : ranking, "itemsByPlayer": itemsByPlayer,"playerInfo": playerInfo}
 
   return json_response(mapInfo)
 
