@@ -323,7 +323,9 @@ def test_lecturePost():
   		print dicoTest[i]['actions']
   		print "----------"
   		for j in dicoTest[i]['actions']:
-  			if dicoTest[i]['actions'][j]['kind'] == 'drinks':
+  			print dicoTest[i]['actions'][0]
+  			print "----------"
+  			if dicoTest[i]['actions'][0][j]['kind'] == 'drinks':
   				print "INNNNNNNN"
 
   return json_response(dicoTest)
