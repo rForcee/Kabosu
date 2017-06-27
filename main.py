@@ -173,6 +173,8 @@ def messageRecuJava():
   prixVente = db.select(sqlPrix)[0]['b_prixvente']
   sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
   budget = db.select(sqlGetBudget)[0]['j_budget']
+  print quantity
+  print prixVente
   calBudget = budget + (quantity*prixVente)
   print calBudget
   print budget
