@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.debug = True
 CORS(app)
 
-budget = 10
+budget_depart = 10
 
 # DATABASE_URL=postgres://<username>@localhost/<dbname> python main.py
 
@@ -21,15 +21,13 @@ def json_response(data="OK", status=200):
 
 # Fonction pour la route /reset avec GET
 # Reinitialise une partie
-#TODO
 @app.route("/reset", methods=["GET"])
 def reset_partie():
   db = Db()
-  sqlDeleteMenu = "DELETE FROM menu;"
   sqlDeleteVentes = "DELETE FROM ventes;"
-  sqlDeletePub = "DELETE FROM pub;"
   sqlDeleteJoueur = "DELETE FROM joueur;"
-  sql = sqlDeleteMenu + sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur
+  sqlDeleteDayInfo = "DELETE FROM dayinfo;"
+  sql = sqlDeleteVentes + sqlDeleteJoueur + sqlDeleteDayInfo
   db.execute(sql)
   db.close()
   return json_response(result)
@@ -56,43 +54,42 @@ def add_player():
   name = elements['name']
 
   db = Db()
-  sql = "SELECT * FROM joueur"
-  joueurs = db.select(sql)
+  sql = "SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"';"
+  joueur = db.select(sql)
   db.close()
 
-  if joueurs == []:
+  if joueur == []:
     coordX = random.randrange(330,670,1)
     coordY = random.randrange(130,470,1)
-    sqlDeleteMenu = "DELETE FROM menu;"
-    sqlDeleteVentes = "DELETE FROM ventes;"
-    sqlDeletePub = "DELETE FROM pub;"
-    sqlDeleteJoueur = "DELETE FROM joueur;"
-    sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
-    sql = sqlDeleteMenu + sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlInsertPlayer 
+    sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget_depart) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
+    sql = sqlInsertJoueur 
     db = Db()
     db.execute(sql)
     db.close()
 
-  else:
-    db = Db()
-    sql = "SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"';"
-    joueur = db.select(sql)
-    db.close()
-
-    if joueur == []:
-      db = Db()
-      sql = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
-      joueur = db.select(sql)
-      db.close()
-
-  sqlName = "SELECT j_coordX, j_coordY FROM joueur WHERE j_pseudo = '"+ name +"';"
+  
   db = Db()
-  coord = db.select(sql)
+  sqlCoord = "SELECT j_coordX as latitude, j_coordY as longitude FROM joueur WHERE j_pseudo = '"+ name +"';"
+  sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ name +"';"
+  sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');"
+  sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + name +"');"
+  coord = db.select(sqlCoord)[0]
+  budgetBase = db.select(sqlBudget)[0]['j_budget']
+  nbSales = db.select(sqlSales)[0]['nbsales']
+  drinksInfo = db.select(sqlDrinks)
   db.close()
+  print nbSales
+  print budgetBase
+  print drinksInfo
+  print coord
+  profit = budgetBase - budget_depart;
+  info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
 
-  #message = {"name": name, "location": coord, "info":}
+  message = {"name": name, "location": coord, "info": info}
 
-  return json_response({"success": True})
+  print message;
+
+  return json_response(message)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -102,9 +99,9 @@ def add_player():
 # Supprime un joueur de la partie
 # OPTIONNEL
 @app.route("/players/<player_name>", methods=["DELETE"])
-def delete_player():
+def delete_player(player_name):
   db = Db()
-  sql = "SELECT * FROM joueur;"
+  sql = "DELETE FROM joueur WHERE j_pseudo = '" + player_name + "';"
   result = db.select(sql)
   db.close()
   return json_response(result)
@@ -141,10 +138,10 @@ def meteo():
 
   db = Db()
   sql = "SELECT di_hour, di_weather, di_forecast FROM dayinfo;"
-  result = db.select(sql)
+  result = db.select(sql)[0]
   db.close()
   print result
-  return json_response(result)
+  return json_response({"hour": result['di_hour'], "weather": result['di_weather'], "forecast": result['di_forecast']})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -158,14 +155,21 @@ def messageRecuJava():
   quantity = content['quantity']
   db = Db()
   sqlHour = "SELECT di_hour FROM dayinfo;"
-  hour = db.select(sqlHour)
+  hour = db.select(sqlHour)[0]['di_hour']
   sqlWeather = "SELECT di_weather FROM dayinfo;"
-  weather = db.select(sqlWeather)
+  weather = db.select(sqlWeather)[0]['di_weather']
   sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
-  j_id = db.select(sqlJId)
+  j_id = db.select(sqlJId)[0]['j_id']
   sqlBId = "SELECT b_id FROM boisson WHERE b_nom = '" + item + "';"
-  b_id = db.select(sqlBId)
-  sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, j_id, b_id) VALUES('"+ quantity +"','"+ hour +"','"+ weather + "','"+j_id+"','"+b_id+"');"
+  b_id = db.select(sqlBId)[0]['b_id']
+  sqlPrix = "SELECT b_prixvente FROM boisson WHERE b_nom = '" + item + "';"
+  prixVente = db.select(sqlPrix)[0]['b_prixvente']
+  sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
+  budget = db.select(sqlGetBudget)[0]['j_budget']
+  calBudget = budget + (quantity*prixVente)
+  sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"');"
+  db.execute(sqlBudget)
+  sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('" + str(quantity) + "','" + str(hour) + "','" + str(weather) + "','" + str(prixVente) + "','" + str(j_id) + "','" + str(b_id) + "');"
   db.execute(sql)
   db.close()
   return json_response({"success": True})
@@ -180,7 +184,7 @@ def messageRecuJava():
 # Repeter chaque jour pour le lendemain
 # Par defaut le serveur suppose qu'on ne veut rien faire
 @app.route('/actions/<player_name>', methods=['POST'])
-def action_player():
+def action_player(player_name):
   content = request.get_json()
 
   return json_response({"success": True})
@@ -194,10 +198,22 @@ def action_player():
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
   db = Db()
-  sql = "SELECT * FROM map;"
-  infoMap = db.select(sql)
+  sqlMap = "SELECT * FROM map;"
+  infoMap = db.select(sqlMap)
+  sqlJoueur = "SELECT j_id, j_pseudo, j_budget, j_coordX, j_coordY FROM joueur;"
+  infoJoueur = db.select(sqlJoueur)
+  sqlBoisson = "SELECT b_id, b_nom, b_alcool, b_chaud, b_prixvente FROM boisson;"
+  infoBoisson = db.select(sqlBoisson)
+
+  sqlRank = "SELECT j_pseudo FROM joueur ORDER BY j_budget;"
+  rank = []
+  rank.append(db.select(sqlRank)[0]['j_pseudo'])
+  playerInfo = infoJoueur+infoBoisson
   db.close()
-  return json_response(infoMap)
+  print rank
+  print infoMap
+  print playerInfo
+  return json_response({"map": infoMap, "playerInfo": playerInfo, "Rank": rank})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -205,7 +221,7 @@ def envoieMapJava():
 # Fonction pour la route /map/<player_name> avec GET
 # Recupere les details d'une partie
 @app.route('/map/<player_name>', methods=['GET'])
-def getMapPlayer():
+def getMapPlayer(player_name):
   db = Db()
   sql = "SELECT * FROM map;"
   infoMap = db.select(sql)
@@ -218,13 +234,13 @@ def getMapPlayer():
 
 # Fonction pour la route /ingredients avec GET
 # Recupere la liste des ingredients
-@app.route('/ingredients', methods=['GET'])
-def get_ingredients():
+@app.route('/ingredients/<player_name>', methods=['GET'])
+def get_ingredients(player_name):
   db = Db()
-  sql = "SELECT * FROM ingredient;"
-  infoMap = db.select(sql)
+  sql = "SELECT b_nom as boisson, b_alcool as hasAlcool, b_chaud as isHot, i_nom as ingredient, i_prix as ingPrix, r_qte as quantite FROM ingredient INNER JOIN recette ON recette.i_id = ingredient.i_id INNER JOIN boisson ON boisson.b_id = recette.b_id WHERE boisson.b_id IN (SELECT b_id FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name +"'));"
+  ingredients = db.select(sql)
   db.close()
-  return json_response(infoMap)
+  return json_response(ingredients)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -240,7 +256,7 @@ def inscriptionBoisson():
   hot = content['hot']
 
   db = Db()
-  sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "');"
+  sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud, b_prixvente) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "', 0);"
   db.execute(sql)
   db.close()
   return json_response(content)
