@@ -291,6 +291,7 @@ def test_dico(player):
   content = request.get_json()
   dicoTest[player] = content
   print dicoTest
+  print "--------"
   return json_response(dicoTest)
 
 
@@ -300,8 +301,9 @@ def test_dico(player):
 def test_lecture():
   for i in dicoTest:
   	print dicoTest[i]
+  	print "---------"
 
-  return json_response({"success":True})
+  return json_response(dicoTest)
 
 
 # Fonction pour la route /ingredients avec GET
