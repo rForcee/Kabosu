@@ -35,7 +35,8 @@
         <input id="ingQte" type="text" class="form-control" name="username" placeholder="Quantite"/>
         <br>      
         <button id="sendRecette" class="btn btn-lg btn-primary btn-block" type="submit">Inscrire</button>
-        <img class="img-responsive" src="./image/EPLS_01.png" alt="Easy Peasy Lemon Squeezy">   
+        <img class="img-responsive" src="./image/EPLS_01.png" alt="Easy Peasy Lemon Squeezy">
+        <button id="sendTest" class="btn btn-lg btn-primary btn-block" type="submit">TEST</button>
       </form>
     </div>
    
@@ -95,10 +96,56 @@
             
       }
 
+      function envoyerTest(e) {
+        e.preventDefault()
+
+            var limonade = {
+              kind: "drinks",
+              prepare: {"limonade":15},
+              price: {"limonade":2.4}
+            }
+            
+
+            var thevert = {
+              kind: "drinks",
+              prepare: {"The vert":15},
+              price: {"The vert":2.4}
+            }
+            
+
+            var ad = {
+              kind: "ad",
+              location: {"latitude":150, "longitude":230},
+              radius: 12.4
+            }
+
+            data = {"actions" : [limonade , thevert , ad]}
+            
+            $.ajax('https://kabosu.herokuapp.com/testDico/Erwann', {
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(data)
+            });
+
+            var message = {
+              kind: "drinks",
+              prepare: {"limonade":15},
+              price: {"limonade":2.4}
+            }
+            
+            $.ajax('https://kabosu.herokuapp.com/testDico/John%20Cena', {
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(message)
+            });
+            
+      }
+
       $(function(){    
         $('#sendIng').on('click', envoyerIng);
         $('#sendDrink').on('click', envoyerDrink);
         $('#sendRecette').on('click', envoyerRec);
+        $('#sendTest').on('click', envoyerTest);
       })
 
     </script>

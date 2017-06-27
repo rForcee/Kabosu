@@ -10,6 +10,7 @@ CORS(app)
 budget_depart = 10
 rayonInfluenceStand = 25
 dicoAction = {}
+dicoTest = {}
 
 # DATABASE_URL=postgres://<username>@localhost/<dbname> python main.py
 
@@ -281,6 +282,26 @@ def getMapPlayer(player_name):
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# Fonction pour la route /ingredients avec GET
+# Recupere la liste des ingredients
+@app.route('/testDico/<player>', methods=['POST'])
+def test_dico(player):
+  content = request.get_json()
+  dicoTest[player] = content
+  print dicoTest
+  return json_response(dicoTest)
+
+
+# Fonction pour la route /ingredients avec GET
+# Recupere la liste des ingredients
+@app.route('/testDico', methods=['GET'])
+def test_lecture():
+  for i in dicoTest:
+  	print dicoTest[i]
+
+  return json_response({"success":True})
 
 
 # Fonction pour la route /ingredients avec GET
