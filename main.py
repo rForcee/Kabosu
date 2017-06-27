@@ -214,12 +214,10 @@ def envoieMapJava():
   infoMap = db.select(sqlMap)
   sqlItem = "SELECT z_type, z_centerX, z_centerY, z_rayon, j_pseudo FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id;"
   item = db.select(sqlItem)
-  sqlTabJoueur = "SELECT j_pseudo FROM joueur ;"
-  name = db.select(sqlTabJoueur)
-  sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ name +"';"
-  sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');"
-  sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + name +"');"
-  coord = db.select(sqlCoord)[0]
+  sqlBudget = "SELECT j_id , j_budget FROM joueur;"
+  joueurId = db.select(sqlBudget)[0]['j_id']
+  sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = joueurId;"
+  sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = joueurId;"
   budgetBase = db.select(sqlBudget)[0]['j_budget']
   nbSales = db.select(sqlSales)[0]['nbsales']
   drinksInfo = db.select(sqlDrinks)
@@ -233,14 +231,13 @@ def envoieMapJava():
   sqlRank = "SELECT j_pseudo FROM joueur ORDER BY j_budget;"
   rank = []
   rank.append(db.select(sqlRank)[0]['j_pseudo'])
-  playerInfo = infoJoueur+sales+profit+infoBoisson
   map = infoMap+item
   db.close()
   print rank
   print infoMap
   print playerInfo
   print map
-  return json_response({"map": map, "playerInfo": playerInfo, "Rank": rank})
+  return json_response({"map": map, "playerInfo": info, "Rank": rank})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
