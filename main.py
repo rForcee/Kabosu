@@ -354,7 +354,7 @@ def test_lecturePost():
 						print prixVente
 						calBudget = budget + (quantity*prixVente)
 						print calBudget
-						sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "'');"
+						sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') WHERE j_pseudo = '" + player + "'';"
 						db.execute(sqlBudget)
 						sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('" + str(quantity) + "','" + str(hour) + "','" + str(weather) + "','" + str(prixVente) + "','" + str(j_id) + "','" + str(b_id) + "');"
 						db.execute(sql)
@@ -374,7 +374,7 @@ def test_lecturePost():
 					sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
 					budget = db.select(sqlGetBudget)[0]['j_budget']
 					calBudget = budget - price
-					sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = "' + player + '");"
+					sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') WHERE j_pseudo = '"+ player +"';"
 					db.execute(sqlBudget)
 					sql = "INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) VALUES('ad','" + str(latitude) + "','" + str(longitude) + "','" + str(rayon) + "','" + str(j_id) + "');"
 					db.execute(sql)
