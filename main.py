@@ -8,6 +8,7 @@ app.debug = True
 CORS(app)
 
 budget_depart = 10
+rayonInfluenceStand = 25
 
 # DATABASE_URL=postgres://<username>@localhost/<dbname> python main.py
 
@@ -26,8 +27,9 @@ def reset_partie():
   db = Db()
   sqlDeleteVentes = "DELETE FROM ventes;"
   sqlDeleteJoueur = "DELETE FROM joueur;"
+  sqlDeleteZone = "DELETE FROM zone;"
   sqlDeleteDayInfo = "DELETE FROM dayinfo;"
-  sql = sqlDeleteVentes + sqlDeleteJoueur + sqlDeleteDayInfo
+  sql = sqlDeleteZone + sqlDeleteVentes + sqlDeleteJoueur + sqlDeleteDayInfo
   db.execute(sql)
   db.close()
   return json_response(result)
@@ -41,7 +43,7 @@ def reset_partie():
 @app.route("/players", methods=["GET"])
 def get_players():
   db = Db()
-  sql = "SELECT * FROM joueur"
+  sql = "SELECT * FROM joueur;"
   result = db.select(sql)
   db.close()
   return json_response(result)
@@ -61,15 +63,16 @@ def add_player():
   if joueur == []:
     coordX = random.randrange(330,670,1)
     coordY = random.randrange(130,470,1)
-    sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget_depart) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
-    sql = sqlInsertJoueur 
+    sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget) VALUES('"+ name +"','"+ str(budget_depart) +"';"
+    sqlInsertZone = "INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) VALUES('"+ "stand" +"','"+ str(coordX) +"','"+ str(coordY) +"','"+ str(rayonInfluenceStand) +"',(SELECT j_id FROM joueur WHERE j_pseudo = '" + name + "'));"
+    sql = sqlInsertJoueur + sqlInsertZone
     db = Db()
     db.execute(sql)
     db.close()
 
   
   db = Db()
-  sqlCoord = "SELECT j_coordX as latitude, j_coordY as longitude FROM joueur WHERE j_pseudo = '"+ name +"';"
+  sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + name + "');"
   sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ name +"';"
   sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');"
   sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + name +"');"
@@ -201,8 +204,8 @@ def envoieMapJava():
   sqlMap = "SELECT * FROM map;"
   infoMap = db.select(sqlMap)
   sqlJoueur = "SELECT j_budget FROM joueur;"
-  infoJoueur = db.select(sqlJoueur)
-  profit  =
+  infoJoueur = db.select(sqlJoueur)[0]['j_budget']
+  profit  = infoJoueur-budget_depart
   sqlBoisson = "SELECT b_id, b_nom, b_alcool, b_chaud, b_prixvente FROM boisson;"
   infoBoisson = db.select(sqlBoisson)
   sqlSales = "SELECT v_qte FROM ventes;"
