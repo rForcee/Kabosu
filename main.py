@@ -316,8 +316,8 @@ def test_lecturePost():
   quantity = content['quantity']
   for i in dicoTest:
   	if i == player:
-  		for i in actions:
-  			if actions[i]['kind'] == 'drinks':
+  		for j in dicoTest[i]['actions']:
+  			if dicoTest[i]['actions'][j]['kind'] == 'drinks':
   				print "INNNNNNNN"
 
   return json_response(dicoTest)
