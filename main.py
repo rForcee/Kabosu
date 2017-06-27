@@ -165,13 +165,13 @@ def messageRecuJava():
   b_id = db.select(sqlBId)[0]['b_id']
   sqlPrix = "SELECT b_prixvente FROM boisson WHERE b_nom = '" + item + "';"
   prixVente = db.select(sqlPrix)[0]['b_prixvente']
-  sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('"+ quantity +"','"+ hour +"','"+ weather + "','"+prixVente+"','"+j_id+"','"+b_id+"');"
-  db.execute(sql)
   sqlGetBudget = "SELECT j_budget FROM joueur"
   budget = db.select(sqlGetBudget)[0]['j_budget']
   calBudget = budget + quantity*prixVente
   sqlBudget = "INSERT INTO joueur(j_budget) VALUES('" +calBudget +"')";
   db.execute(sqlBudget)
+  sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('" + quantity + "','" + hour + "','" + weather + "','" + prixVente + "','" + j_id + "','" + b_id + "');"
+  db.execute(sql)
   db.close()
   return json_response({"success": True})
 
@@ -204,7 +204,7 @@ def envoieMapJava():
   sqlJoueur = "SELECT j_id, j_pseudo, j_budget, j_coordX, j_coordY FROM joueur;"
   infoJoueur = db.select(sqlJoueur)
   sqlBoisson = "SELECT b_id, b_nom, b_alcool, b_chaud, b_prixvente FROM boisson;"
-  infoBoisson =db.select(sqlBoisson)
+  infoBoisson = db.select(sqlBoisson)
   info = infoMap+infoJoueur+infoBoisson
   db.close()
   return json_response(info)
