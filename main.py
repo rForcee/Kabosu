@@ -299,6 +299,8 @@ def test_dico(player):
 # Recupere la liste des ingredients
 @app.route('/testDico', methods=['GET'])
 def test_lecture():
+  print dicoTest['Erwann']
+  print dicoTest['test']
   for i in dicoTest:
   	print dicoTest[i]
   	print "---------"
