@@ -300,9 +300,9 @@ def test_dico(player):
 @app.route('/testDico', methods=['GET'])
 def test_lecture():
   for i in dicoTest:
-  	print i
   	print dicoTest[i]
   	print "---------"
+  	print i
 
   return json_response(dicoTest)
 
