@@ -261,7 +261,7 @@ def inscriptionBoisson():
   hot = content['hot']
 
   db = Db()
-  sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud, b_prixvente) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "', 0);"
+  sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud, b_prixvente, b_prixprod, j_id) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "', 0);"
   db.execute(sql)
   db.close()
   return json_response(content)
