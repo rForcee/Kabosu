@@ -9,6 +9,7 @@ CORS(app)
 
 budget_depart = 10
 rayonInfluenceStand = 25
+dicoAction = {}
 
 # DATABASE_URL=postgres://<username>@localhost/<dbname> python main.py
 
@@ -167,9 +168,9 @@ def messageRecuJava():
   weather = db.select(sqlWeather)[0]['di_weather']
   sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
   j_id = db.select(sqlJId)[0]['j_id']
-  sqlBId = "SELECT b_id FROM boisson WHERE b_nom = '" + item + "';"
+  sqlBId = "SELECT b_id FROM boisson WHERE b_nom = '" + item + "' AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "');"
   b_id = db.select(sqlBId)[0]['b_id']
-  sqlPrix = "SELECT b_prixvente FROM boisson WHERE b_nom = '" + item + "';"
+  sqlPrix = "SELECT b_prixvente FROM boisson WHERE b_nom = '" + item + "' AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "');"
   prixVente = db.select(sqlPrix)[0]['b_prixvente']
   sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
   budget = db.select(sqlGetBudget)[0]['j_budget']
@@ -178,7 +179,7 @@ def messageRecuJava():
   calBudget = budget + (quantity*prixVente)
   print calBudget
   print budget
-  sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"');"
+  sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "');"
   db.execute(sqlBudget)
   sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('" + str(quantity) + "','" + str(hour) + "','" + str(weather) + "','" + str(prixVente) + "','" + str(j_id) + "','" + str(b_id) + "');"
   db.execute(sql)
