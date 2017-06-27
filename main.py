@@ -244,7 +244,7 @@ def messageRecuJava():
 def action_player(player_name):
   content = request.get_json()
   dicoAction[player_name] = content
-  return json_response({"success": True})
+  return json_response(dicoAction)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -254,33 +254,47 @@ def action_player(player_name):
 # JAVA : recupere les coordonnees de la map
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
+
   db = Db()
-  sqlMap = "SELECT * FROM map;"
-  infoMap = db.select(sqlMap)
-  sqlItem = "SELECT z_type, z_centerX, z_centerY, z_rayon, j_pseudo FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id;"
-  item = db.select(sqlItem)
-  sqlBudget = "SELECT j_id , j_budget FROM joueur;"
-  joueurId = db.select(sqlBudget)[0]['j_id']
-  sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = '"+str(joueurId)+"';"
-  sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = '"+str(joueurId)+"';"
-  budgetBase = db.select(sqlBudget)[0]['j_budget']
-  nbSales = db.select(sqlSales)[0]['nbsales']
-  drinksInfo = db.select(sqlDrinks)
+  sql = "SELECT m_centreX as latitude, m_centreY as longitude FROM map;"
+  coordinates = db.select(sql)[0]
+  sqlSpan = "SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;"
+  coordinatesSpan = db.select(sqlSpan)[0]
+  sqlRank = "SELECT j_pseudo FROM JOUEUR ORDER BY j_budget DESC;"
+  ranking = db.select(sqlRank)
   db.close()
-  print nbSales
-  print budgetBase
-  print drinksInfo
-  profit = budgetBase - budget_depart;
-  info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
-  sqlRank = "SELECT j_pseudo FROM joueur ORDER BY j_budget;"
-  ranking = db.select(sqlRank)[0]['j_pseudo']
-  map = infoMap+item
-  db.close()
-  print [ranking]
-  print infoMap
-  print playerInfo
-  print map
-  return json_response({"map": map, "playerInfo": info, "Rank": rank})
+
+  region = {"center": coordinates, "span": coordinatesSpan}
+
+
+  playerInfo = {}
+  itemsByPlayer = {}
+  
+
+  for i in ranking:
+	  db = Db()
+	  sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i + "');"
+	  sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ i +"';"
+	  sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ i +"');"
+	  sqlDrinks = "SELECT b_nom as name, b_prixvente as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i +"');"
+	  coord = db.select(sqlCoord)[0]
+	  budgetBase = db.select(sqlBudget)[0]['j_budget']
+	  nbSales = db.select(sqlSales)[0]['nbsales']
+	  drinksInfo = db.select(sqlDrinks)
+	  db.close()
+	  profit = budgetBase - budget_depart;
+	  info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
+	  playerInfo[i] = info
+
+	  sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + i +"';"
+	  db = Db()
+	  items = db.select(sqlItems)[0]
+	  db.close()
+	  itemsByPlayer[i] = items
+
+  mapInfo = {"region" : region, "ranking" : ranking, "itemsByPlayer": ,"playerInfo": playerInfo}
+
+  return json_response(mapInfo)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -318,14 +332,10 @@ def getMapPlayer(player_name):
   drinksInfo = db.select(sqlDrinks)
   db.close()
 
-  print nbSales
-  print budgetBase
-  print drinksInfo
-  print coord
   profit = budgetBase - budget_depart;
   info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
 
-  message = {"availableIngredients": ingredients, "map": mapInfo,"playerInfo": info}
+  message = {"availableIngredients": ingredients, "map": mapInfo, "playerInfo": info}
   return json_response(message)
 
 
