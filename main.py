@@ -203,6 +203,8 @@ def envoieMapJava():
   db = Db()
   sqlMap = "SELECT * FROM map;"
   infoMap = db.select(sqlMap)
+  sqlItem = "SELECT z_type, z_centerX, z_centerY, z_rayon, j_pseudo FROM zone joueur;"
+  item = db.select(sqlItem)
   sqlJoueur = "SELECT j_budget FROM joueur;"
   infoJoueur = db.select(sqlJoueur)[0]['j_budget']
   profit  = infoJoueur-budget_depart
@@ -214,11 +216,13 @@ def envoieMapJava():
   rank = []
   rank.append(db.select(sqlRank)[0]['j_pseudo'])
   playerInfo = infoJoueur+sales+profit+infoBoisson
+  map = infoMap+item
   db.close()
   print rank
   print infoMap
   print playerInfo
-  return json_response({"map": infoMap, "playerInfo": playerInfo, "Rank": rank})
+  print map
+  return json_response({"map": map, "playerInfo": playerInfo, "Rank": rank})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
