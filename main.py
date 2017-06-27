@@ -200,15 +200,19 @@ def envoieMapJava():
   db = Db()
   sqlMap = "SELECT * FROM map;"
   infoMap = db.select(sqlMap)
-  sqlJoueur = "SELECT j_id, j_pseudo, j_budget, j_coordX, j_coordY FROM joueur ORDER BY j_budget;"
+  sqlJoueur = "SELECT j_id, j_pseudo, j_budget, j_coordX, j_coordY FROM joueur;"
   infoJoueur = db.select(sqlJoueur)
   sqlBoisson = "SELECT b_id, b_nom, b_alcool, b_chaud, b_prixvente FROM boisson;"
   infoBoisson = db.select(sqlBoisson)
 
-  rank = db.select(sqlJoueur)[0]['j_pseudo']
-  info = infoMap + infoJoueur + infoBoisson
+  sqlRank = "SELECT j_pseudo FROM joueur ORDER BY j_budget;"
+  rank = db.select(sqlRank)
+  playerInfo = infoJoueur+infoBoisson
   db.close()
-  return json_response(info)
+  print rank
+  print infoMap
+  print playerInfo
+  return json_response({"map": infoMap, "playerInfo": playerInfo, "Rank": rank})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
