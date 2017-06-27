@@ -63,7 +63,7 @@ def add_player():
   if joueur == []:
     coordX = random.randrange(330,670,1)
     coordY = random.randrange(130,470,1)
-    sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget) VALUES('"+ name +"','"+ str(budget_depart) +"';"
+    sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget) VALUES('"+ name +"','"+ str(budget_depart) +"');"
     sqlInsertZone = "INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) VALUES('"+ "stand" +"','"+ str(coordX) +"','"+ str(coordY) +"','"+ str(rayonInfluenceStand) +"',(SELECT j_id FROM joueur WHERE j_pseudo = '" + name + "'));"
     sql = sqlInsertJoueur + sqlInsertZone
     db = Db()
