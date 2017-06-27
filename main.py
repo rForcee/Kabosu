@@ -238,7 +238,6 @@ def envoieMapJava():
   print map
   return json_response({"map": map, "playerInfo": info, "Rank": rank})
 
-
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Fonction pour la route /map/<player_name> avec GET
