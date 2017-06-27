@@ -330,7 +330,7 @@ def test_lecturePost():
   				recette = j['prepare']
   				if item in recette:
   					print "***********"
-  					print recette[1]
+  					print recette[item]
 
   return json_response(dicoTest)
 
