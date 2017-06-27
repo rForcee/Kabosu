@@ -19,7 +19,7 @@ public class Map
 	private Position centre ;
 	private Spand pointSpand ;
 	private Image skinMap = new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.2/src/skyrim.png");
-	public Map(int nbClient, DataTrameRecu data){
+	public Map(int nbClient, DataTrameMap  data){
 		this.setCentre(new Position(data.getMapX(),data.getMapY()));
 		this.setPointSpand(new Spand(data.getMapSx(),data.getMapSy()));
 	}
@@ -54,9 +54,10 @@ public class Map
 		    // System.out.println("client"+i+": "+mymapClient.get("client"+i).getX());
 		     //System.out.println(mymapClient.get("client"+i).getY());
 		     root.getChildren().add(mymapRec.get("rectangle"+i));
-		     //System.out.println(mymapClient.get("client"+i).motivation(meteo));
+		    // System.out.println(mymapClient.get("client"+i).motivation(meteo));
+		     System.out.println("client"+i);
 		     if(mymapClient.get("client"+i).motivation(meteo) == true){
-		    	 System.out.println("todo :choix stand");
+		    	// System.out.println("todo :choix stand");
 		     }
 		}
 		return mymapRec;

@@ -2,21 +2,17 @@ package objectIhm;
 
 public class Date {
 	
-	public Date(int heureServeur, int heureJeux, int jour) {
-		this.heureServeur = heureServeur;
-		HeureJeux = heureJeux;
-		this.jour = jour;
-	}
+
 	private int heureServeur;
 	private int HeureJeux;
 	private int jour;
 	final private int dureUneJournee = 24;
 	
 //Methode
-	public int jourJeux(){
+	public int jourJeux(int heureServeur){
 		return jour = (heureServeur/dureUneJournee);
 	}
-	public int heureJeux(){
+		public int heureJeux(int heureServeur){
 		return HeureJeux = (heureServeur-(jour*dureUneJournee));
 		
 	}

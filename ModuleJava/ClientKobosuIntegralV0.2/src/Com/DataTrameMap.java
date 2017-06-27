@@ -1,26 +1,12 @@
 package Com;
 
-public class DataTrameRecu {
-	
-	int weather;
-	int heure;
+public class DataTrameMap  {
 	float mapX;
 	float mapY;
 	float mapSx;
 	float mapSy;
 	
-	public int getWeather() {
-		return weather;
-	}
-	public void setWeather(int weather) {
-		this.weather = weather;
-	}
-	public int getHeure() {
-		return heure;
-	}
-	public void setHeure(int heure) {
-		this.heure = heure;
-	}
+
 	public float getMapX() {
 		return mapX;
 	}

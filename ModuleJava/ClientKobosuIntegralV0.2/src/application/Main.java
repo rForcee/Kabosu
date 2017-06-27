@@ -3,7 +3,8 @@ package application;
 import java.net.URL;
 import java.util.HashMap;
 
-import Com.DataTrameRecu;
+import Com.DataTrameMap;
+import Com.DataTrameMeteo;
 import Com.TestHttp;
 import javafx.application.Application;
 import javafx.geometry.HPos;
@@ -27,24 +28,30 @@ import objectIhm.*;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
+	
+		//TODO faire des methodes des elemnt dans le maine tfaire une class Ui
 		try {
 			Group root = new Group();
 			Scene scene = new Scene(root,1000,1000,Color.GREY);
-			DataTrameRecu data = new DataTrameRecu();
+			DataTrameMap data1 = new DataTrameMap ();
+			DataTrameMeteo data2 = new DataTrameMeteo();
+			Date date = new Date();
 			TestHttp reseau = new TestHttp();
 			try {
 				URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 				URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
-				data = TestHttp.traitementTrame(TestHttp.getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
+				URL urlGet2 = new URL("https://kabosu.herokuapp.com/metrology"); 
+				data1 = TestHttp.traitementTrameMap(TestHttp.getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
+				data2 = TestHttp.traitementTrameMetrology(TestHttp.getMap(urlGet2));
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			int nbClient = 15;
+			int nbClient =24;
 			Meteo IcoMeteo = new Meteo();
-			IcoMeteo.setMeteo(3); // selectionne la l'icone en fonction de la météo
-			Map test = new Map(nbClient,data);
+			IcoMeteo.setMeteo(data2.getWeather()); // selectionne la l'icone en fonction de la météo
+			Map test = new Map(nbClient,data1);
 			HashMap<String,  Rectangle> mymapRec; 
 			GridPane gridpane = new GridPane();
 			gridpane.setPadding(new Insets(5));
@@ -60,11 +67,13 @@ public class Main extends Application {
 			GridPane.setHalignment(labelJour, HPos.LEFT);
 			gridpane.add(labelJour, 0, 0);
 			TextField jour = new TextField ();
+			jour.setText(String.valueOf(date.jourJeux(data2.getHeure()))); // affectation jour
 			gridpane.add(jour, 1, 0);
 			Label labelHeure = new Label("Heure:");
 			GridPane.setHalignment(labelHeure, HPos.LEFT);
 			gridpane.add(labelHeure, 0, 1);
 			TextField heure = new TextField ();
+			heure.setText(String.valueOf(date.heureJeux(data2.getHeure()))); // affectation heure de jeux
 			gridpane.add(heure, 1, 1);
 		
 			test.generationMap(root);

@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -80,29 +81,45 @@ public static String getMap(URL url ) throws Exception {
 	}
 //main
 
-public static DataTrameRecu traitementTrame(String trame){
-		DataTrameRecu data = new DataTrameRecu();
+public static DataTrameMap traitementTrameMap(String trame){
+	DataTrameMap  data = new DataTrameMap ();
 	trame = trame.replaceAll("[\\[\\]]", "");
-		JsonElement jelement = new JsonParser().parse(trame);
+	JsonReader reader = new JsonReader(new StringReader(trame));
+	reader.setLenient(true);
+		JsonElement jelement = new JsonParser().parse(reader);
 		JsonObject json = jelement.getAsJsonObject();
 		System.out.println(json.toString());
 		data.setMapX(json.get("m_centrex").getAsInt());
 		data.setMapY(json.get("m_centrey").getAsInt());
 		data.setMapSx(json.get("m_coordx").getAsInt());
 		data.setMapSy(json.get("m_coordy").getAsInt());
-		//System.out.println(data.getMapX());
+		//System.out.println(data.getMapX());*/
+		return data;
+}
+
+public static DataTrameMeteo traitementTrameMetrology(String trame){
+	DataTrameMeteo  data = new DataTrameMeteo ();
+	trame = trame.replaceAll("[\\[\\]]", "");
+	JsonReader reader = new JsonReader(new StringReader(trame));
+	reader.setLenient(true);
+		JsonElement jelement = new JsonParser().parse(reader);
+		JsonObject json = jelement.getAsJsonObject();
+		System.out.println(json.toString());
+		data.setHeure(json.get("hour").getAsInt());
+		data.setWeather(json.get("weather").getAsInt());
+	
 		return data;
 }
 	public static void main(String[] args) {
-		String speudo ="toto";
-		String boisson = "bierre";
+		String speudo ="John Cena";
+		String boisson = "Limonade";
 		int nb = 4;
 		try {
 			URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 			URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
 			
 			//sendPost(urlPost,speudo,boisson,nb); // post vers https://kabosu.herokuapp.com/sales
-			traitementTrame(getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
+			traitementTrameMap(getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
 			//getMap(urlGet);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
