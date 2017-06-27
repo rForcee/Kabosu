@@ -329,7 +329,8 @@ def test_lecturePost():
   			if j['kind'] == 'drinks':
   				recette = j['prepare']
   				if item in recette:
-  					print "INNNNNNNN"
+  					print "***********"
+  					print recette[1]
 
   return json_response(dicoTest)
 
