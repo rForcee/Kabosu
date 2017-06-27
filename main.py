@@ -314,23 +314,23 @@ def test_lecturePost():
   player = content['player']
   item = content['item']
   quantity = content['quantity']
-  message = [player, item, quantity]
-  print message
   for i in dicoTest:
-  	print i
-  	print "----------"
   	if i == player:
-  		print dicoTest[i]['actions']
-  		print "----------"
   		for j in dicoTest[i]['actions']:
-  			print j
-  			print "----------"
-  			print j['kind']
   			if j['kind'] == 'drinks':
   				recette = j['prepare']
   				if item in recette:
   					print "***********"
+  					print recette
   					print recette[item]
+  					if recette[item] != 0:
+  						if quantity > recette[item]:
+  							quantity = recette[item]
+  							recette[item] = 0
+  							print recette[item]
+  						else:
+  							recette[item] = recette[item] - quantity
+  							print recette[item]
 
   return json_response(dicoTest)
 
