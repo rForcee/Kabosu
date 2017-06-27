@@ -157,6 +157,7 @@ def meteo():
 # JAVA: post la trame suivante au serveur {"joueur": String, "item": String, "quantity": int }
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
+
   content = request.get_json()
   player = content['player']
   item = content['item']
@@ -176,6 +177,7 @@ def messageRecuJava():
   budget = db.select(sqlGetBudget)[0]['j_budget']
   print quantity
   print prixVente
+
   calBudget = budget + (quantity*prixVente)
   print calBudget
   print budget
