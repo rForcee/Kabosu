@@ -309,7 +309,7 @@ def test_lecture():
 # Fonction pour la route /ingredients avec GET
 # Recupere la liste des ingredients
 @app.route('/testDico', methods=['POST'])
-def test_lecture():
+def test_lecturePost():
   content = request.get_json()
   player = content['player']
   item = content['item']
