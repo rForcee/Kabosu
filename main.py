@@ -251,9 +251,13 @@ def getMapPlayer(player_name):
   coordinates = db.select(sql)[0]
   sqlSpan = "SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;"
   coordinatesSpan = db.select(sqlSpan)[0]
+  sqlRank = "SELECT j_pseudo FROM JOUEUR ORDER BY j_budget DESC;"
+  ranking = db.select(sqlRank)
   db.close()
 
   region = {"center": coordinates, "span": coordinatesSpan}
+
+  mapInfo = {"region" : region, "ranking" : ranking}
   print region
   db = Db()
   sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name + "');"
@@ -273,7 +277,7 @@ def getMapPlayer(player_name):
   profit = budgetBase - budget_depart;
   info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
 
-  message = {"availableIngredients": ingredients, "map": region,"playerInfo": info}
+  message = {"availableIngredients": ingredients, "map": mapInfo,"playerInfo": info}
   return json_response(message)
 
 
@@ -346,7 +350,10 @@ def test_lecturePost():
 						prixVente = db.select(sqlPrix)[0]['b_prixvente']
 						sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
 						budget = db.select(sqlGetBudget)[0]['j_budget']
+						print quantity
+						print prixVente
 						calBudget = budget + (quantity*prixVente)
+						print calBudget
 						sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = "' + player + '");"
 						db.execute(sqlBudget)
 						sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('" + str(quantity) + "','" + str(hour) + "','" + str(weather) + "','" + str(prixVente) + "','" + str(j_id) + "','" + str(b_id) + "');"
@@ -363,6 +370,7 @@ def test_lecturePost():
   					db = Db()
 					sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
 					j_id = db.select(sqlJId)[0]['j_id']
+					print "ad"
 					sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
 					budget = db.select(sqlGetBudget)[0]['j_budget']
 					calBudget = budget - price
