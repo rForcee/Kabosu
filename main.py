@@ -204,7 +204,7 @@ def envoieMapJava():
   sqlMap = "SELECT * FROM map;"
   infoMap = db.select(sqlMap)
   sqlJoueur = "SELECT j_budget FROM joueur;"
-  infoJoueur = db.select(sqlJoueur)
+  infoJoueur = db.select(sqlJoueur)[0]['j_budget']
   profit  = infoJoueur-budget_depart
   sqlBoisson = "SELECT b_id, b_nom, b_alcool, b_chaud, b_prixvente FROM boisson;"
   infoBoisson = db.select(sqlBoisson)
