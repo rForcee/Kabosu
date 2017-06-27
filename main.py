@@ -332,7 +332,7 @@ def test_lecturePost():
   						prixVente = j['price'][item]
 
 						db = Db()
-						sqlPrixVente = "UPDATE boisson SET (b_prixvente) = ('"+ str(prixVente) +"') WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "') AND b_nom = '" + item "';"
+						sqlPrixVente = "UPDATE boisson SET (b_prixvente) = ('"+ str(prixVente) +"') WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "') AND b_nom = '" + item + "';"
 						db.execute(sqlPrixVente)
 						sqlHour = "SELECT di_hour FROM dayinfo;"
 						hour = db.select(sqlHour)[0]['di_hour']
