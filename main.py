@@ -214,7 +214,7 @@ def envoieMapJava():
   infoMap = db.select(sqlMap)
   sqlItem = "SELECT z_type, z_centerX, z_centerY, z_rayon, j_pseudo FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id;"
   item = db.select(sqlItem)
-  sqlBudget = "SELECT j_pseudo j_budget FROM joueur;"
+  sqlBudget = "SELECT j_pseudo , j_budget FROM joueur;"
   pseudo = db.select(sqlBudget)[0]['j_pseudo']
   sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_pseudo = pseudo;"
   sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_pseudo = pseudo;"
