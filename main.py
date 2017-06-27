@@ -207,7 +207,7 @@ def envoieMapJava():
   infoBoisson = db.select(sqlBoisson)
 
   rank = db.select(sqlJoueur)[0]['j_pseudo']
-  info = rank.join(infoMap + infoJoueur + infoBoisson)
+  info = infoMap + infoJoueur + infoBoisson # Probleme envoie infoJoueur, Boisson avec Rank qui est une liste
   db.close()
   return json_response(info)
 
