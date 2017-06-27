@@ -256,7 +256,7 @@ def getMapPlayer(player_name):
   coordinatesSpan = db.select(sqlSpan)[0]
   db.close()
 
-  region = {"center": coordinates, "span": span}
+  region = {"center": coordinates, "span": coordinatesSpan}
   print region
   db = Db()
   sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name + "');"
@@ -291,6 +291,7 @@ def get_ingredients():
   sql = "SELECT i_nom, i_prix FROM ingredient;"
   ingredients = db.select(sql)
   db.close()
+  print ingredients[1]
   return json_response(ingredients)
 
 
