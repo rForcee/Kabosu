@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.debug = True
 CORS(app)
 
-budget = 10
+budget_depart = 10
 
 # DATABASE_URL=postgres://<username>@localhost/<dbname> python main.py
 
@@ -25,10 +25,9 @@ def json_response(data="OK", status=200):
 def reset_partie():
   db = Db()
   sqlDeleteVentes = "DELETE FROM ventes;"
-  sqlDeletePub = "DELETE FROM pub;"
   sqlDeleteJoueur = "DELETE FROM joueur;"
   sqlDeleteDayInfo = "DELETE FROM dayinfo;"
-  sql = sqlDeleteVentes + sqlDeletePub + sqlDeleteJoueur + sqlDeleteDayInfo
+  sql = sqlDeleteVentes + sqlDeleteJoueur + sqlDeleteDayInfo
   db.execute(sql)
   db.close()
   return json_response(result)
@@ -62,7 +61,7 @@ def add_player():
   if joueur == []:
     coordX = random.randrange(330,670,1)
     coordY = random.randrange(130,470,1)
-    sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
+    sqlInsertJoueur = "INSERT INTO joueur(j_pseudo, j_budget, j_coordX, j_coordY, m_id) VALUES('"+ name +"','"+ str(budget_depart) +"','"+ str(coordX) +"','"+ str(coordY) +"',(SELECT m_id FROM map LIMIT 1));"
     sql = sqlInsertJoueur 
     db = Db()
     db.execute(sql)
@@ -83,7 +82,7 @@ def add_player():
   print budgetBase
   print drinksInfo
   print coord
-  profit = budgetBase - budget;
+  profit = budgetBase - budget_depart;
   info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
 
   message = {"name": name, "location": coord, "info": info}
