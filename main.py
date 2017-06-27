@@ -314,7 +314,8 @@ def test_lecturePost():
   player = content['player']
   item = content['item']
   quantity = content['quantity']
-  print player + "---" + item + "---" + quantity
+  message = [player, item, quantity]
+  print message
   for i in dicoTest:
   	print i
   	print "----------"
