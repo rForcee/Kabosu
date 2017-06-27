@@ -165,10 +165,10 @@ def messageRecuJava():
   b_id = db.select(sqlBId)[0]['b_id']
   sqlPrix = "SELECT b_prixvente FROM boisson WHERE b_nom = '" + item + "';"
   prixVente = db.select(sqlPrix)[0]['b_prixvente']
-  sqlGetBudget = "SELECT j_budget FROM joueur"
+  sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
   budget = db.select(sqlGetBudget)[0]['j_budget']
-  calBudget = budget + quantity*prixVente
-  sqlBudget = "INSERT INTO joueur(j_budget) VALUES('" +calBudget +"')";
+  calBudget = budget + (quantity*prixVente)
+  sqlBudget = "INSERT INTO joueur(j_budget) VALUES('" +calBudget + "')";
   db.execute(sqlBudget)
   sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('" + quantity + "','" + hour + "','" + weather + "','" + prixVente + "','" + j_id + "','" + b_id + "');"
   db.execute(sql)
