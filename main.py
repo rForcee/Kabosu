@@ -270,8 +270,10 @@ def envoieMapJava():
   playerInfo = {}
   itemsByPlayer = {}
 
-
+  print ranking
+  print "----------"
   for i in ranking:
+  	  print i
 	  db = Db()
 	  sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i + "');"
 	  sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ i +"';"
