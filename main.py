@@ -314,8 +314,13 @@ def test_lecturePost():
   player = content['player']
   item = content['item']
   quantity = content['quantity']
+  print player + "---" + item + "---" + quantity
   for i in dicoTest:
+  	print i
+  	print "----------"
   	if i == player:
+  		print dicoTest[i]['actions']
+  		print "----------"
   		for j in dicoTest[i]['actions']:
   			if dicoTest[i]['actions'][j]['kind'] == 'drinks':
   				print "INNNNNNNN"
