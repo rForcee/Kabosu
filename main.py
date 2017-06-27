@@ -174,6 +174,8 @@ def messageRecuJava():
   sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
   budget = db.select(sqlGetBudget)[0]['j_budget']
   calBudget = budget + (quantity*prixVente)
+  print calBudget
+  print budget
   sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"');"
   db.execute(sqlBudget)
   sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('" + str(quantity) + "','" + str(hour) + "','" + str(weather) + "','" + str(prixVente) + "','" + str(j_id) + "','" + str(b_id) + "');"
