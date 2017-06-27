@@ -205,7 +205,7 @@ def envoieMapJava():
   profit  = infoJoueur - budget
   sqlBoisson = "SELECT b_id, b_nom, b_alcool, b_chaud, b_prixvente FROM boisson;"
   infoBoisson = db.select(sqlBoisson)
-  sqlSales = "SELECT v_qte FROM vente;"
+  sqlSales = "SELECT v_qte FROM ventes;"
   sales  = db.select(sqlSales)
   sqlRank = "SELECT j_pseudo FROM joueur ORDER BY j_budget;"
   rank = []
