@@ -27,39 +27,64 @@ public class Client {
 		this.setPos(new Position(this.X,this.Y));
 		setSkinClient(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.2/src/client.png"));
 	}
-	public boolean motivation(Meteo meteo){
-		int ChanceAchat = rand.nextInt() * (100- 0) + 0;
-		boolean Achat = false;
+	public boolean[] motivation(Meteo meteo){
+		boolean chaud = false;
+		boolean achat = false;
+		int ChanceAchat = 0;
 		switch(meteo.getMeteo()){
 			case 1: //"rainy":
+				ChanceAchat = rand.nextInt() * (100- 0) + 0;
 				if(ChanceAchat >= 0 && ChanceAchat >= 15){
-					Achat = true;
+					achat = true;
+					chaud = false;
+				}
+				ChanceAchat = rand.nextInt() * (100- 0) + 0;
+				if(ChanceAchat >= 0 && ChanceAchat >= 85){
+					achat = true;
+					chaud = true;
 				}else{
-					Achat = false;
-				}	
+					achat = false;
+				}
 				break;
-			case 2: //"cloudy":
+			case 2: //c"cloudy":
+				ChanceAchat = rand.nextInt() * (100- 0) + 0;
 				if(ChanceAchat >= 0 && ChanceAchat >= 30){
-					Achat = true;
+					achat = true;
+					chaud = false;
+				}
+				ChanceAchat = rand.nextInt() * (100- 0) + 0;
+				if(ChanceAchat >= 0 && ChanceAchat >= 70){
+					achat = true;
+					chaud = true;
 				}else{
-					Achat = false;
+					achat = false;
 				}
 				break;
 			case 3: //"sunny":
+				ChanceAchat = rand.nextInt() * (100- 0) + 0;
+				if(ChanceAchat >= 0 && ChanceAchat >= 25){
+					achat = true;
+					chaud = true;
+				}
+				ChanceAchat = rand.nextInt() * (100- 0) + 0;
 				if(ChanceAchat >= 0 && ChanceAchat >= 75){
-					Achat = true;
+					achat = true;
+					chaud = false;
 				}else{
-					Achat = false;
+					achat = false;
 				}
 				break;
 			case 4://"heatwave":
-				Achat = true;
+				chaud = false;
+				achat = true;
 				break;
 			case 5:// "thunderstorm":
-				Achat = false;
+				chaud = true;
+				achat = true;
 				break;
 		}
-		return Achat;
+		boolean[] VenteBoisson = {chaud, achat};
+		return VenteBoisson;
 	}
 	
 	public int getMotivation() {
