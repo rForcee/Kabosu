@@ -260,8 +260,8 @@ def envoieMapJava():
   coordinates = db.select(sql)[0]
   sqlSpan = "SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;"
   coordinatesSpan = db.select(sqlSpan)[0]
-  sqlRank = "SELECT j_pseudo FROM JOUEUR ORDER BY j_budget DESC;"
-  ranking = db.select(sqlRank)
+  sqlRank = "SELECT j_pseudo as name FROM JOUEUR ORDER BY j_budget DESC;"
+  ranking = db.select(sqlRank)[0]['name']
   db.close()
 
   region = {"center": coordinates, "span": coordinatesSpan}
