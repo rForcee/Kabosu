@@ -207,7 +207,7 @@ def envoieMapJava():
   infoBoisson = db.select(sqlBoisson)
 
   rank = db.select(sqlJoueur)[0]['j_pseudo']
-  info = infoMap + infoJoueur + infoBoisson + rank
+  info =  rank #+ infoMap + infoJoueur + infoBoisson
   db.close()
   return json_response(info)
 
