@@ -167,9 +167,9 @@ def messageRecuJava():
   weather = db.select(sqlWeather)[0]['di_weather']
   sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
   j_id = db.select(sqlJId)[0]['j_id']
-  sqlBId = "SELECT b_id FROM boisson WHERE b_nom = '" + item + "';"
+  sqlBId = "SELECT b_id FROM boisson WHERE b_nom = '" + item + "' AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "');"
   b_id = db.select(sqlBId)[0]['b_id']
-  sqlPrix = "SELECT b_prixvente FROM boisson WHERE b_nom = '" + item + "';"
+  sqlPrix = "SELECT b_prixvente FROM boisson WHERE b_nom = '" + item + "' AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "');"
   prixVente = db.select(sqlPrix)[0]['b_prixvente']
   sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
   budget = db.select(sqlGetBudget)[0]['j_budget']
