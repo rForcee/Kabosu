@@ -225,7 +225,6 @@ def envoieMapJava():
   print nbSales
   print budgetBase
   print drinksInfo
-  print coord
   profit = budgetBase - budget_depart;
   info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
   sqlRank = "SELECT j_pseudo FROM joueur ORDER BY j_budget;"
