@@ -19,7 +19,7 @@ public class Map
 {
 	private Position centre ;
 	private Spand pointSpand ;
-	private Image skinMap = new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.2/src/skyrim.png");
+	private Image skinMap = new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/skyrim.png");
 	public Map(int nbClient, DataTrameMap  data){
 		this.setCentre(new Position(data.getMapX(),data.getMapY()));
 		this.setPointSpand(new Spand(data.getMapSx(),data.getMapSy()));
@@ -57,11 +57,10 @@ public class Map
 			root.getChildren().add(mymapRec.get("rectangle"+i));
 			// System.out.println(mymapClient.get("client"+i).motivation(meteo));
 			System.out.println("client"+i);
-<<<<<<< HEAD
-		//	if(mymapClient.get("client"+i).motivation(meteo) == true){
-=======
-			if(mymapClient.get("client"+i).motivation(meteo)[1] == true){
->>>>>>> fa0e242547b63c56060dd829214f43ccf3630cd5
+
+		
+			//if(mymapClient.get("client"+i).motivation(meteo)[1] == true){
+
 				// System.out.println("todo :choix stand");
 				/*int rayonInfluence = rayonInfluence(mymapClient.get("client"+i).getX(), mymapClient.get("client"+i).getY(), GET ArrayList<ItemJoueur>);
 				if(rayonInfluence > 0){

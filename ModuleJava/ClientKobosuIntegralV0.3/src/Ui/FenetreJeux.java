@@ -1,4 +1,4 @@
-package application;
+package Ui;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import Com.DataTrameMap;
 import Com.DataTrameMeteo;
 import Com.TestHttp;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
@@ -25,11 +26,9 @@ import javafx.scene.shape.Rectangle;
 import map.*;
 import objectMap.*;
 import objectIhm.*;
-public class Main extends Application {
+public class FenetreJeux extends Application {
 	@Override
 	public void start(Stage primaryStage) {
-	
-		//TODO faire des methodes des elemnt dans le maine tfaire une class Ui
 		try {
 			Group root = new Group();
 			Scene scene = new Scene(root,1000,1000,Color.GREY);
@@ -41,9 +40,9 @@ public class Main extends Application {
 				URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 				URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
 				URL urlGet2 = new URL("https://kabosu.herokuapp.com/metrology"); 
-				//data1 = TestHttp.traitementTrameMap(TestHttp.getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
+				data1 = TestHttp.traitementTrameMap(TestHttp.getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
 				data2 = TestHttp.traitementTrameMetrology(TestHttp.getMap(urlGet2));
-				
+
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -61,8 +60,8 @@ public class Main extends Application {
 			VBox vbox = new VBox();
 			vbox.setLayoutX(150);
 			vbox.setLayoutY(90);
-			
-			
+
+
 			Label labelJour = new Label("jour:");
 			GridPane.setHalignment(labelJour, HPos.LEFT);
 			gridpane.add(labelJour, 0, 0);
@@ -75,25 +74,47 @@ public class Main extends Application {
 			TextField heure = new TextField ();
 			heure.setText(String.valueOf(date.heureJeux(data2.getHeure()))); // affectation heure de jeux
 			gridpane.add(heure, 1, 1);
-		
+
 			test.generationMap(root);
-		
+
 			mymapRec = test.generationPopulationClient(root,50, IcoMeteo); 
 			IcoMeteo.afficheMeteo(root, scene);
-			
-			
-			
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+			Task<Void> task = new Task<Void>() {
+
+				public Void call() throws Exception {
+					DataTrameMap data1 = new DataTrameMap ();
+					DataTrameMeteo data2 = new DataTrameMeteo();
+					while (true) {
+						try {
+							URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
+							URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
+							URL urlGet2 = new URL("https://kabosu.herokuapp.com/metrology"); 
+							data1 = TestHttp.traitementTrameMap(TestHttp.getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
+							data2 = TestHttp.traitementTrameMetrology(TestHttp.getMap(urlGet2));
+							heure.setText(String.valueOf(date.heureJeux(data2.getHeure()))); // affectation heure de jeux
+							jour.setText(String.valueOf(date.jourJeux(data2.getHeure()))); // affectation jour
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						Thread.sleep(250);
+					}
+					//return null ;
+				}
+			};
+
+			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			((Group) scene.getRoot()).getChildren().add(vbox);
 			root.getChildren().add(gridpane);
+			new Thread(task).start();
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
+	
 }
