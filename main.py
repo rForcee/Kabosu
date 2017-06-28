@@ -338,7 +338,7 @@ def getMapPlayer(player_name):
 
 	items = db.select("""SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, 
 	z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur 
-	ON joueur.j_id = zone.j_id WHERE j_pseudo = @(nom);""", {"nom": i['name']})
+	ON joueur.j_id = zone.j_id WHERE j_pseudo = @(nom);""", {"nom": player_name})
 	itemsPlayer = []
 	for y in items:
 		itemsPlayer.append({"kind": y['kind'], "owner": y['owner'], "influence": y['influence'], "location": {"latitude": y['latitude'], "longitude": y['longitude']}})
