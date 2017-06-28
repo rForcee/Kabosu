@@ -283,7 +283,7 @@ def envoieMapJava():
 			del j['ishot']
 
 		profit = budgetBase - budget_depart;
-		info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksOffered}
+		info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
 		playerInfo[i['name']] = info
 		drinksOffered = []
 
