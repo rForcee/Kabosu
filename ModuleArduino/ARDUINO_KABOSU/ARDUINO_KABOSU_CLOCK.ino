@@ -40,7 +40,6 @@ void CLOCK_output() {
     case CLOCK_HOUR :
       send_hour();
       break;
-
   }
 }
 
@@ -48,5 +47,5 @@ void CLOCK_output() {
 void send_hour() {
   hour++;
   chrono = millis();
-  Serial.println((String)"<{" + hour + "|"/* + current_weather + "|" + forecast_weather + "}>"*/);
+  Serial.println((String)"<{" + hour + "|" + current_weather + "|" + forecast_weather + "}>");
 }
