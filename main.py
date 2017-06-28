@@ -252,10 +252,11 @@ def messageRecuJava():
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
-
+	print dicoAction
 	for i in dicoAction:
 		if i == player:
 			for j in dicoAction[i]['actions']:
+				print j
 				if j['kind'] == 'drinks':
 					print "SALES"
 					sales_drinks(j, content)
