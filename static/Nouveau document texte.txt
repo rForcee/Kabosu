@@ -1,0 +1,13 @@
+isCold
+Boolean
+
+Ranking tableau de string
+Ranking j_pseudo dans /map/playername
+
+/metrology
+
+db.execute('REQUETE')
+
+@(name), {nom: valeur}
+
+Variable globale db close à la fin du programme
