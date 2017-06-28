@@ -209,32 +209,7 @@ def sales_drinks(j, content):
 
 
 
-def sales_ad(j, content):
 
-	player = content['player']
-	item = content['item']
-	quantity = content['quantity']
-	latitude = j['location']['latitude']
-	longitude = j['location']['longitude']
-	rayon = j['radius']
-	price = j['price']
-
-	j_id = db.select("""SELECT j_id FROM joueur 
-		WHERE j_pseudo = @(nom);""", {"nom": player})[0]['j_id']
-
-	budget = db.select("""SELECT j_budget FROM joueur 
-	WHERE j_pseudo = @(nom);""", {"nom": player})[0]['j_budget']
-
-	calBudget = budget - price
-
-	db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
-		WHERE j_pseudo = @(nom);""", {"nom": player, "budget": calBudget})
-
-	db.execute("""INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) 
-		VALUES('ad',@(latitude),@(longitude),@(rayon),@(j_id));""", 
-		{"latitude": latitude, "longitude": longitude, "rayon": rayon, "j_id": j_id})
-
-	j = ""
 
 # JAVA: post la trame suivante au serveur {"joueur": String, "item": String, "quantity": int }
 @app.route('/sales', methods=['POST'])
@@ -260,6 +235,29 @@ def messageRecuJava():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
+def sales_ad(j, player_name):
+
+	latitude = j['location']['latitude']
+	longitude = j['location']['longitude']
+	rayon = j['radius']
+	price = j['price']
+
+	j_id = db.select("""SELECT j_id FROM joueur 
+		WHERE j_pseudo = @(nom);""", {"nom": player_name})[0]['j_id']
+
+	budget = db.select("""SELECT j_budget FROM joueur 
+	WHERE j_pseudo = @(nom);""", {"nom": player_name})[0]['j_budget']
+
+	calBudget = budget - price
+
+	db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
+		WHERE j_pseudo = @(nom);""", {"nom": player_name, "budget": calBudget})
+
+	db.execute("""INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) 
+		VALUES('ad',@(latitude),@(longitude),@(rayon),@(j_id));""", 
+		{"latitude": latitude, "longitude": longitude, "rayon": rayon, "j_id": j_id})
+
+	j = ""
 
 # Fonction pour la route /actions/<player_name> avec POST
 # Actions pour le lendemain
@@ -270,19 +268,24 @@ def messageRecuJava():
 def action_player(player_name):
 	content = request.get_json()
 	dicoAction[player_name] = content
-	for i in content['actions']:
-		bname = i['prepare'].keys()
-		print bname[0]
-		budget = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",
-		{"nom": player_name})[0]['j_budget']
+	for i in dicoAction:
+		if i == player:
+			for j in dicoAction[i]['actions']:
+				if j['kind'] == 'ad':
+  					sales_ad(j, player_name)
+				else:
 
-  		prixProd = db.select("""SELECT b_prixprod FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
-			AND b_nom = @(boisson); """, {"nom": player_name, "boisson": bname[0]})[0]['b_prixprod']
-  		qte = i['prepare'][bname[0]]
-  		depenses = qte * prixProd
-  		calBudget = budget - depenses
-  		db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
-		WHERE j_pseudo = @(nom);""", {"budget": calBudget, "nom": player_name})
+				bname = j['prepare'].keys()[0]
+				budget = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",
+				{"nom": player_name})[0]['j_budget']
+
+				prixProd = db.select("""SELECT b_prixprod FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
+				AND b_nom = @(boisson); """, {"nom": player_name, "boisson": bname})[0]['b_prixprod']
+				qte = j['prepare'][bname]
+				depenses = qte * prixProd
+				calBudget = budget - depenses
+				db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
+				WHERE j_pseudo = @(nom);""", {"budget": calBudget, "nom": player_name})
 	return json_response(dicoAction)
 
 
