@@ -323,7 +323,7 @@ def getMapPlayer(player_name):
 
   sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + player_name +"';"
   db = Db()
-  items = db.select(sqlItems)[0]
+  items = db.select(sqlItems)
   db.close()
 
   print items
