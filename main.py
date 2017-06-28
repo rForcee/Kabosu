@@ -277,8 +277,10 @@ def envoieMapJava():
 		print drinksInfo
 		for j in drinksInfo:
 			print j
-			j['hasAlcohol'] = j.pop['hasalcohol']
-			j['isHot'] = j.pop['ishot']
+			j['hasAlcohol'] = j['hasalcohol']
+			del j['hasalcohol']
+			j['isHot'] = j['ishot']
+			del j['ishot']
 
 		profit = budgetBase - budget_depart;
 		info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksOffered}
