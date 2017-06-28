@@ -159,13 +159,14 @@ def meteo():
 
 def sales_drinks_update(j, content):
 
-	print "UPD"
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
 	prixVente = j['price'][item]
+	qtyItem = j['prepare'][item]
 
-
+	prixProd = db.select("""SELECT b_prixprod FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
+		AND b_nom = @(boisson); """, {"nom": player, "boisson": item})[0]['b_prixprod']
 	db.execute("""UPDATE boisson SET (b_prixvente) = (@(prixvente)) 
 		WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
 		AND b_nom = @(boisson);""", {"prixvente": prixVente, "nom": player, "boisson": item})
@@ -173,17 +174,15 @@ def sales_drinks_update(j, content):
 	weather = db.select("""SELECT di_weather FROM dayinfo;""")[0]['di_weather']
 	j_id = db.select("""SELECT j_id FROM joueur 
 		WHERE j_pseudo = @(nom);""", {"nom": player})[0]['j_id']
-	b_id_ = db.select("""SELECT b_id FROM boisson WHERE b_nom = @(boisson) 
+	b_id = db.select("""SELECT b_id FROM boisson WHERE b_nom = @(boisson) 
 		AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",
-		{"nom": player, "boisson": item})
-	print b_id_
-	b_id = b_id_[0]['b_id']
+		{"nom": player, "boisson": item})[0]['b_id']
 	prixVente = db.select("""SELECT b_prixvente FROM boisson WHERE b_nom = @(boisson) 
 		AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",
 		{"nom": player, "boisson": item})[0]['b_prixvente']
 	budget = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",
 		{"nom": player})[0]['j_budget']
-
+	budget = budget - (qtyItem * prixProd)
 	calBudget = budget + (quantity*prixVente)
 	print calBudget
 	db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
@@ -194,14 +193,13 @@ def sales_drinks_update(j, content):
 
 def sales_drinks(j, content):
 
-	print "DRINK"
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
 
 	recette = j['prepare']
 	if item in recette:
-		if recette[item] != 0:
+		if recette[item] > 0:
 			if quantity > recette[item]:
 				quantity = recette[item]
 				recette[item] = 0
@@ -214,7 +212,6 @@ def sales_drinks(j, content):
 
 def sales_ad(j, content):
 
-	print "AD"
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
