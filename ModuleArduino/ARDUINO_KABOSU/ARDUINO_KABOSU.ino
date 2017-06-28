@@ -2,10 +2,15 @@
 
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
+int lcd_key = 0;
+int adc_key_in = 0;
+
+#define btnRIGHT  0
+#define btnLEFT   1
+
 long Speed;  // Vitesse = heure réel en milliseconde
 long hour, chrono;
 int current_weather, forecast_weather, proba, probabis, cw, fw;
-
 
 //déclaration des fonctions
 void CLOCK_init();
