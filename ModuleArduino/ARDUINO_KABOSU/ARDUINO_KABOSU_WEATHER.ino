@@ -1,11 +1,3 @@
-// RAINY = 0;
-// CLOUDY = 1;
-// SUNNY = 2;
-// HEATWAVE = 3;
-// THUNDERSTORM = 4;
-
-int current_weather, forecast_weather, proba, probabis, cw, fw;
-
 typedef enum {
   WEATHER_IDLE,
   WEATHER_WEATHER
