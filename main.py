@@ -189,7 +189,6 @@ def sales_drinks_update(j, content):
 		VALUES(@(qty), @(hour), @(weather), @(prixvente), @(j_id), @(b_id));""",
 		{"qty": quantity, "hour": hour, "weather": weather, "prixvente": prixVente, "j_id": j_id, "b_id": b_id})
 
-	return True
 
 def sales_drinks(j, content):
 
@@ -208,7 +207,6 @@ def sales_drinks(j, content):
 				recette[item] = recette[item] - quantity
 				sales_drinks_update(j, content)
 
-	return True
 
 
 def sales_ad(j, content):
@@ -237,7 +235,6 @@ def sales_ad(j, content):
 		{"latitude": latitude, "longitude": longitude, "rayon": rayon, "j_id": j_id})
 
 	j = ""
-	return True
 
 # JAVA: post la trame suivante au serveur {"joueur": String, "item": String, "quantity": int }
 @app.route('/sales', methods=['POST'])
