@@ -124,6 +124,8 @@ def delete_player(player_name):
 #JAVA: fait un get regulier pour recupere la meteo et l heure.
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
+	result = db.select("SELECT di_hour, di_weather, di_forecast FROM dayinfo;")[0]
+	
 	if request.method == 'POST':
 
 		weather = request.get_json()
@@ -149,7 +151,6 @@ def meteo():
 			db.execute("""UPDATE dayinfo SET (di_hour, di_weather, di_forecast) = (@(heure),@(meteo),@(forecast));""",
 			{"heure": timestamp, "meteo": currentWeather, "forecast": previsionWeather})
 
-	result = db.select("SELECT di_hour, di_weather, di_forecast FROM dayinfo;")[0]
 
 	print result
 	return json_response({"timestamp": result['di_hour'], "weather": [ {"dfn": 0, "weather": result['di_weather']}, {"dfn": 1, "weather": result['di_forecast'] } ] })
@@ -161,79 +162,79 @@ def meteo():
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
 
-  content = request.get_json()
-  player = content['player']
-  item = content['item']
-  quantity = content['quantity']
+	content = request.get_json()
+	player = content['player']
+	item = content['item']
+	quantity = content['quantity']
 
-  for i in dicoTest:
+	for i in dicoTest:
   	
-	if i == player:
-  		
-		for j in dicoTest[i]['actions']:
-  			
-			if j['kind'] == 'drinks':
-				recette = j['prepare']
-  				
-				if item in recette:
+		if i == player:
+	  		
+			for j in dicoTest[i]['actions']:
+	  			
+				if j['kind'] == 'drinks':
+					recette = j['prepare']
+	  				
+					if item in recette:
 
-					if recette[item] != 0:
+						if recette[item] != 0:
+							
+							if quantity > recette[item]:
+								quantity = recette[item]
+								recette[item] = 0
+							else:
+								recette[item] = recette[item] - quantity
+
+							prixVente = j['price'][item]
+
+							
+							sqlPrixVente = "UPDATE boisson SET (b_prixvente) = ('"+ str(prixVente) +"') WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "') AND b_nom = '" + item + "';"
+							db.execute(sqlPrixVente)
+							sqlHour = "SELECT di_hour FROM dayinfo;"
+							hour = db.select(sqlHour)[0]['di_hour']
+							sqlWeather = "SELECT di_weather FROM dayinfo;"
+							weather = db.select(sqlWeather)[0]['di_weather']
+							sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
+							j_id = db.select(sqlJId)[0]['j_id']
+							sqlBId = "SELECT b_id FROM boisson WHERE b_nom = '" + item + "' AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "');"
+							b_id = db.select(sqlBId)[0]['b_id']
+							sqlPrix = "SELECT b_prixvente FROM boisson WHERE b_nom = '" + item + "' AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "');"
+							prixVente = db.select(sqlPrix)[0]['b_prixvente']
+							sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
+							budget = db.select(sqlGetBudget)[0]['j_budget']
+							print quantity
+							print prixVente
+							calBudget = budget + (quantity*prixVente)
+							print calBudget
+							sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') WHERE j_pseudo = '" + player + "';"
+							db.execute(sqlBudget)
+							sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('" + str(quantity) + "','" + str(hour) + "','" + str(weather) + "','" + str(prixVente) + "','" + str(j_id) + "','" + str(b_id) + "');"
+							db.execute(sql)
 						
-						if quantity > recette[item]:
-							quantity = recette[item]
-							recette[item] = 0
-						else:
-							recette[item] = recette[item] - quantity
 
-						prixVente = j['price'][item]
+	  			else:
+	  				if j['kind'] == 'ad':
+	  					latitude = j['location']['latitude']
+	  					longitude = j['location']['longitude']
+	  					rayon = j['radius']
+	  					price = j['price']
 
-						
-						sqlPrixVente = "UPDATE boisson SET (b_prixvente) = ('"+ str(prixVente) +"') WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "') AND b_nom = '" + item + "';"
-						db.execute(sqlPrixVente)
-						sqlHour = "SELECT di_hour FROM dayinfo;"
-						hour = db.select(sqlHour)[0]['di_hour']
-						sqlWeather = "SELECT di_weather FROM dayinfo;"
-						weather = db.select(sqlWeather)[0]['di_weather']
+	  					
 						sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
 						j_id = db.select(sqlJId)[0]['j_id']
-						sqlBId = "SELECT b_id FROM boisson WHERE b_nom = '" + item + "' AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "');"
-						b_id = db.select(sqlBId)[0]['b_id']
-						sqlPrix = "SELECT b_prixvente FROM boisson WHERE b_nom = '" + item + "' AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "');"
-						prixVente = db.select(sqlPrix)[0]['b_prixvente']
+						print "ad"
 						sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
 						budget = db.select(sqlGetBudget)[0]['j_budget']
-						print quantity
-						print prixVente
-						calBudget = budget + (quantity*prixVente)
-						print calBudget
-						sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') WHERE j_pseudo = '" + player + "';"
+						calBudget = budget - price
+						sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') WHERE j_pseudo = '"+ player +"';"
 						db.execute(sqlBudget)
-						sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('" + str(quantity) + "','" + str(hour) + "','" + str(weather) + "','" + str(prixVente) + "','" + str(j_id) + "','" + str(b_id) + "');"
+						sql = "INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) VALUES('ad','" + str(latitude) + "','" + str(longitude) + "','" + str(rayon) + "','" + str(j_id) + "');"
 						db.execute(sql)
 					
+	  					j = ""
 
-  			else:
-  				if j['kind'] == 'ad':
-  					latitude = j['location']['latitude']
-  					longitude = j['location']['longitude']
-  					rayon = j['radius']
-  					price = j['price']
-
-  					
-					sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
-					j_id = db.select(sqlJId)[0]['j_id']
-					print "ad"
-					sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
-					budget = db.select(sqlGetBudget)[0]['j_budget']
-					calBudget = budget - price
-					sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') WHERE j_pseudo = '"+ player +"';"
-					db.execute(sqlBudget)
-					sql = "INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) VALUES('ad','" + str(latitude) + "','" + str(longitude) + "','" + str(rayon) + "','" + str(j_id) + "');"
-					db.execute(sql)
-				
-  					j = ""
-
-  return json_response(dicoTest)
+	return json_response(dicoTest)
 
 
 
