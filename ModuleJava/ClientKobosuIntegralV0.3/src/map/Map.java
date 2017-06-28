@@ -1,6 +1,8 @@
 package map;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
+
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -11,6 +13,7 @@ import map.Spand;
 import objectIhm.Meteo;
 import objectMap.Client;
 import objectMap.ItemJoueur;
+import objectMap.Joueur;
 import objectMap.Publicite;
 import objectMap.StandJoueur;
 import Com.*;
@@ -58,20 +61,23 @@ public class Map
 			System.out.println("client"+i);
 
 
-			//if(mymapClient.get("client"+i).motivation(meteo)[1] == true){
-
+			if(mymapClient.get("client"+i).motivation(meteo)[1] == true){
+			ArrayList al_joueur = new ArrayList();
+			
+			Joueur Joueur = new Joueur("Iop", 100, 8, null);
+			al_joueur.add(Joueur);
 			// System.out.println("todo :choix stand");
-			/*int rayonInfluence = rayonInfluence(mymapClient.get("client"+i).getX(), mymapClient.get("client"+i).getY(), GET ArrayList<ItemJoueur>);
+			int rayonInfluence = rayonInfluence(mymapClient.get("client"+i).getX(), mymapClient.get("client"+i).getY(), al_joueur);
 				if(rayonInfluence > 0){
 					if(rayonInfluence == 1){
 						//Vente(ItemJoueur.getProprietaire(), BoissonVoulue());
 					}else{
 						int j = 0;
-						for(j = rayonInfluence; j <= ArrayList.getSize(); j++)
+						for(j = rayonInfluence; j <= al_joueur.size(); j++)
 						{
 							Random rand = new Random();
 							int goFurther = (int) (rand.nextFloat() * (100 - 0) + 0);
-							float leastExpensive = ArrayList<ItemJoueur>.prix; 
+							float leastExpensive = ArrayList<ItemJoueur>.prix;
 							switch(Meteo.getMeteo()){
 							case 1:
 								if(goFurther >= 0 && goFurther <= 10){
@@ -126,8 +132,8 @@ public class Map
 						}
 
 					}
-				}*/
-			//}
+				}
+			}
 		}
 		return mymapRec;
 	}
