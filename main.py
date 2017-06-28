@@ -55,7 +55,7 @@ def ajoutJoueur(name):
 	db.execute("""INSERT INTO recette(r_qte, b_id, i_id) VALUES (2,(SELECT b_id FROM boisson WHERE b_nom = 'Limonade' 
 		AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"')),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'citron')),
-		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Limonade' ANS j_id = 
+		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Limonade' AND j_id = 
 		(SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"')),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'eau gazeuse')),
 		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Mojito' AND j_id = 
