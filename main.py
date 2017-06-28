@@ -59,7 +59,7 @@ def ajoutJoueur(name):
 		('Mojito',TRUE,TRUE,0,2, @(p_id));""", {"p_id": playerId})
 	db.execute("""INSERT INTO recette(r_qte, b_id, i_id) VALUES 
 		(2,(SELECT b_id FROM boisson WHERE b_nom = 'Lemonade' AND j_id = @(p_id)),
-		(SELECT i_id FROM ingredient WHERE i_nom = 'citron')),
+		(SELECT i_id FROM ingredient WHERE i_nom = 'lemon')),
 		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Lemonade' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'eau gazeuse')),
 		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Mojito' AND j_id = @(p_id)),
@@ -251,6 +251,7 @@ def messageRecuJava():
 		if i == player:
 			for j in dicoAction[i]['actions']:
 				if j['kind'] == 'drinks':
+					print "KIND DRINKS"
 					sales_drinks(j, content)
 
 	  			else:
