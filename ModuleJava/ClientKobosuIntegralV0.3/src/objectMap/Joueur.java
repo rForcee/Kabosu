@@ -3,6 +3,7 @@ package objectMap;
 public class Joueur {
 	
 	private String speudo;
+	private int Rang;
 	private float budget;
 	private int vente;
 	private StandJoueur monStand;
@@ -47,6 +48,12 @@ public class Joueur {
 	}
 	public void setNbPub(int nbPub) {
 		this.nbPub = nbPub;
+	}
+	public int getRang() {
+		return Rang;
+	}
+	public void setRang(int rang) {
+		Rang = rang;
 	}
 	
 }

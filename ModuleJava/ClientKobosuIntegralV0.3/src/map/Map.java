@@ -1,10 +1,7 @@
 package map;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
-
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -182,7 +179,7 @@ public class Map
 public int rayonInfluence(float ClientCoordX, float ClientCoordY, ArrayList<ItemJoueur> Items)//Prend en paramètre les coordonnées d'un client ainsi que la list de tout les stand de la map
 {
 	int nb_area = 0;//mon compteur de stand positif
-	ArrayList<ItemJoueur> Stands = new ArrayList();//mon array list de stands positif
+	ArrayList<ItemJoueur> Stands = new ArrayList<ItemJoueur>();//mon array list de stands positif
 
 	for (int i = 0; i < Items.size(); i++) {//pour tout les element de ma list d'item
 

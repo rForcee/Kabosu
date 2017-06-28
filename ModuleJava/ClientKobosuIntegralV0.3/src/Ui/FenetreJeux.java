@@ -1,8 +1,5 @@
 package Ui;
 
-import java.net.URL;
-import java.util.HashMap;
-
 import Com.DataTrameMap;
 import Com.DataTrameMeteo;
 import Com.TestHttp;
@@ -15,16 +12,10 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import map.*;
-import objectMap.*;
 import objectIhm.*;
 public class FenetreJeux extends Application {
 	@Override
@@ -94,6 +85,9 @@ public class FenetreJeux extends Application {
 							data2 = TestHttp.traitementTrameMetrology(TestHttp.getMap(urlGet2));
 							heure.setText(String.valueOf(date.heureJeux(data2.getHeure()))); // affectation heure de jeux
 							jour.setText(String.valueOf(date.jourJeux(data2.getHeure()))); // affectation jour*/
+							/*switch (date.getHeureJeux()){
+									
+							}*/
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
