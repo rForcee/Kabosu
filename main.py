@@ -203,6 +203,7 @@ def sales_drinks(j, content):
 	quantity = content['quantity']
 
 	recette = j['prepare']
+	print recette
 	if item in recette:
 		if recette[item] > 0:
 			if quantity > recette[item]:
