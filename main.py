@@ -164,6 +164,7 @@ def sales_drinks_update(j, content):
 	quantity = content['quantity']
 	prixVente = j['price'][item]
 	qtyItem = j['prepare'][item]
+	print "qty:"
 	print qtyItem
 	prixProd = db.select("""SELECT b_prixprod FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
 		AND b_nom = @(boisson); """, {"nom": player, "boisson": item})[0]['b_prixprod']
@@ -205,7 +206,7 @@ def sales_drinks(j, content):
 	recette = j['prepare']
 	print recette
 	if item in recette:
-		if recette[item] > 0:
+		if recette[item] != 0:
 			if quantity > recette[item]:
 				print "in"
 				quantity = recette[item]
