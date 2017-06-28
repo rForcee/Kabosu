@@ -293,7 +293,7 @@ def envoieMapJava():
 
 	  sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + i['name'] +"';"
 	  db = Db()
-	  items = db.select(sqlItems)[0]
+	  items = db.select(sqlItems)
 	  db.close()
 	  itemsByPlayer[i['name']] = items
 
