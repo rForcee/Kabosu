@@ -8,6 +8,7 @@ public class Joueur {
 	private int nbPub;
 	protected DataTramePlayerInfo infojoueur = new DataTramePlayerInfo();
 	protected DataTrameItemJoueur infoItem = new DataTrameItemJoueur();
+	
 	public int getNbPub() {
 		return nbPub;
 	}
@@ -20,5 +21,16 @@ public class Joueur {
 	public void setRang(int rang) {
 		Rang = rang;
 	}
-	
+	public DataTramePlayerInfo getInfojoueur() {
+		return infojoueur;
+	}
+	public void setInfojoueur(DataTramePlayerInfo infojoueur) {
+		this.infojoueur = infojoueur;
+	}
+	public DataTrameItemJoueur getInfoItem() {
+		return infoItem;
+	}
+	public void setInfoItem(DataTrameItemJoueur infoItem) {
+		this.infoItem = infoItem;
+	}
 }
