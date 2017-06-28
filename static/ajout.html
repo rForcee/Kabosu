@@ -35,7 +35,9 @@
         <input id="ingQte" type="text" class="form-control" name="username" placeholder="Quantite"/>
         <br>      
         <button id="sendRecette" class="btn btn-lg btn-primary btn-block" type="submit">Inscrire</button>
-        <img class="img-responsive" src="./image/EPLS_01.png" alt="Easy Peasy Lemon Squeezy">   
+        <img class="img-responsive" src="./image/EPLS_01.png" alt="Easy Peasy Lemon Squeezy">
+        <button id="sendTest" class="btn btn-lg btn-primary btn-block" type="submit">TEST</button>
+        <button id="sendPost" class="btn btn-lg btn-primary btn-block" type="submit">POST</button>
       </form>
     </div>
    
@@ -95,10 +97,77 @@
             
       }
 
+      function envoyerPost(e) {
+        e.preventDefault()
+
+            var message = {
+              player: 'Erwann',
+              item: 'Limonade',
+              quantity: 17
+            }
+            
+            $.ajax('https://kabosu.herokuapp.com/sales', {
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(message)
+            });
+            
+      }
+
+      function envoyerTest(e) {
+        e.preventDefault()
+
+            var limonade = {
+              kind: "drinks",
+              prepare: {"Limonade":15},
+              price: {"Limonade":2.4}
+            }
+            
+
+            var thevert = {
+              kind: "drinks",
+              prepare: {"The vert":15},
+              price: {"The vert":2.4}
+            }
+            
+
+            var ad = {
+              kind: "ad",
+              location: {"latitude":150, "longitude":230},
+              radius: 12.4,
+              price: 13.80
+            }
+
+            data = {"actions" : [limonade , thevert , ad]}
+            
+            $.ajax('https://kabosu.herokuapp.com/testDico/Erwann', {
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(data)
+            });
+
+            var message = {
+              kind: "drinks",
+              prepare: {"Limonade":20},
+              price: {"Limonade":2.4}
+            }
+
+            dataDos = {"actions" : [message]}
+            
+            $.ajax('https://kabosu.herokuapp.com/testDico/John%20Cena', {
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(dataDos)
+            });
+            
+      }
+
       $(function(){    
         $('#sendIng').on('click', envoyerIng);
         $('#sendDrink').on('click', envoyerDrink);
         $('#sendRecette').on('click', envoyerRec);
+        $('#sendTest').on('click', envoyerTest);
+        $('#sendPost').on('click', envoyerPost);
       })
 
     </script>
