@@ -107,11 +107,9 @@ def add_player():
 # OPTIONNEL
 @app.route("/players/<player_name>", methods=["DELETE"])
 def delete_player(player_name):
-  db = Db()
-  sql = "DELETE FROM joueur WHERE j_pseudo = '" + player_name + "';"
-  result = db.select(sql)
-  db.close()
-  return json_response(result)
+	result = db.select("""DELETE FROM joueur WHERE j_pseudo =  @(nom);""", {"nom": player_name})
+	result = db.select(sql)
+	return json_response(result)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -120,35 +118,26 @@ def delete_player(player_name):
 #JAVA: fait un get regulier pour recupere la meteo et l heure.
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
-  if request.method == 'POST':
-    content = request.get_json()
-    print content
-    meteo = content['meteo']
-    hour = content['hour']
-    forecast = content['forecast']
+	if request.method == 'POST':
+		content = request.get_json()
 
-    db = Db()
-    sql = "SELECT * FROM dayinfo;"
-    result = db.select(sql)
-    db.close()
+		meteo = content['meteo']
+		hour = content['hour']
+		forecast = content['forecast']
 
-    if result == []:
-      db = Db()
-      sql = "INSERT INTO dayinfo(di_hour, di_weather, di_forecast) VALUES('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
-      db.execute(sql)
-      db.close()
-    else:
-      db = Db()
-      sql = "UPDATE dayinfo SET (di_hour, di_weather, di_forecast) = ('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
-      db.execute(sql)
-      db.close()
+		result = db.select("SELECT * FROM dayinfo;")
 
-  db = Db()
-  sql = "SELECT di_hour, di_weather, di_forecast FROM dayinfo;"
-  result = db.select(sql)[0]
-  db.close()
-  print result
-  return json_response({"hour": result['di_hour'], "weather": result['di_weather'], "forecast": result['di_forecast']})
+	if result == []:
+		sql = "INSERT INTO dayinfo(di_hour, di_weather, di_forecast) VALUES('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
+		db.execute(sql)
+	else:
+		sql = "UPDATE dayinfo SET (di_hour, di_weather, di_forecast) = ('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
+		db.execute(sql)
+
+	result = db.select("SELECT di_hour, di_weather, di_forecast FROM dayinfo;")[0]
+
+	print result
+	return json_response({"timestamp": heure, "weather": [ {"dfn": 0, "weather": weather}, {"dfn": 1, "weather": forecast } ] })
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -256,48 +245,48 @@ def action_player(player_name):
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
 
-  db = Db()
-  sql = "SELECT m_centreX as latitude, m_centreY as longitude FROM map;"
-  coordinates = db.select(sql)[0]
-  sqlSpan = "SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;"
-  coordinatesSpan = db.select(sqlSpan)[0]
-  sqlRank = "SELECT j_pseudo as name FROM JOUEUR ORDER BY j_budget DESC;"
-  ranking = db.select(sqlRank)
-  db.close()
+	db = Db()
+	sql = "SELECT m_centreX as latitude, m_centreY as longitude FROM map;"
+	coordinates = db.select(sql)[0]
+	sqlSpan = "SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;"
+	coordinatesSpan = db.select(sqlSpan)[0]
+	sqlRank = "SELECT j_pseudo as name FROM JOUEUR ORDER BY j_budget DESC;"
+	ranking = db.select(sqlRank)
+	db.close()
 
-  region = {"center": coordinates, "span": coordinatesSpan}
+	region = {"center": coordinates, "span": coordinatesSpan}
 
 
-  playerInfo = {}
-  itemsByPlayer = {}
+	playerInfo = {}
+	itemsByPlayer = {}
+	rank = []
 
-  print ranking
-  print "----------"
-  for i in ranking:
-  	  print i['name']
-	  db = Db()
-	  sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i['name'] + "');"
-	  sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ i['name'] +"';"
-	  sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ i['name'] +"');"
-	  sqlDrinks = "SELECT b_nom as name, b_prixvente as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i['name'] +"');"
-	  coord = db.select(sqlCoord)[0]
-	  budgetBase = db.select(sqlBudget)[0]['j_budget']
-	  nbSales = db.select(sqlSales)[0]['nbsales']
-	  drinksInfo = db.select(sqlDrinks)
-	  db.close()
-	  profit = budgetBase - budget_depart;
-	  info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
-	  playerInfo[i['name']] = info
+	print ranking
+	print "----------"
+	for i in ranking:
+  		rank.append(i)
+		sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i['name'] + "');"
+		sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ i['name'] +"';"
+		sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ i['name'] +"');"
+		sqlDrinks = "SELECT b_nom as name, b_prixvente as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i['name'] +"');"
+		coord = db.select(sqlCoord)[0]
+		budgetBase = db.select(sqlBudget)[0]['j_budget']
+		nbSales = db.select(sqlSales)[0]['nbsales']
+		drinksInfo = db.select(sqlDrinks)
 
-	  sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + i['name'] +"';"
-	  db = Db()
-	  items = db.select(sqlItems)
-	  db.close()
-	  itemsByPlayer[i['name']] = items
+		print drinksInfo
 
-  mapInfo = {"region" : region, "ranking" : ranking, "itemsByPlayer": itemsByPlayer,"playerInfo": playerInfo}
+		profit = budgetBase - budget_depart;
+		info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
+		playerInfo[i['name']] = info
 
-  return json_response(mapInfo)
+		sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + i['name'] +"';"
+		items = db.select(sqlItems)
+		itemsByPlayer[i['name']] = items
+
+	mapInfo = {"region" : region, "ranking" : rank, "itemsByPlayer": itemsByPlayer,"playerInfo": playerInfo}
+
+	return json_response(mapInfo)
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
