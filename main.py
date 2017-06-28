@@ -276,7 +276,7 @@ def envoieMapJava():
 		drinksInfo = db.select(sqlDrinks)
 
 		for j in drinksInfo:
-			drinksOffered.append({"price": j['price'], "name": j['name'], "hasAlcohol": j['hasalcohol'], "isHot": j['isHot']})
+			drinksOffered.append({"price": j['price'], "name": j['name'], "hasAlcohol": j['hasalcohol'], "isHot": j['ishot']})
 		
 		print drinksOffered
 
