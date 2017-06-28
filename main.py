@@ -125,7 +125,7 @@ def delete_player(player_name):
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
 	result = db.select("SELECT di_hour, di_weather, di_forecast FROM dayinfo;")[0]
-	
+
 	if request.method == 'POST':
 
 		weather = request.get_json()
@@ -323,9 +323,11 @@ def envoieMapJava():
 @app.route('/map/<player_name>', methods=['GET'])
 def getMapPlayer(player_name):
 	
-	sql = "SELECT b_nom as boisson, b_hasAlcohol as hasAlcool, b_isCold as isCold, i_nom as ingredient, i_prix as ingPrix, r_qte as quantite FROM ingredient INNER JOIN recette ON recette.i_id = ingredient.i_id INNER JOIN boisson ON boisson.b_id = recette.b_id WHERE boisson.b_id IN (SELECT b_id FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name +"'));"
-	ingredients = db.select(sql)
+	ingredients = db.select("""SELECT i_nom as nom, i_prix as ingPrix FROM ingredient;""")
 
+	availableIngredients = []
+	for y in ingredients:
+		availableIngredients.append({"name": y['nom'], "cost": y['ingPrix'], "hasAlcohol": False, "isCold": False})
 
 	
 	sql = "SELECT m_centreX as latitude, m_centreY as longitude FROM map;"
