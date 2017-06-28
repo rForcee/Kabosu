@@ -93,7 +93,6 @@ def add_player():
 	profit = budgetBase - budget_depart;
 
 	for j in drinksInfo:
-		print j
 		j['hasAlcohol'] = j['hasalcohol']
 		del j['hasalcohol']
 		j['isCold'] = j['iscold']
@@ -134,9 +133,25 @@ def meteo():
 
 		result = db.select("SELECT * FROM dayinfo;")
 
+	weather = request.get_json()
+
+	if "timestamp" not in weather:
+		return json_response({ "error" : "Missing timestamp" }, 400)
+	if "dfn" not in weather["weather"][0]:
+		return json_response({ "error" : "Missing dfn"}, 400)
+	if "weather" not in weather["weather"][0]:
+		return json_response({ "error" : "Missing weather"}, 400)
+	if  weather["timestamp"] != 0 :
+		timestamp = weather["timestamp"]
+	if weather["weather"][0]["dfn"] == 0:
+		currentWeather = weather["weather"][0]["weather"]
+	if weather["weather"][1]["dfn"] == 1:
+		previsionWeather = weather["weather"][1]["weather"]
+
 	if result == []:
-		sql = "INSERT INTO dayinfo(di_hour, di_weather, di_forecast) VALUES('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
-		db.execute(sql)
+		db.execute("""INSERT INTO dayinfo(di_hour, di_weather, di_forecast) 
+				VALUES(@(heure),@(meteo),@(forecast));""", 
+				{"heure": timestamp, "meteo": currentWeather, "forecast": previsionWeather})
 	else:
 		sql = "UPDATE dayinfo SET (di_hour, di_weather, di_forecast) = ('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
 		db.execute(sql)
@@ -297,7 +312,11 @@ def envoieMapJava():
 
 		sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + i['name'] +"';"
 		items = db.select(sqlItems)
-		itemsByPlayer[i['name']] = items
+		itemsPlayer = {}
+		for y in items:
+			itemsPlayer.append({"kind": y['kind'], "owner": y['owner'], "influence": y['influence'], "location": {"latitude": y['latitude'], "longitude": y['longitude']}})
+
+		itemsByPlayer[i['name']] = [itemsPlayer]
 
 	mapInfo = {"region" : region, "ranking" : rank, "itemsByPlayer": itemsByPlayer,"playerInfo": playerInfo}
 
