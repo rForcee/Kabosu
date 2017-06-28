@@ -14,6 +14,8 @@ import map.Spand;
 import objectIhm.Meteo;
 import objectMap.Client;
 import objectMap.ItemJoueur;
+import objectMap.Publicite;
+import objectMap.StandJoueur;
 import Com.*;
 public class Map 
 {
@@ -58,11 +60,11 @@ public class Map
 			// System.out.println(mymapClient.get("client"+i).motivation(meteo));
 			System.out.println("client"+i);
 
-		
+
 			//if(mymapClient.get("client"+i).motivation(meteo)[1] == true){
 
-				// System.out.println("todo :choix stand");
-				/*int rayonInfluence = rayonInfluence(mymapClient.get("client"+i).getX(), mymapClient.get("client"+i).getY(), GET ArrayList<ItemJoueur>);
+			// System.out.println("todo :choix stand");
+			/*int rayonInfluence = rayonInfluence(mymapClient.get("client"+i).getX(), mymapClient.get("client"+i).getY(), GET ArrayList<ItemJoueur>);
 				if(rayonInfluence > 0){
 					if(rayonInfluence == 1){
 						//Vente(ItemJoueur.getProprietaire(), BoissonVoulue());
@@ -132,59 +134,103 @@ public class Map
 		}
 		return mymapRec;
 	}
+	public HashMap<String, Rectangle> generationPopulationStand(Group root, int nbJoueur){
+		HashMap<String, StandJoueur> mymapStand = new HashMap<String, StandJoueur>();
 
-	public int rayonInfluence(float ClientCoordX, float ClientCoordY, ArrayList<ItemJoueur> Items)//Prend en paramètre les coordonnées d'un client ainsi que la list de tout les stand de la map
-	{
-		int nb_area = 0;//mon compteur de stand positif
-		ArrayList<ItemJoueur> Stands = new ArrayList();//mon array list de stands positif
-
-		for (int i = 0; i < Items.size(); i++) {//pour tout les element de ma list d'item
-
-			float distance = (float) Math.sqrt(Math.pow(Items.get(i).getPosItem().getCoordX()-ClientCoordX, 2)
-					+Math.pow(Items.get(i).getPosItem().getCoordY()-ClientCoordY, 2));//petite formule pour calculer la distance entre mon item et mon client
-			if (distance <= Items.get(i).getRayonInfluence()) {//Si la distance client/item et inférieur ou egale au rayon d'influence le stand passe en positif
-
-				//Stands.get(nb_area).getProprietaire() = Items.get(i).getProprietaire();//je met le stand positif dans l'array list
-
-				nb_area++;//incrementation du compteur
-			}
+		HashMap<String,  Rectangle> mymapRec = new HashMap<String,  Rectangle>();
+		for (int i=0; i<nbJoueur; i++)
+		{
+			mymapStand.put("Stand"+i, new StandJoueur("toto", 40, 500, 500, 40));
+			mymapRec.put("rectangle"+i, new Rectangle());
+			mymapRec.get("rectangle"+i).setX(mymapStand.get("Stand"+i).getPosItem().getCoordX());
+			mymapRec.get("rectangle"+i).setY(mymapStand.get("Stand"+i).getPosItem().getCoordY());
+			mymapRec.get("rectangle"+i).setWidth(50);
+			mymapRec.get("rectangle"+i).setHeight(50);
+			mymapRec.get("rectangle"+i).setFill(new ImagePattern(mymapStand.get("Stand"+i).getSkinStand()));
+			// System.out.println("client"+i+": "+mymapClient.get("client"+i).getX());
+			//System.out.println(mymapClient.get("client"+i).getY());
+			root.getChildren().add(mymapRec.get("rectangle"+i));
+			// System.out.println(mymapClient.get("client"+i).motivation(meteo));
+			System.out.println("Stand"+i);
 		}
-		return nb_area;//retour du compteur, voir comment récupérer l'arret list par la suite
+		return mymapRec;
 	}
-	public Double calculeRayon(float X,float Y,float Sx,float Sy){
-		double tmpCal = ((Y-X)*(Y-X))+((Sy-Sx)*(Sy-Sx));
-		System.out.println("tmp: "+tmpCal);
-		return Math.sqrt(Math.abs(tmpCal));
+	
+	public HashMap<String, Rectangle> generationPopulationPub(Group root, int nbPub){
+		HashMap<String, Publicite> mymapPub = new HashMap<String, Publicite>();
+
+		HashMap<String,  Rectangle> mymapRec = new HashMap<String,  Rectangle>();
+		for (int i=0; i<nbPub; i++)
+		{
+			mymapPub.put("Pub"+i, new Publicite("toto", 40, 350, 500, 40));
+			mymapRec.put("rectangle"+i, new Rectangle());
+			mymapRec.get("rectangle"+i).setX(mymapPub.get("Pub"+i).getPosItem().getCoordX());
+			mymapRec.get("rectangle"+i).setY(mymapPub.get("Pub"+i).getPosItem().getCoordY());
+			mymapRec.get("rectangle"+i).setWidth(50);
+			mymapRec.get("rectangle"+i).setHeight(50);
+			mymapRec.get("rectangle"+i).setFill(new ImagePattern(mymapPub.get("Pub"+i).getSkinPub()));
+			// System.out.println("client"+i+": "+mymapClient.get("client"+i).getX());
+			//System.out.println(mymapClient.get("client"+i).getY());
+			root.getChildren().add(mymapRec.get("rectangle"+i));
+			// System.out.println(mymapClient.get("client"+i).motivation(meteo));
+			System.out.println("Pub"+i);
+		}
+		return mymapRec;
 	}
+	
 
+public int rayonInfluence(float ClientCoordX, float ClientCoordY, ArrayList<ItemJoueur> Items)//Prend en paramètre les coordonnées d'un client ainsi que la list de tout les stand de la map
+{
+	int nb_area = 0;//mon compteur de stand positif
+	ArrayList<ItemJoueur> Stands = new ArrayList();//mon array list de stands positif
 
-	public Position getCentre() {
-		return centre;
+	for (int i = 0; i < Items.size(); i++) {//pour tout les element de ma list d'item
+
+		float distance = (float) Math.sqrt(Math.pow(Items.get(i).getPosItem().getCoordX()-ClientCoordX, 2)
+				+Math.pow(Items.get(i).getPosItem().getCoordY()-ClientCoordY, 2));//petite formule pour calculer la distance entre mon item et mon client
+		if (distance <= Items.get(i).getRayonInfluence()) {//Si la distance client/item et inférieur ou egale au rayon d'influence le stand passe en positif
+
+			//Stands.get(nb_area).getProprietaire() = Items.get(i).getProprietaire();//je met le stand positif dans l'array list
+
+			nb_area++;//incrementation du compteur
+		}
 	}
+	return nb_area;//retour du compteur, voir comment récupérer l'arret list par la suite
+}
+public Double calculeRayon(float X,float Y,float Sx,float Sy){
+	double tmpCal = ((Y-X)*(Y-X))+((Sy-Sx)*(Sy-Sx));
+	System.out.println("tmp: "+tmpCal);
+	return Math.sqrt(Math.abs(tmpCal));
+}
 
 
-	public void setCentre(Position centre) {
-		this.centre = centre;
-	}
+public Position getCentre() {
+	return centre;
+}
 
 
-	public Spand getPointSpand() {
-		return pointSpand;
-	}
+public void setCentre(Position centre) {
+	this.centre = centre;
+}
 
 
-	public void setPointSpand(Spand pointSpand) {
-		this.pointSpand = pointSpand;
-	}
+public Spand getPointSpand() {
+	return pointSpand;
+}
 
 
-	public Image getSkinMap() {
-		return skinMap;
-	}
+public void setPointSpand(Spand pointSpand) {
+	this.pointSpand = pointSpand;
+}
 
 
-	public void setSkinMap(Image skinMap) {
-		this.skinMap = skinMap;
-	}
+public Image getSkinMap() {
+	return skinMap;
+}
+
+
+public void setSkinMap(Image skinMap) {
+	this.skinMap = skinMap;
+}
 
 }

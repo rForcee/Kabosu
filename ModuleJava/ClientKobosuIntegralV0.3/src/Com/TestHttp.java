@@ -81,36 +81,59 @@ public class TestHttp {
 	//main
 
 
-public static DataTrameMap traitementTrameMap(String trame) throws IOException {
-	DataTrameMap  data = new DataTrameMap ();
-	JsonReader reader = new JsonReader(new StringReader(trame));
-	reader.setLenient(true);
-	JsonParser parser = new JsonParser();
-	JsonObject obj = parser.parse(trame).getAsJsonObject();
-	Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	 JsonObject jsonObject = obj.getAsJsonObject();
-	 JsonObject response = new JsonObject();
-	response = gson.fromJson(obj,JsonObject.class);
-	data.setMapY(response.get("region").getAsJsonObject().get("center").getAsJsonObject().get("longitude").getAsInt());
-	data.setMapX(response.get("region").getAsJsonObject().get("center").getAsJsonObject().get("latitude").getAsInt());
-	data.setMapSy(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("longitudespan").getAsInt());	
-	data.setMapSx(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("latitudespan").getAsInt());
+	public static DataTrameMap traitementTrameMap(String trame) throws IOException {
+		DataTrameMap  data = new DataTrameMap ();
+		JsonReader reader = new JsonReader(new StringReader(trame));
+		reader.setLenient(true);
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(trame).getAsJsonObject();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonObject jsonObject = obj.getAsJsonObject();
+		JsonObject response = new JsonObject();
+		response = gson.fromJson(obj,JsonObject.class);
+		data.setMapY(response.get("region").getAsJsonObject().get("center").getAsJsonObject().get("longitude").getAsInt());
+		data.setMapX(response.get("region").getAsJsonObject().get("center").getAsJsonObject().get("latitude").getAsInt());
+		data.setMapSy(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("longitudespan").getAsInt());	
+		data.setMapSx(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("latitudespan").getAsInt());
+		return data;
 
+	}
+	public static DataTramePlayerInfo traitementTramePlayerInfo(String trame) throws IOException {
+		DataTramePlayerInfo  data = new DataTramePlayerInfo  ();
+		JsonReader reader = new JsonReader(new StringReader(trame));
+		reader.setLenient(true);
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(trame).getAsJsonObject();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonObject jsonObject = obj.getAsJsonObject();
+		JsonObject response = new JsonObject();
+		response = gson.fromJson(obj,JsonObject.class);
+		//data.pseudo(response.get("playerInfo").getAsString());
+		//data.drink.setPrice(response.get("playerInfo").getAsJsonObject().get("drinksOffered").getAsJsonObject().get("price").getAsFloat());
+		//data.setMapSy(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("longitudespan").getAsInt());	
+		//data.setMapSx(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("latitudespan").getAsInt());
+		return data;
 
+	}
+	public static DataTrameRank traitementTrameRank(String trame) throws IOException {
+		DataTrameRank  data = new DataTrameRank ();
+		JsonReader reader = new JsonReader(new StringReader(trame));
+		reader.setLenient(true);
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(trame).getAsJsonObject();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonObject jsonObject = obj.getAsJsonObject();
+		JsonObject response = new JsonObject();
+		response = gson.fromJson(obj,JsonObject.class);
+		for(int i =0; i<5 ;i++){
+			data.rank.add((response.get("ranking").getAsJsonObject().get("name").getAsString()));
+		}
+		//data.drink.setPrice(response.get("playerInfo").getAsJsonObject().get("drinksOffered").getAsJsonObject().get("price").getAsFloat());
+		//data.setMapSy(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("longitudespan").getAsInt());	
+		//data.setMapSx(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("latitudespan").getAsInt());
+		return data;
 
-
-	/*JsonElement jelement = new JsonParser().parse(reader);
-		JsonObject json = jelement.getAsJsonObject();
-		System.out.println(json.toString());
-		data.setMapX(json.get("m_centrex").getAsInt());
-		data.setMapY(json.get("m_centrey").getAsInt());
-		data.setMapSx(json.get("m_coordx").getAsInt());
-		data.setMapSy(json.get("m_coordy").getAsInt());
-		//System.out.println(data.getMapX());*/
-	return data;
-
-}
-
+	}
 	public static DataTrameMeteo traitementTrameMetrology(String trame){
 		DataTrameMeteo  data = new DataTrameMeteo ();
 		trame = trame.replaceAll("[\\[\\]]", "");
@@ -132,8 +155,8 @@ public static DataTrameMap traitementTrameMap(String trame) throws IOException {
 			URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 			URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
 
-			sendPost(urlPost,speudo,boisson,nb); // post vers https://kabosu.herokuapp.com/sales
-			//traitementTrameMap(getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
+			//sendPost(urlPost,speudo,boisson,nb); // post vers https://kabosu.herokuapp.com/sales
+			System.out.print(traitementTrameRank(getMap(urlGet))); // get vers https://kabosu.herokuapp.com/map
 			//getMap(urlGet);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
