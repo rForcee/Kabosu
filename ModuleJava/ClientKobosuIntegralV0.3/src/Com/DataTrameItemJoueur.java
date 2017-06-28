@@ -3,6 +3,7 @@ package Com;
 import java.util.ArrayList;
 
 public class DataTrameItemJoueur{
+	
 	String joueur;
 	protected ArrayList<DataItemJoueur> item= new ArrayList<DataItemJoueur>();
 
