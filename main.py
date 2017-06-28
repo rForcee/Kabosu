@@ -386,7 +386,7 @@ def get_ingredients():
 		listIngredients.append({"name": i['i_nom'], "cost": y['i_prix'], "hasAlcohol": False, "isCold": False})
 
 	print ingredients[1]
-	return json_response({"ingredients": ingredients})
+	return json_response({"ingredients": listIngredients})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
