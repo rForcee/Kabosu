@@ -367,7 +367,7 @@ def getMapPlayer(player_name):
 	profit = budgetBase - budget_depart;
 	info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
 
-	message = {"availableIngredients": availableIngredients, "map": mapInfo, "playerInfo": info}
+	message = {"availableIngredients": availableIngredients, "map": mapInfo, "playerInfo": info, "drinksByPlayer": []}
 	return json_response(message)
 
 
