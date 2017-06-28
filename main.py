@@ -124,7 +124,7 @@ def delete_player(player_name):
 #JAVA: fait un get regulier pour recupere la meteo et l heure.
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
-	result = db.select("SELECT di_hour, di_weather, di_forecast FROM dayinfo;")
+	
 
 	if request.method == 'POST':
 
@@ -141,6 +141,8 @@ def meteo():
 		currentWeather = weather["weather"][0]["weather"]
 		previsionWeather = weather["weather"][1]["weather"]
 
+		result = db.select("SELECT di_hour, di_weather, di_forecast FROM dayinfo;")
+		
 		if result == []:
 			db.execute("""INSERT INTO dayinfo(di_hour, di_weather, di_forecast) 
 					VALUES(@(heure),@(meteo),@(forecast));""", 
@@ -149,7 +151,7 @@ def meteo():
 			db.execute("""UPDATE dayinfo SET (di_hour, di_weather, di_forecast) = (@(heure),@(meteo),@(forecast));""",
 			{"heure": timestamp, "meteo": currentWeather, "forecast": previsionWeather})
 
-
+	result = db.select("SELECT di_hour, di_weather, di_forecast FROM dayinfo;")
 	print result
 	return json_response({"timestamp": result[0]['di_hour'], "weather": [ {"dfn": 0, "weather": result[0]['di_weather']}, {"dfn": 1, "weather": result[0]['di_forecast'] } ] })
 
