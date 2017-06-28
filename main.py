@@ -121,8 +121,8 @@ def meteo():
 	if request.method == 'POST':
 		content = request.get_json()
 
-		meteo = content['meteo']
-		hour = content['hour']
+		weather = content['meteo']
+		heure = content['hour']
 		forecast = content['forecast']
 
 		result = db.select("SELECT * FROM dayinfo;")
