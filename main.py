@@ -383,7 +383,7 @@ def get_ingredients():
 	ingredients = db.select(sql)
 	listIngredients = []
 	for i in ingredients:
-		listIngredients.append({"name": i['i_nom'], "cost": y['i_prix'], "hasAlcohol": False, "isCold": False})
+		listIngredients.append({"name": i['i_nom'], "cost": i['i_prix'], "hasAlcohol": False, "isCold": False})
 
 	print ingredients[1]
 	return json_response({"ingredients": listIngredients})
