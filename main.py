@@ -158,10 +158,12 @@ def meteo():
 # JAVA: post la trame suivante au serveur {"joueur": String, "item": String, "quantity": int }
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
+
   content = request.get_json()
   player = content['player']
   item = content['item']
   quantity = content['quantity']
+
   for i in dicoTest:
   	
 	if i == player:
@@ -232,6 +234,7 @@ def messageRecuJava():
   return json_response(dicoTest)
 
 
+
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -297,7 +300,6 @@ def envoieMapJava():
   mapInfo = {"region" : region, "ranking" : ranking, "itemsByPlayer": itemsByPlayer,"playerInfo": playerInfo}
 
   return json_response(mapInfo)
-
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
