@@ -195,7 +195,7 @@ def messageRecuJava():
 						db.execute(sqlBudget)
 						sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('" + str(quantity) + "','" + str(hour) + "','" + str(weather) + "','" + str(prixVente) + "','" + str(j_id) + "','" + str(b_id) + "');"
 						db.execute(sql)
-						db.close()
+					
 
   			else:
   				if j['kind'] == 'ad':
@@ -215,7 +215,7 @@ def messageRecuJava():
 					db.execute(sqlBudget)
 					sql = "INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) VALUES('ad','" + str(latitude) + "','" + str(longitude) + "','" + str(rayon) + "','" + str(j_id) + "');"
 					db.execute(sql)
-					db.close()
+				
   					j = ""
 
   return json_response(dicoTest)
@@ -252,7 +252,7 @@ def envoieMapJava():
 	coordinatesSpan = db.select(sqlSpan)[0]
 	sqlRank = "SELECT j_pseudo as name FROM JOUEUR ORDER BY j_budget DESC;"
 	ranking = db.select(sqlRank)
-	db.close()
+
 
 	region = {"center": coordinates, "span": coordinatesSpan}
 
@@ -297,7 +297,7 @@ def getMapPlayer(player_name):
   db = Db()
   sql = "SELECT b_nom as boisson, b_alcool as hasAlcool, b_chaud as isHot, i_nom as ingredient, i_prix as ingPrix, r_qte as quantite FROM ingredient INNER JOIN recette ON recette.i_id = ingredient.i_id INNER JOIN boisson ON boisson.b_id = recette.b_id WHERE boisson.b_id IN (SELECT b_id FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name +"'));"
   ingredients = db.select(sql)
-  db.close()
+ 
 
   db = Db()
   sql = "SELECT m_centreX as latitude, m_centreY as longitude FROM map;"
@@ -306,12 +306,12 @@ def getMapPlayer(player_name):
   coordinatesSpan = db.select(sqlSpan)[0]
   sqlRank = "SELECT j_pseudo FROM JOUEUR ORDER BY j_budget DESC;"
   ranking = db.select(sqlRank)
-  db.close()
+ 
 
   sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + player_name +"';"
   db = Db()
   items = db.select(sqlItems)
-  db.close()
+ 
 
   print items
 
@@ -328,7 +328,7 @@ def getMapPlayer(player_name):
   budgetBase = db.select(sqlBudget)[0]['j_budget']
   nbSales = db.select(sqlSales)[0]['nbsales']
   drinksInfo = db.select(sqlDrinks)
-  db.close()
+ 
 
   profit = budgetBase - budget_depart;
   info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
@@ -347,7 +347,7 @@ def get_ingredients():
   db = Db()
   sql = "SELECT i_nom, i_prix FROM ingredient;"
   ingredients = db.select(sql)
-  db.close()
+ 
   print ingredients[1]
   return json_response(ingredients)
 
@@ -367,7 +367,7 @@ def inscriptionBoisson():
   db = Db()
   sql = "INSERT INTO boisson(b_nom, b_alcool, b_chaud, b_prixvente, b_prixprod, j_id) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "', 0);"
   db.execute(sql)
-  db.close()
+ 
   return json_response(content)
 
 # Fonction pour la route /inscrire/boisson avec GET
@@ -377,7 +377,7 @@ def getBoisson():
   db = Db()
   sql = "SELECT z_type as kind, z_centerX as X, z_centerY as Y, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON zone.j_id = joueur.j_id WHERE zone.j_id = (SELECT j_id FROM joueur WHERE j_pseudo = 'Erwann');"
   result = db.select(sql)
-  db.close()
+ 
   return json_response(result)
 
 
@@ -395,7 +395,7 @@ def inscriptionIngredient():
   db = Db()
   sql = "INSERT INTO ingredient(i_nom, i_prix) VALUES('"+ nom +"','"+ str(prix) +"');"
   db.execute(sql)
-  db.close()
+ 
   return json_response(content)
 
 # Fonction pour la route /inscrire/ingredient avec GET
@@ -405,7 +405,7 @@ def getIngredient():
   db = Db()
   sql = "SELECT * FROM ingredient;"
   result = db.select(sql)
-  db.close()
+ 
   return json_response(result)
 
 
@@ -424,7 +424,7 @@ def inscriptionRecette():
   db = Db()
   sql = "INSERT INTO recette(b_id, i_id, r_qte) VALUES((SELECT b_id FROM boisson WHERE b_nom = '" + drink + "'),(SELECT i_id FROM ingredient WHERE i_nom = '" + ing + "'),'"+ str(qte) +"');"
   db.execute(sql)
-  db.close()
+ 
   return json_response(content)
 
 # Fonction pour la route /inscrire/recette avec GET
@@ -434,7 +434,7 @@ def getRecette():
   db = Db()
   sql = "SELECT * FROM recette;"
   result = db.select(sql)
-  db.close()
+ 
   return json_response(result)
 
 
