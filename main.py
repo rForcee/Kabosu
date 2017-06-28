@@ -163,7 +163,7 @@ def sales_drinks_update(j, content):
 	item = content['item']
 	quantity = content['quantity']
 	prixVente = j['price'][item]
-	
+
 
 	db.execute("""UPDATE boisson SET (b_prixvente) = (@(prixvente)) 
 		WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
@@ -174,7 +174,8 @@ def sales_drinks_update(j, content):
 		WHERE j_pseudo = @(nom);""", {"nom": player})[0]['j_id']
 	b_id = db.select("""SELECT b_id FROM boisson WHERE b_nom = @(boisson) 
 		AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",
-		{"nom": player, "boisson": item})[0]['b_id']
+		{"nom": player, "boisson": item})
+	print b_id
 	prixVente = db.select("""SELECT b_prixvente FROM boisson WHERE b_nom = @(boisson) 
 		AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",
 		{"nom": player, "boisson": item})[0]['b_prixvente']
