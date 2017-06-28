@@ -55,20 +55,20 @@ def ajoutJoueur(name):
 		(SELECT j_id FROM joueur WHERE j_pseudo = @(nom)));""", 
 		{"nom": name, "coordX": coordX, "coordY": coordY, "influence": rayonInfluenceStand})
 	db.execute("""INSERT INTO boisson(b_nom, b_hasAlcohol, b_isCold, b_prixvente, b_prixprod, j_id) 
-		VALUES ('Limonade', FALSE,TRUE,0,0.8, @(p_id)), ('The vert', FALSE,FALSE,0,0.8, @(p_id)), 
+		VALUES ('Lemonade', FALSE,TRUE,0,0.8, @(p_id)), ('Tea', FALSE,FALSE,0,0.8, @(p_id)), 
 		('Mojito',TRUE,TRUE,0,2, @(p_id));""", {"p_id": playerId})
 	db.execute("""INSERT INTO recette(r_qte, b_id, i_id) VALUES 
-		(2,(SELECT b_id FROM boisson WHERE b_nom = 'Limonade' AND j_id = @(p_id)),
+		(2,(SELECT b_id FROM boisson WHERE b_nom = 'Lemonade' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'citron')),
-		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Limonade' AND j_id = @(p_id)),
+		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Lemonade' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'eau gazeuse')),
 		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Mojito' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'rhum')),
 		(2,(SELECT b_id FROM boisson WHERE b_nom = 'Mojito' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'menthe')),
-		(1,(SELECT b_id FROM boisson WHERE b_nom = 'The vert' AND j_id = @(p_id)),
-		(SELECT i_id FROM ingredient WHERE i_nom = 'the')),
-		(1,(SELECT b_id FROM boisson WHERE b_nom = 'The vert' AND j_id = @(p_id)),
+		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Tea' AND j_id = @(p_id)),
+		(SELECT i_id FROM ingredient WHERE i_nom = 'tea')),
+		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Tea' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'menthe'));""", {"p_id": playerId})
 
 # Fonction pour la route /players avec la methode POST
@@ -157,6 +157,82 @@ def meteo():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
+def sales_drinks_update(j, content):
+
+	player = content['player']
+	item = content['item']
+	quantity = content['quantity']
+
+	db.execute("""UPDATE boisson SET (b_prixvente) = (@(prixvente)) 
+		WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
+		AND b_nom = @(boisson);""", {"prixvente": prixVente, "nom": player, "boisson": item})
+	hour = db.select("""SELECT di_hour FROM dayinfo;""")[0]['di_hour']
+	weather = db.select("""SELECT di_weather FROM dayinfo;""")[0]['di_weather']
+	j_id = db.select("""SELECT j_id FROM joueur 
+		WHERE j_pseudo = @(nom);""", {"nom": player})[0]['j_id']
+	b_id = db.select("""SELECT b_id FROM boisson WHERE b_nom = @(boisson) 
+		AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",
+		{"nom": player, "boisson": item})[0]['b_id']
+	prixVente = db.select("""SELECT b_prixvente FROM boisson WHERE b_nom = @(boisson) 
+		AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",
+		{"nom": player, "boisson": item})[0]['b_prixvente']
+	budget = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",
+		{"nom": player})[0]['j_budget']
+
+	calBudget = budget + (quantity*prixVente)
+	db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
+		WHERE j_pseudo = @(nom);""", {"budget": calBudget, "nom": player})
+	db.execute("""INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) 
+		VALUES(@(qty), @(hour), @(weather), @(prixVente), @(j_id), @(b_id));""",
+		{"qty": quantity, "hour": hour, "weather": weather, "prixVente": prixVente, "j_id": j_id, "b_id": b_id})
+
+def sales_drinks(j, content):
+
+	player = content['player']
+	item = content['item']
+	quantity = content['quantity']
+	
+	recette = j['prepare']
+	if item in recette:
+		if recette[item] != 0:
+			if quantity > recette[item]:
+				quantity = recette[item]
+				recette[item] = 0
+			else:
+				recette[item] = recette[item] - quantity
+
+			prixVente = j['price'][item]
+			
+			sales_drinks_update(j)
+
+
+def sales_ad(j, content):
+
+	player = content['player']
+	item = content['item']
+	quantity = content['quantity']
+	latitude = j['location']['latitude']
+	longitude = j['location']['longitude']
+	rayon = j['radius']
+	price = j['price']
+
+	j_id = db.select("""SELECT j_id FROM joueur 
+		WHERE j_pseudo = @(nom);""", {"nom": player})[0]['j_id']
+
+	budget = db.select("""SELECT j_budget FROM joueur 
+	WHERE j_pseudo = @(nom);""", {"nom": player})[0]['j_budget']
+
+	calBudget = budget - price
+
+	db.execute("""UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') 
+		WHERE j_pseudo = @(nom);""", {"nom": player})
+
+	db.execute("""INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) 
+		VALUES('ad',@(latitude),@(longitude),@(rayon),@(j_id));""", 
+		{"latitude": latitude, "longitude": longitude, "rayon": rayon, "j_id": j_id})
+
+	j = ""
+
 # JAVA: post la trame suivante au serveur {"joueur": String, "item": String, "quantity": int }
 @app.route('/sales', methods=['POST'])
 def messageRecuJava():
@@ -170,59 +246,11 @@ def messageRecuJava():
 		if i == player:
 			for j in dicoAction[i]['actions']:
 				if j['kind'] == 'drinks':
-					recette = j['prepare']
-					if item in recette:
-						if recette[item] != 0:
-							if quantity > recette[item]:
-								quantity = recette[item]
-								recette[item] = 0
-							else:
-								recette[item] = recette[item] - quantity
-
-							prixVente = j['price'][item]
-							
-							sqlPrixVente = "UPDATE boisson SET (b_prixvente) = ('"+ str(prixVente) +"') WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "') AND b_nom = '" + item + "';"
-							db.execute(sqlPrixVente)
-							sqlHour = "SELECT di_hour FROM dayinfo;"
-							hour = db.select(sqlHour)[0]['di_hour']
-							sqlWeather = "SELECT di_weather FROM dayinfo;"
-							weather = db.select(sqlWeather)[0]['di_weather']
-							sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
-							j_id = db.select(sqlJId)[0]['j_id']
-							sqlBId = "SELECT b_id FROM boisson WHERE b_nom = '" + item + "' AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "');"
-							b_id = db.select(sqlBId)[0]['b_id']
-							sqlPrix = "SELECT b_prixvente FROM boisson WHERE b_nom = '" + item + "' AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "');"
-							prixVente = db.select(sqlPrix)[0]['b_prixvente']
-							sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
-							budget = db.select(sqlGetBudget)[0]['j_budget']
-							print quantity
-							print prixVente
-							calBudget = budget + (quantity*prixVente)
-							print calBudget
-							sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') WHERE j_pseudo = '" + player + "';"
-							db.execute(sqlBudget)
-							sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('" + str(quantity) + "','" + str(hour) + "','" + str(weather) + "','" + str(prixVente) + "','" + str(j_id) + "','" + str(b_id) + "');"
-							db.execute(sql)
+					sales_drinks(j, content)
 
 	  			else:
 	  				if j['kind'] == 'ad':
-	  					latitude = j['location']['latitude']
-	  					longitude = j['location']['longitude']
-	  					rayon = j['radius']
-	  					price = j['price']
-
-						sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
-						j_id = db.select(sqlJId)[0]['j_id']
-						print "ad"
-						sqlGetBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player +"';"
-						budget = db.select(sqlGetBudget)[0]['j_budget']
-						calBudget = budget - price
-						sqlBudget = "UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') WHERE j_pseudo = '"+ player +"';"
-						db.execute(sqlBudget)
-						sql = "INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) VALUES('ad','" + str(latitude) + "','" + str(longitude) + "','" + str(rayon) + "','" + str(j_id) + "');"
-						db.execute(sql)
-					
-	  					j = ""
+	  					sales_ad(j, content)
 
 	return json_response(dicoAction)
 
@@ -252,19 +280,16 @@ def action_player(player_name):
 def envoieMapJava():
 
 	
-	sql = "SELECT m_centreX as latitude, m_centreY as longitude FROM map;"
-	coordinates = db.select(sql)[0]
-	sqlSpan = "SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;"
-	coordinatesSpan = db.select(sqlSpan)[0]
-	sqlRank = "SELECT j_pseudo as name FROM JOUEUR ORDER BY j_budget DESC;"
-	ranking = db.select(sqlRank)
+	coordinates = db.select("""SELECT m_centreX as latitude, m_centreY as longitude FROM map;""")[0]
+	coordinatesSpan = db.select("""SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;""")[0]
+	ranking = db.select("""SELECT j_pseudo as name FROM JOUEUR ORDER BY j_budget DESC;""")
+	
 	coordinatesSpan['longitudeSpan'] = coordinatesSpan['longitudespan']
 	del coordinatesSpan['longitudespan']
 	coordinatesSpan['latitudeSpan'] = coordinatesSpan['latitudespan']
 	del coordinatesSpan['latitudespan']
 
 	region = {"center": coordinates, "span": coordinatesSpan}
-
 
 	playerInfo = {}
 	itemsByPlayer = {}
@@ -317,14 +342,13 @@ def getMapPlayer(player_name):
 
 	availableIngredients = []
 	for y in ingredients:
-		availableIngredients.append({"name": y['nom'], "cost": y['ingprix'], "hasAlcohol": False, "isCold": False})
+		availableIngredients.append({"name": y['nom'], "cost": y['ingprix'], "hasAlcohol": False, "isCold": True})
 
 	
 	coordinates = db.select("""SELECT m_centreX as latitude, m_centreY as longitude FROM map;""")[0]
-	sqlSpan = "SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;"
-	coordinatesSpan = db.select(sqlSpan)[0]
-	sqlRank = "SELECT j_pseudo as name FROM JOUEUR ORDER BY j_budget DESC;"
-	ranking = db.select(sqlRank)
+	coordinatesSpan = db.select("""SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;""")[0]
+	ranking = db.select("SELECT j_pseudo as name FROM JOUEUR ORDER BY j_budget DESC;")
+
 	rank = []
 	for i in ranking:
   		rank.append(i['name'])
@@ -332,11 +356,10 @@ def getMapPlayer(player_name):
 	items = db.select("""SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, 
 	z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur 
 	ON joueur.j_id = zone.j_id WHERE j_pseudo = @(nom);""", {"nom": player_name})
+
 	itemsPlayer = []
 	for y in items:
 		itemsPlayer.append({"kind": y['kind'], "owner": y['owner'], "influence": y['influence'], "location": {"latitude": y['latitude'], "longitude": y['longitude']}})
-
-	print itemsPlayer
 
 	coordinatesSpan['longitudeSpan'] = coordinatesSpan['longitudespan']
 	del coordinatesSpan['longitudespan']
@@ -346,18 +369,16 @@ def getMapPlayer(player_name):
 	region = {"center": coordinates, "span": coordinatesSpan}
 
 	mapInfo = {"region" : region, "ranking" : rank, "itemsByPlayer": itemsPlayer}
-	print region
 	
-	sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name + "');"
-	sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player_name +"';"
-	sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ player_name +"');"
-	sqlDrinks = "SELECT b_nom as name, b_prixprod as price, b_hasAlcohol as hasAlcohol, b_isCold as isCold FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name +"');"
-	coord = db.select(sqlCoord)[0]
-	budgetBase = db.select(sqlBudget)[0]['j_budget']
-	nbSales = db.select(sqlSales)[0]['nbsales']
-	drinksInfo = db.select(sqlDrinks)
+	coord = db.select("""SELECT z_centerX as latitude, z_centerY as longitude FROM zone 
+		WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": player_name})[0]
+	budgetBase = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""", {"nom": player_name})[0]['j_budget']
+	nbSales = db.select("""SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes 
+		WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": player_name})[0]['nbsales']
+	drinksInfo = db.select("""SELECT b_nom as name, b_prixprod as price, b_hasAlcohol as hasAlcohol, b_isCold as isCold FROM boisson 
+		WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": player_name})
+
 	for j in drinksInfo:
-		print j
 		j['hasAlcohol'] = j['hasalcohol']
 		del j['hasalcohol']
 		j['isCold'] = j['iscold']
@@ -379,18 +400,28 @@ def getMapPlayer(player_name):
 @app.route('/ingredients', methods=['GET'])
 def get_ingredients():
   
-	sql = "SELECT i_nom, i_prix FROM ingredient;"
-	ingredients = db.select(sql)
+	ingredients = db.select("""SELECT i_nom, i_prix FROM ingredient;""")
+
 	listIngredients = []
 	for i in ingredients:
-		listIngredients.append({"name": i['i_nom'], "cost": i['i_prix'], "hasAlcohol": False, "isCold": False})
+		listIngredients.append({"name": i['i_nom'], "cost": i['i_prix'], "hasAlcohol": False, "isCold": True})
 
 	print ingredients[1]
 	return json_response({"ingredients": listIngredients})
 
 
-#------------------------------------------------------------------------------------------------------------------------------------------------
 
+###########################################################"""
+###########################################################"""
+###########################################################"""
+###########################################################"""
+###########################################################"""
+#------------------------------------------------------------------------------------------------------------------------------------------------
+###########################################################"""
+###########################################################"""
+###########################################################"""
+###########################################################"""
+###########################################################"""
 
 # Fonction pour la route /inscrire/boisson avec POST
 # Ajout d'une boisson en BDD
