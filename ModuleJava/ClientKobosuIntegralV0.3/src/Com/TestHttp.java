@@ -3,6 +3,7 @@ import java.io.*;
 import java.net.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -10,6 +11,7 @@ import com.google.gson.stream.JsonReader;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 public class TestHttp {
 
 	///////////////////////////////////////////////Methode post sales///////////////////////////////////////
@@ -95,11 +97,15 @@ public class TestHttp {
 		data.setMapX(response.get("region").getAsJsonObject().get("center").getAsJsonObject().get("latitude").getAsInt());
 		data.setMapSy(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("longitudespan").getAsInt());	
 		data.setMapSx(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("latitudespan").getAsInt());
+		reader.close();
 		return data;
 
 	}
-	public static DataTramePlayerInfo traitementTramePlayerInfo(String trame) throws IOException {
+public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String joueur) throws IOException {
+		//ArrayList<String> joueur = new ArrayList<String>();
+		//ArrayList<DataTramePlayerInfo> data = new ArrayList<DataTramePlayerInfo>();
 		DataTramePlayerInfo  data = new DataTramePlayerInfo  ();
+		DatadrinksOffered drinkInfo = new DatadrinksOffered();
 		JsonReader reader = new JsonReader(new StringReader(trame));
 		reader.setLenient(true);
 		JsonParser parser = new JsonParser();
@@ -108,10 +114,59 @@ public class TestHttp {
 		JsonObject jsonObject = obj.getAsJsonObject();
 		JsonObject response = new JsonObject();
 		response = gson.fromJson(obj,JsonObject.class);
-		//data.pseudo(response.get("playerInfo").getAsString());
+		//System.out.println(response.get("playerInfo").getAsJsonObject().get(joueur));
+		data.setBudget(response.get("playerInfo").getAsJsonObject().get(joueur).getAsJsonObject().get("cash").getAsFloat());
+		data.setProfit(response.get("playerInfo").getAsJsonObject().get(joueur).getAsJsonObject().get("profit").getAsFloat());
+		data.setVente(response.get("playerInfo").getAsJsonObject().get(joueur).getAsJsonObject().get("sales").getAsInt());
+		JsonArray JArray = new JsonArray();
+		JArray = (response.get("playerInfo").getAsJsonObject().get(joueur).getAsJsonObject().get("drinksOffered").getAsJsonArray());
+		if (JArray != null) { 
+			for (int i=0;i<JArray.size();i++){ 
+				drinkInfo.nom =JArray.get(i).getAsJsonObject().get("name").getAsString();
+				drinkInfo.price=JArray.get(i).getAsJsonObject().get("price").getAsFloat();
+				drinkInfo.chaud =JArray.get(i).getAsJsonObject().get("isCold").getAsBoolean();
+				drinkInfo.alcool =JArray.get(i).getAsJsonObject().get("hasAlcohol").getAsBoolean();
+				data.drink.add(drinkInfo);
+				System.out.println(data.drink.get(i).nom);
+				System.out.println(data.drink.get(i).alcool);
+				System.out.println(data.drink.get(i).chaud);
+				System.out.println(data.drink.get(i).price);
+			}
+		}
+
+		//data.drink.setAlcool(response.get("playerInfo").getAsJsonObject().get(joueur).getAsJsonObject().get("drinksOffered").getAsJsonObject().get("hasAlcohol").getAsBoolean());
+		//TODO faire les drink info
+		System.out.println(data.getBudget());
+		System.out.println(data.getProfit());
+		System.out.println(data.getVente());
+		//System.out.println(data.drink.isAlcool());
+		//data.setPseudo(response.get("playerInfo").getAsJsonObject().get(joueur.get(1)).getAsString());
 		//data.drink.setPrice(response.get("playerInfo").getAsJsonObject().get("drinksOffered").getAsJsonObject().get("price").getAsFloat());
 		//data.setMapSy(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("longitudespan").getAsInt());	
 		//data.setMapSx(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("latitudespan").getAsInt());
+		reader.close();
+		return data;
+
+	}
+	public static DataTrameItemJoueur traitementTrameItem(String trame, String joueur) throws IOException {
+		//ArrayList<String> joueur = new ArrayList<String>();
+		//ArrayList<DataTramePlayerInfo> data = new ArrayList<DataTramePlayerInfo>();
+		DataTrameItemJoueur  data = new DataTrameItemJoueur();
+		JsonReader reader = new JsonReader(new StringReader(trame));
+		reader.setLenient(true);
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(trame).getAsJsonObject();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonObject jsonObject = obj.getAsJsonObject();
+		JsonObject response = new JsonObject();
+		response = gson.fromJson(obj,JsonObject.class);
+		//System.out.println(response.get("playerInfo").getAsJsonObject().get(joueur));
+		data.setInfluence(response.get("itemsByPlayer").getAsJsonObject().get(joueur).getAsJsonObject().get("influence").getAsFloat());
+		//data.setProfit(response.get("playerInfo").getAsJsonObject().get(joueur).getAsJsonObject().get("profit").getAsFloat());
+		//data.setVente(response.get("playerInfo").getAsJsonObject().get(joueur).getAsJsonObject().get("sales").getAsInt());
+		System.out.println(data.getInfluence());
+
+		reader.close();
 		return data;
 
 	}
@@ -125,12 +180,18 @@ public class TestHttp {
 		JsonObject jsonObject = obj.getAsJsonObject();
 		JsonObject response = new JsonObject();
 		response = gson.fromJson(obj,JsonObject.class);
-		for(int i =0; i<5 ;i++){
-			data.rank.add((response.get("ranking").getAsJsonObject().get("name").getAsString()));
+		JsonArray JArray = new JsonArray();
+		JArray = ((response.get("ranking")).getAsJsonArray());
+		if (JArray != null) { 
+			for (int i=0;i<JArray.size();i++){ 
+				data.rank.add(JArray.get(i).getAsString());
+			}
 		}
 		//data.drink.setPrice(response.get("playerInfo").getAsJsonObject().get("drinksOffered").getAsJsonObject().get("price").getAsFloat());
 		//data.setMapSy(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("longitudespan").getAsInt());	
 		//data.setMapSx(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("latitudespan").getAsInt());
+		System.out.println(data.getRank());
+		reader.close();
 		return data;
 
 	}
@@ -148,16 +209,25 @@ public class TestHttp {
 		return data;
 	}
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		String speudo ="John Cena";
+		@SuppressWarnings("unused")
 		String boisson = "Limonade";
+		@SuppressWarnings("unused")
 		int nb = 4;
 		try {
+			@SuppressWarnings("unused")
 			URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
+			@SuppressWarnings("unused")
 			URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
 
 			//sendPost(urlPost,speudo,boisson,nb); // post vers https://kabosu.herokuapp.com/sales
-			System.out.print(traitementTrameRank(getMap(urlGet))); // get vers https://kabosu.herokuapp.com/map
+			//System.out.print(traitementTramePlayerInfo(getMap(urlGet))); // get vers https://kabosu.herokuapp.com/map
 			//getMap(urlGet);
+			//System.out.println(getMap(urlGet));
+			traitementTramePlayerInfo(getMap(urlGet),"Erwann");
+			//traitementTrameRank(getMap(urlGet));
+			//traitementTrameItem(getMap(urlGet),"Erwann");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

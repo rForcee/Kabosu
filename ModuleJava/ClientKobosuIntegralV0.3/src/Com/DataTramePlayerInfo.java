@@ -1,12 +1,14 @@
 package Com;
 
+import java.util.ArrayList;
+
 public class DataTramePlayerInfo {
 
 	String pseudo;
 	float budget;
 	float profit;
 	int vente;
-	DatadrinksOffered drink = new DatadrinksOffered();
+	ArrayList<DatadrinksOffered> drink = new ArrayList<DatadrinksOffered> ();
 		public String getPseudo() {
 		return pseudo;
 	}
@@ -31,10 +33,10 @@ public class DataTramePlayerInfo {
 	public void setVente(int vente) {
 		this.vente = vente;
 	}
-	public DatadrinksOffered getDrink() {
+	public ArrayList<DatadrinksOffered>  getDrink() {
 		return drink;
 	}
-	public void setDrink(DatadrinksOffered drink) {
+	public void setDrink(ArrayList<DatadrinksOffered>  drink) {
 		this.drink = drink;
 	}
 }

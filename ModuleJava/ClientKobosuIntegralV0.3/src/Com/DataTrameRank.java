@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class DataTrameRank {
 	
-	ArrayList<String> rank = new ArrayList();
+	ArrayList<String> rank = new ArrayList<String>();
 
 	public ArrayList<String> getRank() {
 		return rank;
