@@ -202,10 +202,11 @@ def sales_drinks(j, content):
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
-
+	print item
 	recette = j['prepare']
 	print recette
 	if item in recette:
+		print "ilyest"
 		if recette[item] != 0:
 			if quantity > recette[item]:
 				print "in"
