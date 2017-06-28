@@ -124,7 +124,7 @@ def delete_player(player_name):
 #JAVA: fait un get regulier pour recupere la meteo et l heure.
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
-	result = db.select("SELECT di_hour, di_weather, di_forecast FROM dayinfo;")[0]
+	result = db.select("SELECT di_hour, di_weather, di_forecast FROM dayinfo;")
 
 	if request.method == 'POST':
 
@@ -151,7 +151,7 @@ def meteo():
 
 
 	print result
-	return json_response({"timestamp": result['di_hour'], "weather": [ {"dfn": 0, "weather": result['di_weather']}, {"dfn": 1, "weather": result['di_forecast'] } ] })
+	return json_response({"timestamp": result[0]['di_hour'], "weather": [ {"dfn": 0, "weather": result[0]['di_weather']}, {"dfn": 1, "weather": result[0]['di_forecast'] } ] })
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -303,7 +303,7 @@ def envoieMapJava():
 
 		items = db.select("""SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, 
 		z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur 
-		ON joueur.j_id = zone.j_id WHERE j_pseudo = @(nom));""", {"nom": i['name']})
+		ON joueur.j_id = zone.j_id WHERE j_pseudo = @(nom);""", {"nom": i['name']})
 		itemsPlayer = []
 		for y in items:
 			itemsPlayer.append({"kind": y['kind'], "owner": y['owner'], "influence": y['influence'], "location": {"latitude": y['latitude'], "longitude": y['longitude']}})
