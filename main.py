@@ -281,6 +281,7 @@ def envoieMapJava():
 		profit = budgetBase - budget_depart;
 		info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksOffered}
 		playerInfo[i['name']] = info
+		drinksOffered = []
 
 		sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + i['name'] +"';"
 		items = db.select(sqlItems)
