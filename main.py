@@ -272,13 +272,13 @@ def action_player(player_name):
 	dicoAction[player_name] = content
 	for i in content['actions']:
 		bname = i['prepare'].keys()
-		print bname
+		print bname[0]
 		budget = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",
 		{"nom": player_name})[0]['j_budget']
 
   		prixProd = db.select("""SELECT b_prixprod FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
-			AND b_nom = @(boisson); """, {"nom": player_name, "boisson": bname})[0]['b_prixprod']
-  		qte = i['prepare'][bname]
+			AND b_nom = @(boisson); """, {"nom": player_name, "boisson": bname[0]})[0]['b_prixprod']
+  		qte = i['prepare'][bname[0]]
   		depenses = qte * prixProd
   		calBudget = budget - depenses
   		db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
