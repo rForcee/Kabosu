@@ -159,7 +159,7 @@ def meteo():
 
 def sales_drinks_update(j, content):
 
-	print "IN"
+	print "UPD"
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
@@ -194,7 +194,7 @@ def sales_drinks_update(j, content):
 
 def sales_drinks(j, content):
 
-
+	print "DRINK"
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
@@ -214,6 +214,7 @@ def sales_drinks(j, content):
 
 def sales_ad(j, content):
 
+	print "AD"
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
