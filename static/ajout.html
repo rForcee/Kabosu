@@ -107,7 +107,7 @@
 
             var message = {
               player: 'Erwann',
-              item: 'Limonade',
+              item: 'limonade',
               quantity: 17
             }
             
@@ -124,15 +124,15 @@
 
             var limonade = {
               kind: "drinks",
-              prepare: {"Limonade":15},
-              price: {"Limonade":2.4}
+              prepare: {"limonade":15},
+              price: {"limonade":2.4}
             }
             
 
             var thevert = {
               kind: "drinks",
-              prepare: {"The vert":15},
-              price: {"The vert":2.4}
+              prepare: {"tea":15},
+              price: {"tea":2.4}
             }
             
 
@@ -149,20 +149,6 @@
               type: 'POST',
               contentType: 'application/json',
               data: JSON.stringify(data)
-            });
-
-            var message = {
-              kind: "drinks",
-              prepare: {"Limonade":20},
-              price: {"Limonade":2.4}
-            }
-
-            dataDos = {"actions" : [message]}
-            
-            $.ajax('https://kabosu.herokuapp.com/actions/John%20Cena', {
-              type: 'POST',
-              contentType: 'application/json',
-              data: JSON.stringify(dataDos)
             });
             
       }
