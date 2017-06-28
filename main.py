@@ -273,12 +273,10 @@ def envoieMapJava():
 		coord = db.select(sqlCoord)[0]
 		budgetBase = db.select(sqlBudget)[0]['j_budget']
 		nbSales = db.select(sqlSales)[0]['nbsales']
-		drinksInfo = db.select(sqlDrinks)
+		drinksInfo = db.select(sqlDrinks)[0]
 
-		for j in drinksInfo:
-			drinksOffered.append({"price": j['price'], "name": j['name'], "hasAlcohol": j['hasalcohol'], "isHot": j['ishot']})
+		drinksOffered.append({"price": drinksInfo['price'], "name": drinksInfo['name'], "hasAlcohol": drinksInfo['hasalcohol'], "isHot": drinksInfo['ishot']})
 		
-		print drinksOffered
 
 		profit = budgetBase - budget_depart;
 		info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksOffered}
