@@ -164,7 +164,7 @@ def sales_drinks_update(j, content):
 	quantity = content['quantity']
 	prixVente = j['price'][item]
 	qtyItem = j['prepare'][item]
-
+	print qtyItem
 	prixProd = db.select("""SELECT b_prixprod FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
 		AND b_nom = @(boisson); """, {"nom": player, "boisson": item})[0]['b_prixprod']
 	db.execute("""UPDATE boisson SET (b_prixvente) = (@(prixvente)) 
@@ -182,7 +182,9 @@ def sales_drinks_update(j, content):
 		{"nom": player, "boisson": item})[0]['b_prixvente']
 	budget = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",
 		{"nom": player})[0]['j_budget']
+	print prixProd
 	budget = budget - (qtyItem * prixProd)
+	print budget
 	calBudget = budget + (quantity*prixVente)
 	print calBudget
 	db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
@@ -203,11 +205,10 @@ def sales_drinks(j, content):
 			if quantity > recette[item]:
 				quantity = recette[item]
 				recette[item] = 0
+				sales_drinks_update(j, content)
 			else:
 				recette[item] = recette[item] - quantity
-
-			
-			sales_drinks_update(j, content)
+				sales_drinks_update(j, content)
 
 
 def sales_ad(j, content):
