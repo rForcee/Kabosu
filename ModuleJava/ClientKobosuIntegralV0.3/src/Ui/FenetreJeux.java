@@ -37,11 +37,11 @@ public class FenetreJeux extends Application {
 			Date date = new Date();
 			TestHttp reseau = new TestHttp();
 			try {
-				URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
+				/*URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 				URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
 				URL urlGet2 = new URL("https://kabosu.herokuapp.com/metrology"); 
 				data1 = TestHttp.traitementTrameMap(TestHttp.getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
-				data2 = TestHttp.traitementTrameMetrology(TestHttp.getMap(urlGet2));
+				data2 = TestHttp.traitementTrameMetrology(TestHttp.getMap(urlGet2));*/
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -51,7 +51,6 @@ public class FenetreJeux extends Application {
 			Meteo IcoMeteo = new Meteo();
 			IcoMeteo.setMeteo(data2.getWeather()); // selectionne la l'icone en fonction de la météo
 			Map test = new Map(nbClient,data1);
-			HashMap<String,  Rectangle> mymapRec; 
 			GridPane gridpane = new GridPane();
 			gridpane.setPadding(new Insets(5));
 			gridpane.setHgap(10);
@@ -76,8 +75,9 @@ public class FenetreJeux extends Application {
 			gridpane.add(heure, 1, 1);
 
 			test.generationMap(root);
-
-			mymapRec = test.generationPopulationClient(root,50, IcoMeteo); 
+			test.generationPopulationStand(root, 1);
+			test.generationPopulationClient(root,50, IcoMeteo); 
+			test.generationPopulationPub(root, 1);
 			IcoMeteo.afficheMeteo(root, scene);
 
 			Task<Void> task = new Task<Void>() {
@@ -87,13 +87,13 @@ public class FenetreJeux extends Application {
 					DataTrameMeteo data2 = new DataTrameMeteo();
 					while (true) {
 						try {
-							URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
+							/*URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 							URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
 							URL urlGet2 = new URL("https://kabosu.herokuapp.com/metrology"); 
 							data1 = TestHttp.traitementTrameMap(TestHttp.getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
 							data2 = TestHttp.traitementTrameMetrology(TestHttp.getMap(urlGet2));
 							heure.setText(String.valueOf(date.heureJeux(data2.getHeure()))); // affectation heure de jeux
-							jour.setText(String.valueOf(date.jourJeux(data2.getHeure()))); // affectation jour
+							jour.setText(String.valueOf(date.jourJeux(data2.getHeure()))); // affectation jour*/
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
