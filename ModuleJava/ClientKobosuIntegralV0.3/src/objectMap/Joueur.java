@@ -4,8 +4,6 @@ import Com.DataTrameItemJoueur;
 import Com.DataTramePlayerInfo;
 
 public class Joueur {
-	
-	
 	private int Rang;
 	private int nbPub;
 	protected DataTramePlayerInfo infojoueur = new DataTramePlayerInfo();
