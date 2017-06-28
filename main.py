@@ -162,6 +162,8 @@ def sales_drinks_update(j, content):
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
+	prixVente = j['price'][item]
+	
 
 	db.execute("""UPDATE boisson SET (b_prixvente) = (@(prixvente)) 
 		WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
@@ -184,8 +186,8 @@ def sales_drinks_update(j, content):
 	db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
 		WHERE j_pseudo = @(nom);""", {"budget": calBudget, "nom": player})
 	db.execute("""INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) 
-		VALUES(@(qty), @(hour), @(weather), @(prixVente), @(j_id), @(b_id));""",
-		{"qty": quantity, "hour": hour, "weather": weather, "prixVente": prixVente, "j_id": j_id, "b_id": b_id})
+		VALUES(@(qty), @(hour), @(weather), @(prixvente), @(j_id), @(b_id));""",
+		{"qty": quantity, "hour": hour, "weather": weather, "prixvente": prixVente, "j_id": j_id, "b_id": b_id})
 
 def sales_drinks(j, content):
 
@@ -203,7 +205,6 @@ def sales_drinks(j, content):
 			else:
 				recette[item] = recette[item] - quantity
 
-			prixVente = j['price'][item]
 			
 			sales_drinks_update(j, content)
 
