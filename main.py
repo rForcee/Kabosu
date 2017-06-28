@@ -334,6 +334,7 @@ def getMapPlayer(player_name):
 	coordinatesSpan = db.select(sqlSpan)[0]
 	sqlRank = "SELECT j_pseudo as name FROM JOUEUR ORDER BY j_budget DESC;"
 	ranking = db.select(sqlRank)
+	rank = []
 	for i in ranking:
   		rank.append(i['name'])
 
@@ -353,7 +354,7 @@ def getMapPlayer(player_name):
 
 	region = {"center": coordinates, "span": coordinatesSpan}
 
-	mapInfo = {"region" : region, "ranking" : ranking, "itemsByPlayer": itemsPlayer}
+	mapInfo = {"region" : region, "ranking" : rank, "itemsByPlayer": itemsPlayer}
 	print region
 	
 	sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name + "');"
