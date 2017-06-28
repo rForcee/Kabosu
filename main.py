@@ -260,6 +260,7 @@ def envoieMapJava():
 	playerInfo = {}
 	itemsByPlayer = {}
 	rank = []
+	drinksOffered = []
 
 	print ranking
 	print "----------"
@@ -274,10 +275,13 @@ def envoieMapJava():
 		nbSales = db.select(sqlSales)[0]['nbsales']
 		drinksInfo = db.select(sqlDrinks)
 
-		print drinksInfo
+		for j in drinksInfo:
+			drinksOffered.append({"price": j['price'], "name": j['name'], "hasAlcohol": j['hasalcohol'], "isHot": j['isHot']})
+		
+		print drinksOffered
 
 		profit = budgetBase - budget_depart;
-		info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
+		info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksOffered}
 		playerInfo[i['name']] = info
 
 		sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + i['name'] +"';"
