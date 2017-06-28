@@ -302,7 +302,7 @@ def envoieMapJava():
 
 		itemsByPlayer[i['name']] = itemsPlayer
 
-	mapInfo = {"region" : region, "ranking" : rank, "itemsByPlayer": itemsByPlayer,"playerInfo": playerInfo}
+	mapInfo = {"region" : region, "ranking" : rank, "itemsByPlayer": itemsByPlayer, "playerInfo": playerInfo, "drinksByPlayer": []}
 
 	return json_response(mapInfo)
 
@@ -367,7 +367,7 @@ def getMapPlayer(player_name):
 	profit = budgetBase - budget_depart;
 	info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
 
-	message = {"availableIngredients": availableIngredients, "map": mapInfo, "playerInfo": info, "drinksByPlayer": []}
+	message = {"availableIngredients": availableIngredients, "map": mapInfo, "playerInfo": info}
 	return json_response(message)
 
 
