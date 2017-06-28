@@ -274,8 +274,9 @@ def envoieMapJava():
 		budgetBase = db.select(sqlBudget)[0]['j_budget']
 		nbSales = db.select(sqlSales)[0]['nbsales']
 		drinksInfo = db.select(sqlDrinks)
-
+		print drinksInfo
 		for j in drinksInfo:
+			print j
 			j['hasAlcohol'] = j.pop['hasalcohol']
 			j['isHot'] = j.pop['ishot']
 
