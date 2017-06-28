@@ -159,6 +159,7 @@ def meteo():
 
 def sales_drinks_update(j, content):
 
+	print "DRINKS UPDATE"
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
@@ -180,6 +181,7 @@ def sales_drinks_update(j, content):
 		{"nom": player})[0]['j_budget']
 
 	calBudget = budget + (quantity*prixVente)
+	print calBudget
 	db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
 		WHERE j_pseudo = @(nom);""", {"budget": calBudget, "nom": player})
 	db.execute("""INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) 
@@ -187,6 +189,8 @@ def sales_drinks_update(j, content):
 		{"qty": quantity, "hour": hour, "weather": weather, "prixVente": prixVente, "j_id": j_id, "b_id": b_id})
 
 def sales_drinks(j, content):
+
+	print "SALES DRINK"
 
 	player = content['player']
 	item = content['item']
@@ -208,6 +212,7 @@ def sales_drinks(j, content):
 
 def sales_ad(j, content):
 
+	print "SALES AD"
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
