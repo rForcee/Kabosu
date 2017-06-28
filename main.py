@@ -55,20 +55,20 @@ def ajoutJoueur(name):
 		(SELECT j_id FROM joueur WHERE j_pseudo = @(nom)));""", 
 		{"nom": name, "coordX": coordX, "coordY": coordY, "influence": rayonInfluenceStand})
 	db.execute("""INSERT INTO boisson(b_nom, b_hasAlcohol, b_isCold, b_prixvente, b_prixprod, j_id) 
-		VALUES ('Lemonade', FALSE,TRUE,0,0.8, @(p_id)), ('Tea', FALSE,FALSE,0,0.8, @(p_id)), 
-		('Mojito',TRUE,TRUE,0,2, @(p_id));""", {"p_id": playerId})
+		VALUES ('lemonade', FALSE,TRUE,0,0.8, @(p_id)), ('tea', FALSE,FALSE,0,0.8, @(p_id)), 
+		('mojito',TRUE,TRUE,0,2, @(p_id));""", {"p_id": playerId})
 	db.execute("""INSERT INTO recette(r_qte, b_id, i_id) VALUES 
-		(2,(SELECT b_id FROM boisson WHERE b_nom = 'Lemonade' AND j_id = @(p_id)),
+		(2,(SELECT b_id FROM boisson WHERE b_nom = 'lemonade' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'lemon')),
-		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Lemonade' AND j_id = @(p_id)),
+		(1,(SELECT b_id FROM boisson WHERE b_nom = 'lemonade' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'eau gazeuse')),
-		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Mojito' AND j_id = @(p_id)),
+		(1,(SELECT b_id FROM boisson WHERE b_nom = 'mojito' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'rhum')),
-		(2,(SELECT b_id FROM boisson WHERE b_nom = 'Mojito' AND j_id = @(p_id)),
+		(2,(SELECT b_id FROM boisson WHERE b_nom = 'mojito' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'menthe')),
-		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Tea' AND j_id = @(p_id)),
+		(1,(SELECT b_id FROM boisson WHERE b_nom = 'tea' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'tea')),
-		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Tea' AND j_id = @(p_id)),
+		(1,(SELECT b_id FROM boisson WHERE b_nom = 'tea' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'menthe'));""", {"p_id": playerId})
 
 # Fonction pour la route /players avec la methode POST
@@ -78,7 +78,7 @@ def add_player():
 	elements = request.get_json()
 	name = elements['name']
 
-	joueur = db.select("SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"';")
+	joueur = db.select("""SELECT j_id FROM joueur WHERE j_pseudo = @(nom);""", {"nom": name})
 
 	if joueur == []:
 		ajoutJoueur(name)
@@ -159,7 +159,6 @@ def meteo():
 
 def sales_drinks_update(j, content):
 
-	print "DRINKS UPDATE"
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
@@ -190,7 +189,6 @@ def sales_drinks_update(j, content):
 
 def sales_drinks(j, content):
 
-	print "SALES DRINK"
 
 	player = content['player']
 	item = content['item']
@@ -207,12 +205,11 @@ def sales_drinks(j, content):
 
 			prixVente = j['price'][item]
 			
-			sales_drinks_update(j)
+			sales_drinks_update(j, content)
 
 
 def sales_ad(j, content):
 
-	print "SALES AD"
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
@@ -251,7 +248,6 @@ def messageRecuJava():
 		if i == player:
 			for j in dicoAction[i]['actions']:
 				if j['kind'] == 'drinks':
-					print "KIND DRINKS"
 					sales_drinks(j, content)
 
 	  			else:
