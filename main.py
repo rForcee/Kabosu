@@ -137,12 +137,9 @@ def meteo():
 			return json_response({ "error" : "Missing dfn"}, 400)
 		if "weather" not in weather["weather"][0]:
 			return json_response({ "error" : "Missing weather"}, 400)
-		if  weather["timestamp"] != 0 :
-			timestamp = weather["timestamp"]
-		if weather["weather"][0]["dfn"] == 0:
-			currentWeather = weather["weather"][0]["weather"]
-		if weather["weather"][1]["dfn"] == 1:
-			previsionWeather = weather["weather"][1]["weather"]
+		timestamp = weather["timestamp"]
+		currentWeather = weather["weather"][0]["weather"]
+		previsionWeather = weather["weather"][1]["weather"]
 
 		if result == []:
 			db.execute("""INSERT INTO dayinfo(di_hour, di_weather, di_forecast) 
@@ -332,7 +329,6 @@ def getMapPlayer(player_name):
 
 	
 	coordinates = db.select("""SELECT m_centreX as latitude, m_centreY as longitude FROM map;""")[0]
-	coordinates = db.select(sql)[0]
 	sqlSpan = "SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;"
 	coordinatesSpan = db.select(sqlSpan)[0]
 	sqlRank = "SELECT j_pseudo FROM JOUEUR ORDER BY j_budget DESC;"
