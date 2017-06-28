@@ -163,9 +163,6 @@ def sales_drinks_update(j, content):
 	item = content['item']
 	quantity = content['quantity']
 	prixVente = j['price'][item]
-	qtyItem = j['prepare'][item]
-	print "qty:"
-	print qtyItem
 	prixProd = db.select("""SELECT b_prixprod FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
 		AND b_nom = @(boisson); """, {"nom": player, "boisson": item})[0]['b_prixprod']
 	db.execute("""UPDATE boisson SET (b_prixvente) = (@(prixvente)) 
@@ -183,11 +180,9 @@ def sales_drinks_update(j, content):
 		{"nom": player, "boisson": item})[0]['b_prixvente']
 	budget = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",
 		{"nom": player})[0]['j_budget']
-	print prixProd
-	budget = budget - (qtyItem * prixProd)
-	print budget
+
 	calBudget = budget + (quantity*prixVente)
-	print calBudget
+
 	db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
 		WHERE j_pseudo = @(nom);""", {"budget": calBudget, "nom": player})
 	db.execute("""INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) 
@@ -198,23 +193,18 @@ def sales_drinks_update(j, content):
 
 def sales_drinks(j, content):
 
-	print "IN"
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
-	print item
 	recette = j['prepare']
 	print recette
 	if item in recette:
-		print "ilyest"
 		if recette[item] != 0:
 			if quantity > recette[item]:
-				print "in"
 				quantity = recette[item]
 				recette[item] = 0
 				sales_drinks_update(j, content)
 			else:
-				print "else"
 				recette[item] = recette[item] - quantity
 				sales_drinks_update(j, content)
 
@@ -257,13 +247,10 @@ def messageRecuJava():
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
-	print dicoAction
 	for i in dicoAction:
 		if i == player:
 			for j in dicoAction[i]['actions']:
-				print j
 				if j['kind'] == 'drinks':
-					print "SALES"
 					sales_drinks(j, content)
 
 	  			else:
@@ -284,9 +271,22 @@ def messageRecuJava():
 # Par defaut le serveur suppose qu'on ne veut rien faire
 @app.route('/actions/<player_name>', methods=['POST'])
 def action_player(player_name):
-  content = request.get_json()
-  dicoAction[player_name] = content
-  return json_response(dicoAction)
+	content = request.get_json()
+	dicoAction[player_name] = content
+	for i in content['actions']:
+		bname = i['prepare'].keys()
+		print bname
+		budget = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",
+		{"nom": player_name})[0]['j_budget']
+
+  		prixProd = db.select("""SELECT b_prixprod FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
+			AND b_nom = @(boisson); """, {"nom": player_name, "boisson": bname})[0]['b_prixprod']
+  		qte = i['prepare'][bname]
+  		depenses = qte * prixProd
+  		calBudget = budget - depenses
+  		db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
+		WHERE j_pseudo = @(nom);""", {"budget": calBudget, "nom": player_name})
+	return json_response(dicoAction)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
