@@ -113,9 +113,10 @@ def add_player():
 # OPTIONNEL
 @app.route("/players/<player_name>", methods=["DELETE"])
 def delete_player(player_name):
-	result = db.select("""DELETE FROM joueur WHERE j_pseudo =  @(nom);""", {"nom": player_name})
-	result = db.select(sql)
-	return json_response(result)
+	db.execute("""DELETE FROM joueur WHERE j_pseudo =  @(nom);""", {"nom": player_name})
+	db.execute("""DELETE FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": player_name})
+	db.execute("""DELETE FROM joueur WHERE j_pseudo =  @(nom);""", {"nom": player_name})
+	return json_response({"delete": True})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -124,8 +125,6 @@ def delete_player(player_name):
 #JAVA: fait un get regulier pour recupere la meteo et l heure.
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
-	
-
 	if request.method == 'POST':
 
 		weather = request.get_json()
@@ -142,7 +141,7 @@ def meteo():
 		previsionWeather = weather["weather"][1]["weather"]
 
 		result = db.select("SELECT di_hour, di_weather, di_forecast FROM dayinfo;")
-		
+
 		if result == []:
 			db.execute("""INSERT INTO dayinfo(di_hour, di_weather, di_forecast) 
 					VALUES(@(heure),@(meteo),@(forecast));""", 
@@ -337,16 +336,23 @@ def getMapPlayer(player_name):
 	ranking = db.select(sqlRank)
 
 
-	sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + player_name +"';"
-	
-	items = db.select(sqlItems)
+	items = db.select("""SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, 
+	z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur 
+	ON joueur.j_id = zone.j_id WHERE j_pseudo = @(nom);""", {"nom": i['name']})
+	itemsPlayer = []
+	for y in items:
+		itemsPlayer.append({"kind": y['kind'], "owner": y['owner'], "influence": y['influence'], "location": {"latitude": y['latitude'], "longitude": y['longitude']}})
 
+	print itemsPlayer
 
-	print items
+	coordinatesSpan['longitudeSpan'] = coordinatesSpan['longitudespan']
+	del coordinatesSpan['longitudespan']
+	coordinatesSpan['latitudeSpan'] = coordinatesSpan['latitudespan']
+	del coordinatesSpan['latitudespan']
 
 	region = {"center": coordinates, "span": coordinatesSpan}
 
-	mapInfo = {"region" : region, "ranking" : ranking, "itemsByPlayer": items}
+	mapInfo = {"region" : region, "ranking" : ranking, "itemsByPlayer": itemsPlayer}
 	print region
 	
 	sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name + "');"
