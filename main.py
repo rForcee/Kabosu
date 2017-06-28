@@ -225,10 +225,6 @@ def messageRecuJava():
 				if j['kind'] == 'drinks':
 					sales_drinks(j, content)
 
-	  			else:
-	  				if j['kind'] == 'ad':
-	  					sales_ad(j, content)
-
 	return json_response(dicoAction)
 
 
