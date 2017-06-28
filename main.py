@@ -326,6 +326,8 @@ def getMapPlayer(player_name):
   items = db.select(sqlItems)[0]
   db.close()
 
+  print items
+
   region = {"center": coordinates, "span": coordinatesSpan}
 
   mapInfo = {"region" : region, "ranking" : ranking, "itemsByPlayer": items}
