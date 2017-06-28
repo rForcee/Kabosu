@@ -166,9 +166,9 @@ def messageRecuJava():
 	item = content['item']
 	quantity = content['quantity']
 
-	for i in dicoTest:
+	for i in dicoAction:
 		if i == player:
-			for j in dicoTest[i]['actions']:
+			for j in dicoAction[i]['actions']:
 				if j['kind'] == 'drinks':
 					recette = j['prepare']
 					if item in recette:
@@ -224,7 +224,7 @@ def messageRecuJava():
 					
 	  					j = ""
 
-	return json_response(dicoTest)
+	return json_response(dicoAction)
 
 
 
