@@ -95,7 +95,7 @@ def add_player():
 	info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
 	# Message de retour
 	message = {"name": name, "location": coord, "info": info}
-
+	print message
 	return json_response(message)
 
 

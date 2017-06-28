@@ -11,3 +11,5 @@ db.execute('REQUETE')
 @(name), {nom: valeur}
 
 Variable globale db close à la fin du programme
+
+Sous fonctions
