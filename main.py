@@ -191,7 +191,7 @@ def sales_drinks(j, content):
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
-	
+
 	recette = j['prepare']
 	if item in recette:
 		if recette[item] != 0:
@@ -224,8 +224,8 @@ def sales_ad(j, content):
 
 	calBudget = budget - price
 
-	db.execute("""UPDATE joueur SET (j_budget) = ('"+ str(calBudget) +"') 
-		WHERE j_pseudo = @(nom);""", {"nom": player})
+	db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
+		WHERE j_pseudo = @(nom);""", {"nom": player, "budget": calBudget})
 
 	db.execute("""INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) 
 		VALUES('ad',@(latitude),@(longitude),@(rayon),@(j_id));""", 
