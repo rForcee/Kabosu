@@ -179,7 +179,7 @@ def messageRecuJava():
 
 						prixVente = j['price'][item]
 
-						db = Db()
+						
 						sqlPrixVente = "UPDATE boisson SET (b_prixvente) = ('"+ str(prixVente) +"') WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "') AND b_nom = '" + item + "';"
 						db.execute(sqlPrixVente)
 						sqlHour = "SELECT di_hour FROM dayinfo;"
@@ -211,7 +211,7 @@ def messageRecuJava():
   					rayon = j['radius']
   					price = j['price']
 
-  					db = Db()
+  					
 					sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
 					j_id = db.select(sqlJId)[0]['j_id']
 					print "ad"
@@ -252,14 +252,17 @@ def action_player(player_name):
 @app.route('/map', methods=['GET'])
 def envoieMapJava():
 
-	db = Db()
+	
 	sql = "SELECT m_centreX as latitude, m_centreY as longitude FROM map;"
 	coordinates = db.select(sql)[0]
 	sqlSpan = "SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;"
 	coordinatesSpan = db.select(sqlSpan)[0]
 	sqlRank = "SELECT j_pseudo as name FROM JOUEUR ORDER BY j_budget DESC;"
 	ranking = db.select(sqlRank)
-
+	coordinatesSpan['longitudeSpan'] = coordinatesSpan['longitudespan']
+	del coordinatesSpan['longitudespan']
+	coordinatesSpan['latitudeSpan'] = coordinatesSpan['latitudespan']
+	del coordinatesSpan['latitudespan']
 
 	region = {"center": coordinates, "span": coordinatesSpan}
 
@@ -269,8 +272,6 @@ def envoieMapJava():
 	rank = []
 	drinksOffered = []
 
-	print ranking
-	print "----------"
 	for i in ranking:
   		rank.append(i['name'])
 		sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i['name'] + "');"
@@ -281,7 +282,7 @@ def envoieMapJava():
 		budgetBase = db.select(sqlBudget)[0]['j_budget']
 		nbSales = db.select(sqlSales)[0]['nbsales']
 		drinksInfo = db.select(sqlDrinks)
-		print drinksInfo
+
 		for j in drinksInfo:
 			print j
 			j['hasAlcohol'] = j['hasalcohol']
@@ -308,12 +309,12 @@ def envoieMapJava():
 # Recupere les details d'une partie
 @app.route('/map/<player_name>', methods=['GET'])
 def getMapPlayer(player_name):
-	db = Db()
+	
 	sql = "SELECT b_nom as boisson, b_hasAlcohol as hasAlcool, b_isCold as isCold, i_nom as ingredient, i_prix as ingPrix, r_qte as quantite FROM ingredient INNER JOIN recette ON recette.i_id = ingredient.i_id INNER JOIN boisson ON boisson.b_id = recette.b_id WHERE boisson.b_id IN (SELECT b_id FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name +"'));"
 	ingredients = db.select(sql)
 
 
-	db = Db()
+	
 	sql = "SELECT m_centreX as latitude, m_centreY as longitude FROM map;"
 	coordinates = db.select(sql)[0]
 	sqlSpan = "SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;"
@@ -323,7 +324,7 @@ def getMapPlayer(player_name):
 
 
 	sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + player_name +"';"
-	db = Db()
+	
 	items = db.select(sqlItems)
 
 
@@ -333,7 +334,7 @@ def getMapPlayer(player_name):
 
 	mapInfo = {"region" : region, "ranking" : ranking, "itemsByPlayer": items}
 	print region
-	db = Db()
+	
 	sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name + "');"
 	sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ player_name +"';"
 	sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ player_name +"');"
@@ -364,7 +365,7 @@ def getMapPlayer(player_name):
 # Recupere la liste des ingredients
 @app.route('/ingredients', methods=['GET'])
 def get_ingredients():
-  db = Db()
+  
   sql = "SELECT i_nom, i_prix FROM ingredient;"
   ingredients = db.select(sql)
  
@@ -384,7 +385,7 @@ def inscriptionBoisson():
   alcool = content['alcool']
   hot = content['hot']
 
-  db = Db()
+  
   sql = "INSERT INTO boisson(b_nom, b_hasAlcohol, b_isCold, b_prixvente, b_prixprod, j_id) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "', 0);"
   db.execute(sql)
  
@@ -394,7 +395,7 @@ def inscriptionBoisson():
 # SELECT toutes les boissons
 @app.route('/inscrire/boisson', methods=['GET'])
 def getBoisson():
-  db = Db()
+  
   sql = "SELECT z_type as kind, z_centerX as X, z_centerY as Y, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON zone.j_id = joueur.j_id WHERE zone.j_id = (SELECT j_id FROM joueur WHERE j_pseudo = 'Erwann');"
   result = db.select(sql)
  
@@ -412,7 +413,7 @@ def inscriptionIngredient():
   nom = content['nom']
   prix = content['prix']
 
-  db = Db()
+  
   sql = "INSERT INTO ingredient(i_nom, i_prix) VALUES('"+ nom +"','"+ str(prix) +"');"
   db.execute(sql)
  
@@ -422,7 +423,7 @@ def inscriptionIngredient():
 # SELECT tous les ingredients
 @app.route('/inscrire/ingredient', methods=['GET'])
 def getIngredient():
-  db = Db()
+  
   sql = "SELECT * FROM ingredient;"
   result = db.select(sql)
  
@@ -441,7 +442,7 @@ def inscriptionRecette():
   drink = content['drink']
   qte = content['qte']
 
-  db = Db()
+  
   sql = "INSERT INTO recette(b_id, i_id, r_qte) VALUES((SELECT b_id FROM boisson WHERE b_nom = '" + drink + "'),(SELECT i_id FROM ingredient WHERE i_nom = '" + ing + "'),'"+ str(qte) +"');"
   db.execute(sql)
  
@@ -451,7 +452,7 @@ def inscriptionRecette():
 # SELECT toutes les recettes
 @app.route('/inscrire/recette', methods=['GET'])
 def getRecette():
-  db = Db()
+  
   sql = "SELECT * FROM recette;"
   result = db.select(sql)
  
