@@ -9,7 +9,6 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
-    <script type="js/kabosu.js"></script>
   </head>
   <body class="bodyIndex">
 
@@ -39,14 +38,20 @@
         <button id="sendTest" class="btn btn-lg btn-primary btn-block" type="submit">TEST</button>
         <button id="sendPost" class="btn btn-lg btn-primary btn-block" type="submit">POST</button>
       </form>
+        <button id="testPlayer" class="btn btn-lg btn-primary btn-block" onclick="testPlayer();">TEST PLAYER</button>
+
     </div>
    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <script src="js/bootstrap.min.js"></script>
 
+    <script src="js/ajout.js"></script>
+
     <script>
-    
+
+      
+      
       function envoyerIng(e) {
         e.preventDefault()
 
@@ -167,6 +172,7 @@
         $('#sendDrink').on('click', envoyerDrink);
         $('#sendRecette').on('click', envoyerRec);
         $('#sendTest').on('click', envoyerTest);
+        $('#sendPost').on('click', envoyerPost);
         $('#sendPost').on('click', envoyerPost);
       })
 

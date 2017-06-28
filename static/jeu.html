@@ -21,7 +21,7 @@
         </div>
         <ul class="nav navbar-nav">
           <li class="active"><a href="jeu.html">Gestion</a></li>
-          <li><a href="resultat.html">Résultats</a></li>
+          <li><a href="resultat.html?player=Erwann">Résultats</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><img src="image/EPLS_01.png"></li>
@@ -144,7 +144,19 @@
   </footer>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="js/jeu.js"></script>
+
   <script>
+
+    $.urlParam = function(name){
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      if (results==null){
+         return null;
+      }
+      else{
+         return decodeURI(results[1]) || 0;
+      }
+    }
 
     var message = "<table class=" + "table tableProd" + "><thead><tr><th>Ingrédient</th><th>Quantité</th><th>Prix unitaire</th></tr></thead><tbody><tr><td>Citron</td><td>2</td><td>0.2€</td></tr><tr><td>Eau gazeuse</td><td>1</td><td>0.4</td></tr></tbody></table>"
     $(document).ready(function(){
