@@ -48,28 +48,28 @@ def get_players():
 def ajoutJoueur(name):
 	coordX = random.randrange(330,670,1)
 	coordY = random.randrange(130,470,1)
-	db.execute("INSERT INTO joueur(j_pseudo, j_budget) VALUES('"+ name +"','"+ str(budget_depart) +"');")
-	playerId = db.select("SELECT j_id FROM joueur WHERE j_pseudo = '" + name + "';")[0]['j_id']
-	db.execute("INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) VALUES('"+ "stand" +"','"+ str(coordX) +"','"+ str(coordY) +"','"+ str(rayonInfluenceStand) +"',(SELECT j_id FROM joueur WHERE j_pseudo = '" + name + "'));")
-	db.execute("INSERT INTO boisson(b_nom, b_alcool, b_chaud, b_prixvente, b_prixprod, j_id) VALUES ('Limonade', 0,0,0,0.8, "+str(playerId)+"), ('The vert', 0,1,0,0.8, "+str(playerId)+"), ('Mojito',1,0,0,2, "+str(playerId)+");")
-	db.execute("""INSERT INTO recette(r_qte, b_id, i_id) VALUES (2,(SELECT b_id FROM boisson WHERE b_nom = 'Limonade' 
-		AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"')),
+	db.execute("""INSERT INTO joueur(j_pseudo, j_budget) VALUES(@(nom),@(budget));""", {"nom": name, "budget": budget_depart})
+	playerId = db.select("""SELECT j_id FROM joueur WHERE j_pseudo = @(nom);""", {"nom": name})[0]['j_id']
+	db.execute("""INSERT INTO zone(z_type, z_centerX, z_centerY, z_rayon, j_id) VALUES 
+		('stand',@(coordX),@(coordY),@(influence),
+		(SELECT j_id FROM joueur WHERE j_pseudo = @(nom)));""", 
+		{"nom": name, "coordX": coordX, "coordY": coordY, "influence": rayonInfluenceStand})
+	db.execute("""INSERT INTO boisson(b_nom, b_alcool, b_chaud, b_prixvente, b_prixprod, j_id) 
+		VALUES ('Limonade', 0,0,0,0.8, @(p_id)), ('The vert', 0,1,0,0.8, @(p_id)), 
+		('Mojito',1,0,0,2, @(p_id));""", {"p_id": playerId})
+	db.execute("""INSERT INTO recette(r_qte, b_id, i_id) VALUES 
+		(2,(SELECT b_id FROM boisson WHERE b_nom = 'Limonade' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'citron')),
-		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Limonade' AND j_id = 
-		(SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"')),
+		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Limonade' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'eau gazeuse')),
-		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Mojito' AND j_id = 
-		(SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"')),
+		(1,(SELECT b_id FROM boisson WHERE b_nom = 'Mojito' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'rhum')),
-		(2,(SELECT b_id FROM boisson WHERE b_nom = 'Mojito' 
-		AND j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"')),
+		(2,(SELECT b_id FROM boisson WHERE b_nom = 'Mojito' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'menthe')),
-		(1,(SELECT b_id FROM boisson WHERE b_nom = 'The vert' AND j_id = 
-		(SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"')),
+		(1,(SELECT b_id FROM boisson WHERE b_nom = 'The vert' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'the')),
-		(1,(SELECT b_id FROM boisson WHERE b_nom = 'The vert' AND j_id = 
-		(SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"')),
-		(SELECT i_id FROM ingredient WHERE i_nom = 'menthe'));""")
+		(1,(SELECT b_id FROM boisson WHERE b_nom = 'The vert' AND j_id = @(p_id)),
+		(SELECT i_id FROM ingredient WHERE i_nom = 'menthe'));""", {"p_id": playerId})
 
 # Fonction pour la route /players avec la methode POST
 # Permet d'ajouter un utilisateur a la table joueur avec le budget de base
@@ -82,15 +82,14 @@ def add_player():
 
 	if joueur == []:
 		ajoutJoueur(name)
-
   
 	coord = db.select("""SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = 
-					(SELECT j_id FROM joueur WHERE j_pseudo = '" + name + "');""")[0]
-	budgetBase = db.select("SELECT j_budget FROM joueur WHERE j_pseudo = '"+ name +"';")[0]['j_budget']
+					(SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",{"nom": name})[0]
+	budgetBase = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",{"nom": name})[0]['j_budget']
 	nbSales = db.select("""SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = 
-						(SELECT j_id FROM joueur WHERE j_pseudo = '"+ name +"');""")[0]['nbsales']
+						(SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",{"nom": name})[0]['nbsales']
 	drinksInfo = db.select("""SELECT b_nom as name, b_prixprod as price, b_alcool as hasAlcohol, b_chaud as isHot FROM boisson 
-							WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + name +"');""")
+							WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",{"nom": name})
 	profit = budgetBase - budget_depart;
 
 	info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
