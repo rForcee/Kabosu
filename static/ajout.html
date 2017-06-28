@@ -145,7 +145,7 @@
 
             data = {"actions" : [limonade , thevert , ad], "simulated": false}
             
-            $.ajax('https://kabosu.herokuapp.com/testDico/Erwann', {
+            $.ajax('https://kabosu.herokuapp.com/actions/Erwann', {
               type: 'POST',
               contentType: 'application/json',
               data: JSON.stringify(data)
@@ -159,7 +159,7 @@
 
             dataDos = {"actions" : [message]}
             
-            $.ajax('https://kabosu.herokuapp.com/testDico/John%20Cena', {
+            $.ajax('https://kabosu.herokuapp.com/actions/John%20Cena', {
               type: 'POST',
               contentType: 'application/json',
               data: JSON.stringify(dataDos)
