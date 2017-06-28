@@ -129,6 +129,7 @@ def meteo():
 	if request.method == 'POST':
 
 		weather = request.get_json()
+		print weather
 
 		if "timestamp" not in weather:
 			return json_response({ "error" : "Missing timestamp" }, 400)
@@ -283,17 +284,16 @@ def envoieMapJava():
 
 	for i in ranking:
   		rank.append(i['name'])
-		sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i['name'] + "');"
-		sqlBudget = "SELECT j_budget FROM joueur WHERE j_pseudo = '"+ i['name'] +"';"
-		sqlSales = "SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '"+ i['name'] +"');"
-		sqlDrinks = "SELECT b_nom as name, b_prixvente as price, b_hasAlcohol as hasAlcohol, b_isCold as isCold FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + i['name'] +"');"
-		coord = db.select(sqlCoord)[0]
-		budgetBase = db.select(sqlBudget)[0]['j_budget']
-		nbSales = db.select(sqlSales)[0]['nbsales']
-		drinksInfo = db.select(sqlDrinks)
-
+		coord = db.select("""SELECT z_centerX as latitude, z_centerY as longitude FROM zone 
+			WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": i['name']})[0]
+		budgetBase = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom));""", {"nom": i['name']})[0]['j_budget']
+		nbSales = db.select("""SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes 
+			WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": i['name']})[0]['nbsales']
+		drinksInfo = db.select("""SELECT b_nom as name, b_prixvente as price, b_hasAlcohol as hasAlcohol, 
+			b_isCold as isCold FROM boisson 
+			WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": i['name']})
+		
 		for j in drinksInfo:
-			print j
 			j['hasAlcohol'] = j['hasalcohol']
 			del j['hasalcohol']
 			j['isCold'] = j['iscold']
@@ -304,8 +304,9 @@ def envoieMapJava():
 		playerInfo[i['name']] = info
 		drinksOffered = []
 
-		sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + i['name'] +"';"
-		items = db.select(sqlItems)
+		items = db.select("""SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, 
+		z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur 
+		ON joueur.j_id = zone.j_id WHERE j_pseudo = @(nom));""", {"nom": i['name']})
 		itemsPlayer = []
 		for y in items:
 			itemsPlayer.append({"kind": y['kind'], "owner": y['owner'], "influence": y['influence'], "location": {"latitude": y['latitude'], "longitude": y['longitude']}})
@@ -323,14 +324,14 @@ def envoieMapJava():
 @app.route('/map/<player_name>', methods=['GET'])
 def getMapPlayer(player_name):
 	
-	ingredients = db.select("""SELECT i_nom as nom, i_prix as ingPrix FROM ingredient;""")
+	ingredients = db.select("""SELECT i_nom as nom, i_prix as ingprix FROM ingredient;""")
 
 	availableIngredients = []
 	for y in ingredients:
-		availableIngredients.append({"name": y['nom'], "cost": y['ingPrix'], "hasAlcohol": False, "isCold": False})
+		availableIngredients.append({"name": y['nom'], "cost": y['ingprix'], "hasAlcohol": False, "isCold": False})
 
 	
-	sql = "SELECT m_centreX as latitude, m_centreY as longitude FROM map;"
+	coordinates = db.select("""SELECT m_centreX as latitude, m_centreY as longitude FROM map;""")[0]
 	coordinates = db.select(sql)[0]
 	sqlSpan = "SELECT m_coordX as latitudeSpan, m_coordY as longitudeSpan FROM map;"
 	coordinatesSpan = db.select(sqlSpan)[0]
@@ -369,7 +370,7 @@ def getMapPlayer(player_name):
 	profit = budgetBase - budget_depart;
 	info = {"cash": budgetBase, "sales": nbSales, "profit": profit, "drinksOffered": drinksInfo}
 
-	message = {"availableIngredients": ingredients, "map": mapInfo, "playerInfo": info}
+	message = {"availableIngredients": availableIngredients, "map": mapInfo, "playerInfo": info}
 	return json_response(message)
 
 
