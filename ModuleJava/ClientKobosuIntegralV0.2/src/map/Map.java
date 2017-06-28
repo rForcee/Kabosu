@@ -57,7 +57,11 @@ public class Map
 			root.getChildren().add(mymapRec.get("rectangle"+i));
 			// System.out.println(mymapClient.get("client"+i).motivation(meteo));
 			System.out.println("client"+i);
+<<<<<<< HEAD
 		//	if(mymapClient.get("client"+i).motivation(meteo) == true){
+=======
+			if(mymapClient.get("client"+i).motivation(meteo)[1] == true){
+>>>>>>> fa0e242547b63c56060dd829214f43ccf3630cd5
 				// System.out.println("todo :choix stand");
 				/*int rayonInfluence = rayonInfluence(mymapClient.get("client"+i).getX(), mymapClient.get("client"+i).getY(), GET ArrayList<ItemJoueur>);
 				if(rayonInfluence > 0){

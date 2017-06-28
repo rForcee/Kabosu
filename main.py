@@ -293,7 +293,7 @@ def envoieMapJava():
 
 	  sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + i['name'] +"';"
 	  db = Db()
-	  items = db.select(sqlItems)[0]
+	  items = db.select(sqlItems)
 	  db.close()
 	  itemsByPlayer[i['name']] = items
 
@@ -321,9 +321,16 @@ def getMapPlayer(player_name):
   ranking = db.select(sqlRank)
   db.close()
 
+  sqlItems = "SELECT z_type as kind, z_centerX as latitude, z_centerY as longitude, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON joueur.j_id = zone.j_id WHERE j_pseudo = '" + player_name +"';"
+  db = Db()
+  items = db.select(sqlItems)
+  db.close()
+
+  print items
+
   region = {"center": coordinates, "span": coordinatesSpan}
 
-  mapInfo = {"region" : region, "ranking" : ranking}
+  mapInfo = {"region" : region, "ranking" : ranking, "itemsByPlayer": items}
   print region
   db = Db()
   sqlCoord = "SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player_name + "');"
