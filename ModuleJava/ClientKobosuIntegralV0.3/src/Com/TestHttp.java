@@ -90,7 +90,7 @@ public class TestHttp {
 		JsonParser parser = new JsonParser();
 		JsonObject obj = parser.parse(trame).getAsJsonObject();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		JsonObject jsonObject = obj.getAsJsonObject();
+
 		JsonObject response = new JsonObject();
 		response = gson.fromJson(obj,JsonObject.class);
 		data.setMapY(response.get("region").getAsJsonObject().get("center").getAsJsonObject().get("longitude").getAsInt());
@@ -104,14 +104,14 @@ public class TestHttp {
 public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String joueur) throws IOException {
 		//ArrayList<String> joueur = new ArrayList<String>();
 		//ArrayList<DataTramePlayerInfo> data = new ArrayList<DataTramePlayerInfo>();
-		DataTramePlayerInfo  data = new DataTramePlayerInfo  ();
+		DataTramePlayerInfo  data = new DataTramePlayerInfo();
 		DatadrinksOffered drinkInfo = new DatadrinksOffered();
 		JsonReader reader = new JsonReader(new StringReader(trame));
 		reader.setLenient(true);
 		JsonParser parser = new JsonParser();
 		JsonObject obj = parser.parse(trame).getAsJsonObject();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		JsonObject jsonObject = obj.getAsJsonObject();
+	
 		JsonObject response = new JsonObject();
 		response = gson.fromJson(obj,JsonObject.class);
 		//System.out.println(response.get("playerInfo").getAsJsonObject().get(joueur));
@@ -149,9 +149,9 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 
 	}
 	public static DataTrameItemJoueur traitementTrameItem(String trame, String joueur) throws IOException {
-		//ArrayList<String> joueur = new ArrayList<String>();
-		//ArrayList<DataTramePlayerInfo> data = new ArrayList<DataTramePlayerInfo>();
+	
 		DataTrameItemJoueur  data = new DataTrameItemJoueur();
+		DataItemJoueur item = new DataItemJoueur();
 		JsonReader reader = new JsonReader(new StringReader(trame));
 		reader.setLenient(true);
 		JsonParser parser = new JsonParser();
@@ -160,12 +160,21 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 		JsonObject jsonObject = obj.getAsJsonObject();
 		JsonObject response = new JsonObject();
 		response = gson.fromJson(obj,JsonObject.class);
-		//System.out.println(response.get("playerInfo").getAsJsonObject().get(joueur));
-		data.setInfluence(response.get("itemsByPlayer").getAsJsonObject().get(joueur).getAsJsonObject().get("influence").getAsFloat());
-		//data.setProfit(response.get("playerInfo").getAsJsonObject().get(joueur).getAsJsonObject().get("profit").getAsFloat());
-		//data.setVente(response.get("playerInfo").getAsJsonObject().get(joueur).getAsJsonObject().get("sales").getAsInt());
-		System.out.println(data.getInfluence());
-
+		data.joueur = joueur;
+		JsonArray JArray = new JsonArray();
+		JArray = (response.get("itemsByPlayer").getAsJsonObject().get(joueur).getAsJsonArray());
+		if (JArray != null) { 
+			for (int i=0;i<JArray.size();i++){ 
+				
+				item.setTypeItem(JArray.get(i).getAsJsonObject().get("kind").getAsString());
+				item.setInfluence(JArray.get(i).getAsJsonObject().get("influence").getAsFloat());
+				item.setNomjoueur(JArray.get(i).getAsJsonObject().get("owner").getAsString());
+				item.setLatitude(JArray.get(i).getAsJsonObject().get("location").getAsJsonObject().get("latitude").getAsFloat());
+				item.setLongitude(JArray.get(i).getAsJsonObject().get("location").getAsJsonObject().get("longitude").getAsFloat());
+				data.item.add(item);
+		
+			}
+		}
 		reader.close();
 		return data;
 
@@ -177,7 +186,6 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 		JsonParser parser = new JsonParser();
 		JsonObject obj = parser.parse(trame).getAsJsonObject();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		JsonObject jsonObject = obj.getAsJsonObject();
 		JsonObject response = new JsonObject();
 		response = gson.fromJson(obj,JsonObject.class);
 		JsonArray JArray = new JsonArray();
@@ -187,9 +195,7 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 				data.rank.add(JArray.get(i).getAsString());
 			}
 		}
-		//data.drink.setPrice(response.get("playerInfo").getAsJsonObject().get("drinksOffered").getAsJsonObject().get("price").getAsFloat());
-		//data.setMapSy(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("longitudespan").getAsInt());	
-		//data.setMapSx(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("latitudespan").getAsInt());
+		
 		System.out.println(data.getRank());
 		reader.close();
 		return data;
@@ -225,7 +231,7 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 			//System.out.print(traitementTramePlayerInfo(getMap(urlGet))); // get vers https://kabosu.herokuapp.com/map
 			//getMap(urlGet);
 			//System.out.println(getMap(urlGet));
-			traitementTramePlayerInfo(getMap(urlGet),"Erwann");
+			//traitementTramePlayerInfo(getMap(urlGet),"Erwann");
 			//traitementTrameRank(getMap(urlGet));
 			//traitementTrameItem(getMap(urlGet),"Erwann");
 		} catch (Exception e) {
