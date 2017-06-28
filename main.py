@@ -167,18 +167,12 @@ def messageRecuJava():
 	quantity = content['quantity']
 
 	for i in dicoTest:
-  	
 		if i == player:
-	  		
 			for j in dicoTest[i]['actions']:
-	  			
 				if j['kind'] == 'drinks':
 					recette = j['prepare']
-	  				
 					if item in recette:
-
 						if recette[item] != 0:
-							
 							if quantity > recette[item]:
 								quantity = recette[item]
 								recette[item] = 0
@@ -186,7 +180,6 @@ def messageRecuJava():
 								recette[item] = recette[item] - quantity
 
 							prixVente = j['price'][item]
-
 							
 							sqlPrixVente = "UPDATE boisson SET (b_prixvente) = ('"+ str(prixVente) +"') WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "') AND b_nom = '" + item + "';"
 							db.execute(sqlPrixVente)
@@ -210,7 +203,6 @@ def messageRecuJava():
 							db.execute(sqlBudget)
 							sql = "INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) VALUES('" + str(quantity) + "','" + str(hour) + "','" + str(weather) + "','" + str(prixVente) + "','" + str(j_id) + "','" + str(b_id) + "');"
 							db.execute(sql)
-						
 
 	  			else:
 	  				if j['kind'] == 'ad':
@@ -219,7 +211,6 @@ def messageRecuJava():
 	  					rayon = j['radius']
 	  					price = j['price']
 
-	  					
 						sqlJId = "SELECT j_id FROM joueur WHERE j_pseudo = '" + player + "';"
 						j_id = db.select(sqlJId)[0]['j_id']
 						print "ad"
@@ -388,11 +379,14 @@ def getMapPlayer(player_name):
 @app.route('/ingredients', methods=['GET'])
 def get_ingredients():
   
-  sql = "SELECT i_nom, i_prix FROM ingredient;"
-  ingredients = db.select(sql)
- 
-  print ingredients[1]
-  return json_response(ingredients)
+	sql = "SELECT i_nom, i_prix FROM ingredient;"
+	ingredients = db.select(sql)
+	listIngredients = []
+	for i in ingredients:
+		listIngredients.append({"name": i['i_nom'], "cost": y['i_prix'], "hasAlcohol": False, "isCold": False})
+
+	print ingredients[1]
+	return json_response({"ingredients": ingredients})
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -402,26 +396,26 @@ def get_ingredients():
 # Ajout d'une boisson en BDD
 @app.route('/inscrire/boisson', methods=['POST'])
 def inscriptionBoisson():
-  content = request.get_json()
-  nom = content['nom']
-  alcool = content['alcool']
-  hot = content['hot']
+	content = request.get_json()
+	nom = content['nom']
+	alcool = content['alcool']
+	hot = content['hot']
 
-  
-  sql = "INSERT INTO boisson(b_nom, b_hasAlcohol, b_isCold, b_prixvente, b_prixprod, j_id) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "', 0);"
-  db.execute(sql)
- 
-  return json_response(content)
+
+	sql = "INSERT INTO boisson(b_nom, b_hasAlcohol, b_isCold, b_prixvente, b_prixprod, j_id) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "', 0);"
+	db.execute(sql)
+
+	return json_response(content)
 
 # Fonction pour la route /inscrire/boisson avec GET
 # SELECT toutes les boissons
 @app.route('/inscrire/boisson', methods=['GET'])
 def getBoisson():
   
-  sql = "SELECT z_type as kind, z_centerX as X, z_centerY as Y, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON zone.j_id = joueur.j_id WHERE zone.j_id = (SELECT j_id FROM joueur WHERE j_pseudo = 'Erwann');"
-  result = db.select(sql)
- 
-  return json_response(result)
+	sql = "SELECT z_type as kind, z_centerX as X, z_centerY as Y, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON zone.j_id = joueur.j_id WHERE zone.j_id = (SELECT j_id FROM joueur WHERE j_pseudo = 'Erwann');"
+	result = db.select(sql)
+
+	return json_response(result)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -431,25 +425,25 @@ def getBoisson():
 # Ajout d'un ingredient en BDD
 @app.route('/inscrire/ingredient', methods=['POST'])
 def inscriptionIngredient():
-  content = request.get_json()
-  nom = content['nom']
-  prix = content['prix']
+	content = request.get_json()
+	nom = content['nom']
+	prix = content['prix']
 
-  
-  sql = "INSERT INTO ingredient(i_nom, i_prix) VALUES('"+ nom +"','"+ str(prix) +"');"
-  db.execute(sql)
- 
-  return json_response(content)
+
+	sql = "INSERT INTO ingredient(i_nom, i_prix) VALUES('"+ nom +"','"+ str(prix) +"');"
+	db.execute(sql)
+
+	return json_response(content)
 
 # Fonction pour la route /inscrire/ingredient avec GET
 # SELECT tous les ingredients
 @app.route('/inscrire/ingredient', methods=['GET'])
 def getIngredient():
   
-  sql = "SELECT * FROM ingredient;"
-  result = db.select(sql)
- 
-  return json_response(result)
+	sql = "SELECT * FROM ingredient;"
+	result = db.select(sql)
+
+	return json_response(result)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -459,29 +453,29 @@ def getIngredient():
 # Ajout d'une recette en BDD
 @app.route('/inscrire/recette', methods=['POST'])
 def inscriptionRecette():
-  content = request.get_json()
-  ing = content['ing']
-  drink = content['drink']
-  qte = content['qte']
+	content = request.get_json()
+	ing = content['ing']
+	drink = content['drink']
+	qte = content['qte']
 
-  
-  sql = "INSERT INTO recette(b_id, i_id, r_qte) VALUES((SELECT b_id FROM boisson WHERE b_nom = '" + drink + "'),(SELECT i_id FROM ingredient WHERE i_nom = '" + ing + "'),'"+ str(qte) +"');"
-  db.execute(sql)
- 
-  return json_response(content)
+
+	sql = "INSERT INTO recette(b_id, i_id, r_qte) VALUES((SELECT b_id FROM boisson WHERE b_nom = '" + drink + "'),(SELECT i_id FROM ingredient WHERE i_nom = '" + ing + "'),'"+ str(qte) +"');"
+	db.execute(sql)
+
+	return json_response(content)
 
 # Fonction pour la route /inscrire/recette avec GET
 # SELECT toutes les recettes
 @app.route('/inscrire/recette', methods=['GET'])
 def getRecette():
   
-  sql = "SELECT * FROM recette;"
-  result = db.select(sql)
- 
-  return json_response(result)
+	sql = "SELECT * FROM recette;"
+	result = db.select(sql)
+
+	return json_response(result)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
-  app.run()
+	app.run()
