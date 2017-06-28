@@ -273,19 +273,21 @@ def action_player(player_name):
 			for j in dicoAction[i]['actions']:
 				if j['kind'] == 'ad':
   					sales_ad(j, player_name)
+				
 				else:
+					
+					bname = j['prepare'].keys()[0]
+					budget = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",
+					{"nom": player_name})[0]['j_budget']
 
-				bname = j['prepare'].keys()[0]
-				budget = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",
-				{"nom": player_name})[0]['j_budget']
-
-				prixProd = db.select("""SELECT b_prixprod FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
-				AND b_nom = @(boisson); """, {"nom": player_name, "boisson": bname})[0]['b_prixprod']
-				qte = j['prepare'][bname]
-				depenses = qte * prixProd
-				calBudget = budget - depenses
-				db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
-				WHERE j_pseudo = @(nom);""", {"budget": calBudget, "nom": player_name})
+					prixProd = db.select("""SELECT b_prixprod FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
+					AND b_nom = @(boisson); """, {"nom": player_name, "boisson": bname})[0]['b_prixprod']
+					qte = j['prepare'][bname]
+					depenses = qte * prixProd
+					calBudget = budget - depenses
+					db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
+					WHERE j_pseudo = @(nom);""", {"budget": calBudget, "nom": player_name})
+	
 	return json_response(dicoAction)
 
 
