@@ -159,6 +159,7 @@ def meteo():
 
 def sales_drinks_update(j, content):
 
+	print "IN"
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
