@@ -316,7 +316,7 @@ def envoieMapJava():
 		for y in items:
 			itemsPlayer.append({"kind": y['kind'], "owner": y['owner'], "influence": y['influence'], "location": {"latitude": y['latitude'], "longitude": y['longitude']}})
 
-		itemsByPlayer[i['name']] = [itemsPlayer]
+		itemsByPlayer[i['name']] = itemsPlayer
 
 	mapInfo = {"region" : region, "ranking" : rank, "itemsByPlayer": itemsByPlayer,"playerInfo": playerInfo}
 
