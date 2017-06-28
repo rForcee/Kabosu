@@ -207,10 +207,12 @@ def sales_drinks(j, content):
 	if item in recette:
 		if recette[item] > 0:
 			if quantity > recette[item]:
+				print "in"
 				quantity = recette[item]
 				recette[item] = 0
 				sales_drinks_update(j, content)
 			else:
+				print "else"
 				recette[item] = recette[item] - quantity
 				sales_drinks_update(j, content)
 
