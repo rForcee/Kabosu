@@ -188,7 +188,7 @@ def sales_drinks_update(j, content):
 	db.execute("""INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) 
 		VALUES(@(qty), @(hour), @(weather), @(prixvente), @(j_id), @(b_id));""",
 		{"qty": quantity, "hour": hour, "weather": weather, "prixvente": prixVente, "j_id": j_id, "b_id": b_id})
-
+	return True
 
 def sales_drinks(j, content):
 
@@ -207,7 +207,7 @@ def sales_drinks(j, content):
 				recette[item] = recette[item] - quantity
 				sales_drinks_update(j, content)
 
-
+	return True
 
 
 
@@ -259,6 +259,7 @@ def sales_ad(j, player_name):
 
 	j = ""
 
+	return True
 # Fonction pour la route /actions/<player_name> avec POST
 # Actions pour le lendemain
 # Ne s'ajoute pas aux actions mais les remplace les actions du joueur
@@ -269,13 +270,13 @@ def action_player(player_name):
 	content = request.get_json()
 	dicoAction[player_name] = content
 	for i in dicoAction:
-		if i == player:
+		if i == player_name:
 			for j in dicoAction[i]['actions']:
 				if j['kind'] == 'ad':
   					sales_ad(j, player_name)
 				
 				else:
-					
+
 					bname = j['prepare'].keys()[0]
 					budget = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",
 					{"nom": player_name})[0]['j_budget']
