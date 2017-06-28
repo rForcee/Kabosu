@@ -125,41 +125,34 @@ def delete_player(player_name):
 @app.route('/metrology', methods=['GET','POST'])
 def meteo():
 	if request.method == 'POST':
-		content = request.get_json()
 
-		weather = content['meteo']
-		heure = content['hour']
-		forecast = content['forecast']
+		weather = request.get_json()
 
-		result = db.select("SELECT * FROM dayinfo;")
+		if "timestamp" not in weather:
+			return json_response({ "error" : "Missing timestamp" }, 400)
+		if "dfn" not in weather["weather"][0]:
+			return json_response({ "error" : "Missing dfn"}, 400)
+		if "weather" not in weather["weather"][0]:
+			return json_response({ "error" : "Missing weather"}, 400)
+		if  weather["timestamp"] != 0 :
+			timestamp = weather["timestamp"]
+		if weather["weather"][0]["dfn"] == 0:
+			currentWeather = weather["weather"][0]["weather"]
+		if weather["weather"][1]["dfn"] == 1:
+			previsionWeather = weather["weather"][1]["weather"]
 
-	weather = request.get_json()
-
-	if "timestamp" not in weather:
-		return json_response({ "error" : "Missing timestamp" }, 400)
-	if "dfn" not in weather["weather"][0]:
-		return json_response({ "error" : "Missing dfn"}, 400)
-	if "weather" not in weather["weather"][0]:
-		return json_response({ "error" : "Missing weather"}, 400)
-	if  weather["timestamp"] != 0 :
-		timestamp = weather["timestamp"]
-	if weather["weather"][0]["dfn"] == 0:
-		currentWeather = weather["weather"][0]["weather"]
-	if weather["weather"][1]["dfn"] == 1:
-		previsionWeather = weather["weather"][1]["weather"]
-
-	if result == []:
-		db.execute("""INSERT INTO dayinfo(di_hour, di_weather, di_forecast) 
-				VALUES(@(heure),@(meteo),@(forecast));""", 
-				{"heure": timestamp, "meteo": currentWeather, "forecast": previsionWeather})
-	else:
-		sql = "UPDATE dayinfo SET (di_hour, di_weather, di_forecast) = ('"+ str(hour) +"','"+ str(meteo) +"','"+ str(forecast) +"');"
-		db.execute(sql)
+		if result == []:
+			db.execute("""INSERT INTO dayinfo(di_hour, di_weather, di_forecast) 
+					VALUES(@(heure),@(meteo),@(forecast));""", 
+					{"heure": timestamp, "meteo": currentWeather, "forecast": previsionWeather})
+		else:
+			db.execute("""UPDATE dayinfo SET (di_hour, di_weather, di_forecast) = (@(heure),@(meteo),@(forecast));""",
+			{"heure": timestamp, "meteo": currentWeather, "forecast": previsionWeather})
 
 	result = db.select("SELECT di_hour, di_weather, di_forecast FROM dayinfo;")[0]
 
 	print result
-	return json_response({"timestamp": heure, "weather": [ {"dfn": 0, "weather": weather}, {"dfn": 1, "weather": forecast } ] })
+	return json_response({"timestamp": result['di_hour'], "weather": [ {"dfn": 0, "weather": result['di_weather']}, {"dfn": 1, "weather": result['di_forecast'] } ] })
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
