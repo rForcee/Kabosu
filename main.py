@@ -268,7 +268,7 @@ def sales_ad(j, player_name):
 @app.route('/actions/<player_name>', methods=['POST'])
 def action_player(player_name):
 	content = request.get_json()
-	if content = []:
+	if content == []:
 		return json_response({"success": False})
 
 	dicoAction[player_name] = content
