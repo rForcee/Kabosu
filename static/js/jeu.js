@@ -157,11 +157,12 @@ function getActions() {
 				tableActions.push(ajout)
 
 			}
+
 			if($('#pubX').val() != "" && $('#pubY').val() != "")
 			{
-				var ajout = {"kind": "ad", "location": {"latitude": $('#pubX').val(), "longitude": $('#pubY').val()}, "price": 27}
-
-				tableActions.push(ajout)
+				var ajoutAd = {"kind": "ad", "location": {"latitude": $('#pubX').val(), "longitude": $('#pubY').val()}, "price": 27}
+				console.log(ajoutAd)
+				tableActions.push(ajoutAd)
 			}
 
 			if(budget > priceAll)
