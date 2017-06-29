@@ -14,10 +14,14 @@
 	vertical-align: center !important;
 	text-align: center;
 	padding: 25px;
+	text-transform: capitalize;
+	
 }
 .popover-content td,
 .popover-content th {
 	background-color: #fff !important;
+	text-transform: capitalize;
+
 }
 
 .boissonsTD

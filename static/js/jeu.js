@@ -82,7 +82,7 @@ function mapPlayer() {
 	              "<td class=\"boissonsTD\"><a href=\"#\" title=\"Recette : " + nom +"\" data-toggle=\"popover\" data-html=\"true\" data-trigger=\"focus\" data-content=\"" + content+ "\" class=\"recette\">"+nom+"</a></td>"+
 	              "<td><input type=\"number\" min=\"0\" name=\""+ nom +"\" class=\"form-control\"></td>" +
 	              "<td><input type=\"text\" name=\""+ nom +"\" class=\"form-control\"></td>" +
-	              "<td>"+ price +"</td>" +
+	              "<td>"+ price +"€</td>" +
 	              "<td></td>" +
 	            "</tr>";
 	            console.log(ligne)
