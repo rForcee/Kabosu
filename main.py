@@ -8,7 +8,7 @@ app.debug = True
 CORS(app)
 
 budget_depart = 10
-rayonInfluenceStand = 25
+rayonInfluenceStand = 250
 dicoAction = {}
 db = Db()
 
