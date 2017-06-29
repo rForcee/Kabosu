@@ -497,6 +497,23 @@ def getIngredient():
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+# Fonction pour la route /inscrire/ingredient avec POST
+# Ajout d'un ingredient en BDD
+@app.route('/ingredients/<player_name>', methods=['GET'])
+def getIngredientsJoueur(player_name):
+
+	listIngredients = db.select("""SELECT r_qte, b_nom, b_hasAlcohol, b_isCold, b_prixprod, i_nom, i_prix 
+		FROM recette INNER JOIN boisson ON boisson.b_id = recette.b_id 
+		INNER JOIN ingredient ON ingredient.i_id = recette.i_id 
+		WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",{"nom": player_name})
+
+
+	return json_response(listIngredients)
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 # Fonction pour la route /inscrire/recette avec POST
 # Ajout d'une recette en BDD
 @app.route('/inscrire/recette', methods=['POST'])

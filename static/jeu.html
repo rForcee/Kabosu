@@ -17,15 +17,15 @@
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="jeu.html"><img src="./image/Kabosu_06.png" alt="Kabosu" height="30"></a>
+          <a class="navbar-brand" href="jeu.html" onclick="location.href=this.href+'?player='+playerName;return false;"><img src="./image/Kabosu_06.png" alt="Kabosu" height="30"></a>
         </div>
         <ul class="nav navbar-nav">
-          <li class="active"><a href="jeu.html">Gestion</a></li>
-          <li><a href="resultat.html?player=Erwann">Résultats</a></li>
+          <li class="active"><a href="jeu.html" onclick="location.href=this.href+'?player='+playerName;return false;">Gestion</a></li>
+          <li><a href="resultat.html" onclick="location.href=this.href+'?player='+playerName;return false;">Résultats</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><img src="image/EPLS_01.png"></li>
-          <li><a href="index.html">Déconnexion</a></li>
+          <li><a href="jeu.html"  onclick="location.href=this.href+'?player='+playerName;return false;">Bienvenue <span id="name"></span></a></li>
+          <li><a href="index.html" onclick="location.href=this.href+'?player='+playerName;return false;">Déconnexion</a></li>
         </ul>
       </div>
     </nav>
@@ -138,34 +138,16 @@
   <footer>
     <div id="footer">
       <div class="container">
-        <p>Équipe <a href="jeu.html">Kabosu</a> : Valentin BRETON, Guillaume de CLAVERIE, Erwann FRANÇOIS, Marvin GEORGET et Franck MEROU.</p>
+        <div class="row">
+          <p class="col-md-8">Équipe <a href="jeu.html" onclick="location.href=this.href+'?player='+playerName;return false;">Kabosu</a> : Valentin BRETON, Guillaume de CLAVERIE, Erwann FRANÇOIS, Marvin GEORGET et Franck MEROU.</p><img class="col-md-4" src="image/EPLS_01.png">
+        </div>
       </div>
     </div>
   </footer>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="js/jeu.js"></script>
-
-  <script>
-
-    $.urlParam = function(name){
-      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-      if (results==null){
-         return null;
-      }
-      else{
-         return decodeURI(results[1]) || 0;
-      }
-    }
-
-    var message = "<table class=" + "table tableProd" + "><thead><tr><th>Ingrédient</th><th>Quantité</th><th>Prix unitaire</th></tr></thead><tbody><tr><td>Citron</td><td>2</td><td>0.2€</td></tr><tr><td>Eau gazeuse</td><td>1</td><td>0.4</td></tr></tbody></table>"
-    $(document).ready(function(){
-      $('[data-toggle="popover"]').popover({
-        content: message
-      });   
-    });
-  </script>
-
   <script src="js/bootstrap.min.js"></script>
+
 </body>
 </html>

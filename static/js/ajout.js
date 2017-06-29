@@ -12,6 +12,6 @@ $.urlParam = function(name){
 }
 
 $( document ).ready(function() {
-    window.playerName = decodeURIComponent($.urlParam('player'));
+    playerName = decodeURIComponent($.urlParam('player'));
 });
 
