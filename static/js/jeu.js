@@ -58,12 +58,13 @@ function mapPlayer() {
        		$('#money').text(data.playerInfo.cash + "€");
 			console.log(data.playerInfo.cash);
 			console.log(data.playerInfo.drinksOffered)
-			for(drinks in data.playerInfo.drinksOffered)
+			for(drinks of data.playerInfo.drinksOffered)
 			{
-				nom = data.playerInfo.drinksOffered[drinks].name;
-				price = data.playerInfo.drinksOffered[drinks].price;
+				console.log("drinks" + drinks)
+				//nom = data.playerInfo.drinksOffered[drinks].name;
+				//price = data.playerInfo.drinksOffered[drinks].price;
 			
-				var ligne = "<tr id=\"" + nom + "\">"+
+				/*var ligne = "<tr id=\"" + nom + "\">"+
 	              "<td>"+nom+"</td>"+
 	              "<td><input type=\"number\" min=\"0\" name=\""+ nom +"\" class=\"form-control\"></td>" +
 	              "<td><input type=\"text\" name=\""+ nom +"\" class=\"form-control\"></td>" +
@@ -71,7 +72,7 @@ function mapPlayer() {
 	              "<td></td>" +
 	            "</tr>";
 
-	            $('#boissons > tbody:last-child').append(ligne);
+	            $('#boissons > tbody:last-child').append(ligne);*/
 
         	}
 	});
