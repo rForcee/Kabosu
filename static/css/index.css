@@ -20,13 +20,18 @@
 	background-color: #fff !important;
 }
 
+.boissonsTD
+{
+	text-transform: uppercase;
+}
+
 .bodyIndex {
 	background: #95a5a6 !important;
 }
 
 .wrapper {	
 	margin-top: 80px;
-  margin-bottom: 80px;
+  	margin-bottom: 80px;
 }
 
 .form-signin {
