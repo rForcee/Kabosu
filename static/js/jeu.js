@@ -160,7 +160,7 @@ function getActions() {
 
 			if($('#pubX').val() != "" && $('#pubY').val() != "")
 			{
-				var ajoutAd = {"kind": "ad", "location": {"latitude": $('#pubX').val(), "longitude": $('#pubY').val()}, "price": 27}
+				var ajoutAd = {"kind": "ad", "location": {"latitude": $('#pubX').val(), "longitude": $('#pubY').val()}, "radius": 15,"price": 27}
 				console.log(ajoutAd)
 				tableActions.push(ajoutAd)
 			}
