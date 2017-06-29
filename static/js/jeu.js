@@ -17,8 +17,7 @@ $( document ).ready(function() {
     metrology();
     $('#name').text(playerName);
     mapPlayer();
-    ingredientsPlayer();
-    $('#activation').on('click', getActions);
+    $('#validation').on('click', getActions);
 });
 
 $(document).ready(function(){
