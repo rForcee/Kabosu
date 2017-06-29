@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.debug = True
 CORS(app)
 
-budget_depart = 10
+budget_depart = 100
 rayonInfluenceStand = 25
 dicoAction = {}
 db = Db()

@@ -15,7 +15,7 @@
 
     <div class="wrapper">
      <div class="form-signin">
-        <img class="img-responsive" src="./image/Kabosu_06.png" alt="Kabosu">      
+        <a href="index.html"><img class="img-responsive" src="./image/Kabosu_06.png" alt="Kabosu"></a>      
         <h2 class="form-signin-heading">Merci pour cette partie ! N'hésitez pas à relancer !</h2>
         <img class="img-responsive" src="./image/EPLS_01.png" alt="Easy Peasy Lemon Squeezy">   
       </div>
@@ -39,6 +39,15 @@
     $( document ).ready(function() {
         playerName = decodeURIComponent($.urlParam('player'));
     });
+
+    if(playerName != "")
+    {
+      $.ajax('https://kabosu.herokuapp.com/players/' + playerName, {
+                type: 'DELETE',
+                contentType: 'application/json',
+                data: JSON.stringify(data)
+              });
+    }
 
     </script>
 

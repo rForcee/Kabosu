@@ -24,8 +24,6 @@ $( document ).ready(function() {
   	tableActions = localStorage.getItem("tableActions");
 });
 
-$(document).ready(function(){
-});
 
 function metrology() {
 	$.ajax('https://kabosu.herokuapp.com/metrology')
