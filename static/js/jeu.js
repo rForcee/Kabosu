@@ -77,6 +77,7 @@ function mapPlayer() {
 					}
 				}
 				content = "<table><thead><tr><th>Ingrédient</th><th>Quantité</th><th>Prix unitaire</th></tr></thead><tbody>" + dataContent +"</tbody></table>"
+				console.log(content)
 				var ligne = "<tr id=\"" + nom + "\">"+
 	              "<td class=\"boissonsTD\"><a href=\"#\" title=\"Recette de la " + nom +"\" data-toggle=\"popover\" data-html=\"true\" data-trigger=\"focus\" data-content=\"" + content+ "\" class=\"recette\">"+nom+"</a></td>"+
 	              "<td><input type=\"number\" min=\"0\" name=\""+ nom +"\" class=\"form-control\"></td>" +
