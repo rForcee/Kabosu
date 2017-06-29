@@ -18,6 +18,7 @@ $( document ).ready(function() {
     $('#name').text(playerName);
     mapPlayer();
     ingredientsPlayer();
+    $('#activation').on('click', getActions);
 });
 
 $(document).ready(function(){
@@ -106,13 +107,6 @@ function getActions() {
 				console.log(test)
 			}
        	});
-}
-
-function ingredientsPlayer() {
-	$.ajax('https://kabosu.herokuapp.com/ingredients/'+ playerName)
-       .done(function(data){
-
-	});
 }
 
 window.setInterval(metrology, 3000);
