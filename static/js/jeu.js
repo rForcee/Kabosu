@@ -51,6 +51,10 @@ function metrology() {
 
 var ingredientsListe;
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function mapPlayer() {
 	$.ajax('https://kabosu.herokuapp.com/map/'+ playerName)
        .done(function(data){
@@ -101,7 +105,7 @@ function mapPlayer() {
 					content = "<table><thead><tr><th>Ingrédient</th><th>Quantité</th><th>Prix unitaire</th></tr></thead><tbody>" + dataContent +"</tbody></table>"
 
 					var ligne = "<tr id=\"" + nom + "\">"+
-		              "<td class=\"boissonsTD\"><a href=\"#\" title=\"Recette : " + nom +"\" data-toggle=\"popover\" data-html=\"true\" data-trigger=\"focus\" data-content=\"" + content+ "\" class=\"recette\">"+nom+"</a></td>"+
+		              "<td class=\"boissonsTD\"><a href=\"#\" title=\"Recette : " + capitalizeFirstLetter(nom) +"\" data-toggle=\"popover\" data-html=\"true\" data-trigger=\"focus\" data-content=\"" + content+ "\" class=\"recette\">"+nom+"</a></td>"+
 		              "<td><input type=\"number\" min=\"0\" name=\""+ nom +"\" class=\"form-control prod\"></td>" +
 		              "<td><input type=\"text\" name=\""+ nom +"\" class=\"form-control prixvente\"></td>" +
 		              "<td>"+ price +"€</td>" +
@@ -130,7 +134,7 @@ function getActions() {
 					prod = 0
 				if(vente == "")
 					vente = 0
-				var ajout = {"kind": "drinks", "prepare": {nom:prod}, "price": {nom:vente}}
+				var ajout = {"kind": "drinks", "prepare": {""+nom+"":prod}, "price": {""+nom+"":vente}}
 				console.log(tableActions)
 				tableActions.push(ajout)
 			}
