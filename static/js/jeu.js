@@ -85,6 +85,7 @@ function mapPlayer() {
 	              "<td>"+ price +"</td>" +
 	              "<td></td>" +
 	            "</tr>";
+	            console.log(ligne)
 
 	            $('#boissons > tbody:last-child').append(ligne);
 
