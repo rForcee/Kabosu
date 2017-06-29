@@ -58,7 +58,7 @@ function mapPlayer() {
 			$.ajax('https://kabosu.herokuapp.com/ingredients/'+ playerName)
 		       .done(function(ingredients){
 		       	ingredientsListe = ingredients;
-			});
+			
 
 			for(drinks in data.playerInfo.drinksOffered)
 			{
@@ -86,6 +86,7 @@ function mapPlayer() {
 	            $('#boissons > tbody:last-child').append(ligne);
 
         	}
+        	});
 	});
 }
 
