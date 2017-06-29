@@ -200,15 +200,18 @@ def sales_drinks(j, content):
 	item = content['item']
 	quantity = content['quantity']
 	recette = j['prepare']
+	print "RECETTE"
 	print recette
 	if item in recette:
 		if recette[item] != 0:
 			if quantity > recette[item]:
 				quantity = recette[item]
 				recette[item] = 0
-				print "IN"
+				
 				sales_drinks_update(j, content)
 			else:
+				print "RECETTE ITEM"
+				print recette[item]
 				recette[item] = recette[item] - quantity
 				sales_drinks_update(j, content)
 
@@ -221,13 +224,21 @@ def sales_drinks(j, content):
 def messageRecuJava():
 
 	content = request.get_json()
+	print "SALES CONTENT"
+	print content
+
 	player = content['player']
 	item = content['item']
 	quantity = content['quantity']
+
+	print "DICOACTION"
+	print dicoAction
 	for i in dicoAction:
 		if i == player:
 			for j in dicoAction[i]['actions']:
 				if j['kind'] == 'drinks':
+					print "J"
+					print j
 					sales_drinks(j, content)
 
 	return json_response(dicoAction)
@@ -269,7 +280,7 @@ def sales_ad(j, player_name):
 @app.route('/actions/<player_name>', methods=['POST'])
 def action_player(player_name):
 	content = request.get_json()
-	print content
+	print "CONTENT"
 	print content
 	if content == []:
 		return json_response({"success": False})
