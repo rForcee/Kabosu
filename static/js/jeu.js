@@ -69,9 +69,9 @@ function mapPlayer() {
 				for(ingredient in ingredientsListe)
 				{
 					console.log(ingredient)
-					if(ingredient.b_nom == nom)
+					if(ingredientsListe[ingredient].b_nom == nom)
 					{
-						dataContent = dataContent + "<tr><td>"+ ingredient.i_nom + "</td><td>" + ingredient.r_qte + "</td><td>" + ingredient.i_prix + "€</td></tr>"
+						dataContent = dataContent + "<tr><td>"+ ingredientsListe[ingredient].i_nom + "</td><td>" + ingredientsListe[ingredient].r_qte + "</td><td>" + ingredientsListe[ingredient].i_prix + "€</td></tr>"
 					}
 				}
 				content = "<table><thead><tr><th>Ingrédient</th><th>Quantité</th><th>Prix unitaire</th></tr></thead><tbody>" + dataContent +"</tbody></table>"
