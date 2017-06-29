@@ -289,7 +289,7 @@ def action_player(player_name):
 					prixProd = db.select("""SELECT b_prixprod FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) 
 					AND b_nom = @(boisson); """, {"nom": player_name, "boisson": bname})[0]['b_prixprod']
 					qte = j['prepare'][bname]
-					(float)depenses = (float)qte * (float)prixProd
+					depenses = float(qte) * float(prixProd)
 					calBudget = budget - depenses
 					db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
 					WHERE j_pseudo = @(nom);""", {"budget": calBudget, "nom": player_name})
