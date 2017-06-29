@@ -6,6 +6,7 @@
 /* Popover Header */
 .popover-title {
     text-align:center;
+    width: auto;
 }
 
 .popover-content table {
@@ -15,12 +16,14 @@
 	text-align: center;
 	padding: 25px;
 	text-transform: capitalize;
-	
+
 }
 .popover-content td,
 .popover-content th {
 	background-color: #fff !important;
 	text-transform: capitalize;
+	padding-left: 20px;
+	margin-left: 20px;
 
 }
 
