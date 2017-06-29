@@ -7,32 +7,38 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class Meteo {
-	
+
 	private Image skin;
 	private int meteo;
+	private int isPrevision;
 	public Meteo() {
 		meteo = 0;
 		skin = new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/canicule.png");
 	}
 	public Image getIcoMeteo()
 	{
-		switch (this.meteo){
-    	case 1:
-    		setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/canicule.png"));
-    		return skin;
-    	case 2:
-    		setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/soleil.png"));
-    		return skin;
-    	case 3:
-    		setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/nuage.png"));
-    		return skin;
-    	case 4:
-    		setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/pluie.png"));
-    		return skin;
-    	case 5:
-    		setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/orage.png"));
-    		return skin;
-    		
+		if(this.isPrevision == 0)
+		{
+			switch (this.meteo){
+			case 0:
+				setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/canicule.png"));
+				return skin;
+			case 1:
+				setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/soleil.png"));
+				return skin;
+			case 2:
+				setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/nuage.png"));
+				return skin;
+			case 3:
+				setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/pluie.png"));
+				return skin;
+			case 4:
+				setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/orage.png"));
+				return skin;
+			default:
+				return skin;
+			}
+			
 		}
 		return skin;
 	}
@@ -52,9 +58,15 @@ public class Meteo {
 	public void setMeteo(int meteo) {
 		this.meteo = meteo;
 	}
-	
+
 	public void setSkin(Image skin) {
 		this.skin = skin;
+	}
+	public int getIsPrevision() {
+		return isPrevision;
+	}
+	public void setIsPrevision(int isPrevision) {
+		this.isPrevision = isPrevision;
 	}
 
 }

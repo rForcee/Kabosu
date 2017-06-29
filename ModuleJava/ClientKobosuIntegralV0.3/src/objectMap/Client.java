@@ -1,6 +1,8 @@
 package objectMap;
+import java.net.URL;
 import java.util.Random;
 
+import Com.TestHttp;
 import javafx.scene.image.Image;
 import map.Position;
 import objectIhm.Meteo;
@@ -83,10 +85,26 @@ public class Client {
 				achat = true;
 				break;
 		}
-		boolean[] VenteBoisson = {chaud, achat};
+		boolean[] VenteBoisson = {achat, chaud};
 		return VenteBoisson;
 	}
-	
+	public void vente(boolean[] bs, String joueur) throws Exception
+	{
+		String boisson;
+		URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
+		TestHttp post = new TestHttp();
+		if(bs[0] == true )
+		{
+			if(bs[1] == true)
+			{
+				boisson = "tea";
+				TestHttp.sendPost(urlPost, joueur, boisson, 1);
+			}else{
+				boisson = "lemonade";
+				TestHttp.sendPost(urlPost, joueur, boisson, 1);
+			}
+		}
+	}
 	public int getMotivation() {
 		return motivation;
 	}

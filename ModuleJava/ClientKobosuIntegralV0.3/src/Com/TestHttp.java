@@ -4,14 +4,12 @@ import java.net.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 public class TestHttp {
 
 	///////////////////////////////////////////////Methode post sales///////////////////////////////////////
@@ -65,7 +63,6 @@ public class TestHttp {
 	//////////////////////////////////////////////Methode get map/////////////////////////////////////////
 
 	public static String getMap(URL url ) throws Exception {
-		int i =0;
 		StringBuilder result = new StringBuilder();
 		// crée un nouveau objet url
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection(); //
@@ -95,8 +92,8 @@ public class TestHttp {
 		response = gson.fromJson(obj,JsonObject.class);
 		data.setMapY(response.get("region").getAsJsonObject().get("center").getAsJsonObject().get("longitude").getAsInt());
 		data.setMapX(response.get("region").getAsJsonObject().get("center").getAsJsonObject().get("latitude").getAsInt());
-		data.setMapSy(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("longitudespan").getAsInt());	
-		data.setMapSx(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("latitudespan").getAsInt());
+		data.setMapSy(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("longitudeSpan").getAsInt());	
+		data.setMapSx(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("latitudeSpan").getAsInt());
 		reader.close();
 		return data;
 
@@ -148,7 +145,7 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 		return data;
 
 	}
-	public static DataTrameItemJoueur traitementTrameItem(String trame, String joueur) throws IOException {
+	public DataTrameItemJoueur traitementTrameItem(String trame, String joueur) throws IOException {
 	
 		DataTrameItemJoueur  data = new DataTrameItemJoueur();
 		DataItemJoueur item = new DataItemJoueur();
@@ -157,7 +154,6 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 		JsonParser parser = new JsonParser();
 		JsonObject obj = parser.parse(trame).getAsJsonObject();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		JsonObject jsonObject = obj.getAsJsonObject();
 		JsonObject response = new JsonObject();
 		response = gson.fromJson(obj,JsonObject.class);
 		data.joueur = joueur;
@@ -201,17 +197,29 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 		return data;
 
 	}
-	public static DataTrameMeteo traitementTrameMetrology(String trame){
+	public static DataTrameMeteo traitementTrameMetrology(String trame) throws IOException{
 		DataTrameMeteo  data = new DataTrameMeteo ();
-		trame = trame.replaceAll("[\\[\\]]", "");
 		JsonReader reader = new JsonReader(new StringReader(trame));
 		reader.setLenient(true);
-		JsonElement jelement = new JsonParser().parse(reader);
-		JsonObject json = jelement.getAsJsonObject();
-		System.out.println(json.toString());
-		data.setHeure(json.get("hour").getAsInt());
-		data.setWeather(json.get("weather").getAsInt());
-
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(trame).getAsJsonObject();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonObject response = new JsonObject();
+		response = gson.fromJson(obj,JsonObject.class);
+		JsonArray JArray = new JsonArray();
+		System.out.println(obj.toString());
+		data.setHeure(obj.get("timestamp").getAsInt());
+		System.out.println(data.getHeure());
+		JArray = ((response.get("weather")).getAsJsonArray());
+		if (JArray != null) { 
+			for (int i=0;i<JArray.size();i++){ 
+				
+				data.setWeather(JArray.get(i).getAsJsonObject().get("weather").getAsInt());
+				System.out.println(data.getWeather());
+		
+			}
+		}
+		reader.close();
 		return data;
 	}
 	public static void main(String[] args) {
@@ -226,14 +234,17 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 			URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 			@SuppressWarnings("unused")
 			URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
-
+			URL urlGet2 = new URL("https://kabosu.herokuapp.com/metrology"); 
+TestHttp get = new TestHttp();
 			//sendPost(urlPost,speudo,boisson,nb); // post vers https://kabosu.herokuapp.com/sales
 			//System.out.print(traitementTramePlayerInfo(getMap(urlGet))); // get vers https://kabosu.herokuapp.com/map
 			//getMap(urlGet);
 			//System.out.println(getMap(urlGet));
 			//traitementTramePlayerInfo(getMap(urlGet),"Erwann");
 			//traitementTrameRank(getMap(urlGet));
-			//traitementTrameItem(getMap(urlGet),"Erwann");
+			//traitementTrameMap(getMap(urlGet));
+			//traitementTrameMetrology(getMap(urlGet2));
+			get.traitementTrameItem(getMap(urlGet),"Erwann");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

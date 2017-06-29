@@ -2,18 +2,13 @@
 
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
-int lcd_key = 0;
-int adc_key_in = 0;
 
-#define btnRIGHT  0
-#define btnLEFT   1
-
-long Speed;  // Vitesse = heure réel en milliseconde
+long Speed;  // Speed = heure réel en milliseconde
 long hour, chrono;
-int current_weather, forecast_weather, proba, probabis, cw, fw, tmp;
-boolean state_button;
+int current_weather, forecast_weather, proba, probabis, cw, fw, tmp, button;
+boolean state_button, gen_weather;
 
-//déclaration des fonctions
+//déclaration de toues les fonctions
 void CLOCK_init();
 void WEATHER_init();
 void CLICK_init();
@@ -23,7 +18,7 @@ void CLICK_update();
 void CLOCK_output();
 void WEATHER_output();
 void CLICK_output();
-void send_hour();
+void Send();
 int current(int);
 int forecast();
 
@@ -34,11 +29,14 @@ void setup() {
   lcd.setCursor(0, 0);
   CLOCK_init();
   WEATHER_init();
+  CLICK_init();
 }
 
 void loop() {
   CLOCK_update();
   WEATHER_update();
+  CLICK_update();
   CLOCK_output();
   WEATHER_output();
+  CLICK_output();
 }
