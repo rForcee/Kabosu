@@ -27,6 +27,7 @@ def json_response(data="OK", status=200):
 # Delete all from ventes, joueur, zone, dayinfo
 @app.route("/reset", methods=["GET"])
 def reset_partie():
+	db.execute("DELETE FROM recette;")
 	db.execute("DELETE FROM ventes;")
 	db.execute("DELETE FROM joueur;")
 	db.execute("DELETE FROM zone;")
