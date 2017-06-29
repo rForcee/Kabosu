@@ -27,7 +27,7 @@
 
     <script>
     var playerName;
-    
+
 	  $.urlParam = function(name){
       var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
       if (results==null){
@@ -46,8 +46,7 @@
     {
       $.ajax('https://kabosu.herokuapp.com/players/' + playerName, {
                 type: 'DELETE',
-                contentType: 'application/json',
-                data: JSON.stringify(data)
+                contentType: 'application/json'
               });
     }
 
