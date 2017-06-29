@@ -28,11 +28,11 @@ function mapPlayer() {
 
        		if((data.playerInfo.profit) > 0)
        		{
-       			$('#profit').text("+" + data.playerInfo.profit.toFixed(2); + "€");
+       			$('#profit').text("+" + data.playerInfo.profit.toFixed(2) + "€");
        		}
        		else
        		{
-       			$('#profit').text(data.playerInfo.profit.toFixed(2); + "€");
+       			$('#profit').text(data.playerInfo.profit.toFixed(2) + "€");
        		}
        		
        		var classement = data.map.ranking.indexOf(playerName) + 1;

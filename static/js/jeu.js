@@ -67,7 +67,7 @@ function mapPlayer() {
 	$.ajax('https://kabosu.herokuapp.com/map/'+ playerName)
        .done(function(data){
        		budget = data.playerInfo.cash;
-       		$('#money').text(budget.toFixed(2); + "€");
+       		$('#money').text(budget.toFixed(2) + "€");
 			$.ajax('https://kabosu.herokuapp.com/ingredients/'+ playerName)
 		       .done(function(ingredients){
 		       	ingredientsListe = ingredients;
