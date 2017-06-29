@@ -171,6 +171,7 @@ function sendActions() {
 	{
 		var messageJSON = localStorage.getItem("tableActions")
 		message = JSON.parse(messageJSON)
+		console.log(message)
 		if(message == "")
 			message = []
 		data = {"actions" : message, "simulated": false}
