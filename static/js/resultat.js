@@ -1,5 +1,6 @@
 var playerName;
 var tableWeather = ['rainy', 'cloudy', 'sunny', 'heatwave', 'thunderstorm']
+var tableActions;
 
 
 $.urlParam = function(name){
@@ -16,6 +17,8 @@ $( document ).ready(function() {
     playerName = decodeURIComponent($.urlParam('player'));
     $('#name').text(playerName);
     mapPlayer();
+    tableActions = localStorage.getItem("tableActions");
+    alert(tableActions);
 });
 
 function mapPlayer() {

@@ -1,5 +1,6 @@
 var playerName;
 var tableWeather = ['rainy', 'cloudy', 'sunny', 'heatwave', 'thunderstorm']
+var tableActions;
 
 
 $.urlParam = function(name){
@@ -18,10 +19,11 @@ $( document ).ready(function() {
     $('#name').text(playerName);
     mapPlayer();
     $('#validation').on('click', getActions);
+  	$('[data-toggle="popover"]').popover();   
+  	tableActions = localStorage.getItem("tableActions");
 });
 
 $(document).ready(function(){
-  $('[data-toggle="popover"]').popover();   
 });
 
 function metrology() {
@@ -41,7 +43,7 @@ function metrology() {
 					previsionWeather = data.weather[time].weather;
 				}
 			}
-			day = Math.floor(hour / 24);
+			day = Math.floor(hour / 24) + 1;
 			$('#weather').text(tableWeather[previsionWeather]);
 			$('#day').text("Jour " + day);
 			$('#hour').text(hour % 24 + ":00");
@@ -65,6 +67,28 @@ function mapPlayer() {
 					nom = data.playerInfo.drinksOffered[drinks].name;
 					console.log(nom)
 					price = data.playerInfo.drinksOffered[drinks].price;
+
+					var hasAlcohol;
+					var isCold;
+
+					if(data.playerInfo.drinksOffered[drinks].hasAlcohol == true)
+					{
+						hasAlcohol = "Y"
+					}
+					else
+					{
+						hasAlcohol = "N"
+					}
+
+					if(data.playerInfo.drinksOffered[drinks].isCold == true)
+					{
+						isCold = "Y"
+					}
+					else
+					{
+						isCold = "N"
+					}
+
 					var dataContent = "";
 					console.log(ingredientsListe)
 					for(ingredient in ingredientsListe)
@@ -83,9 +107,8 @@ function mapPlayer() {
 		              "<td><input type=\"number\" min=\"0\" name=\""+ nom +"\" class=\"form-control prod\"></td>" +
 		              "<td><input type=\"text\" name=\""+ nom +"\" class=\"form-control prixvente\"></td>" +
 		              "<td>"+ price +"€</td>" +
-		              "<td></td>" +
+		              "<td>"+ hasAlcohol +"</td>" + "<td>"+ isCold +"</td>" +
 		            "</tr>";
-		            console.log(ligne)
 
 		            $('#boissons > tbody:last-child').append(ligne);
 
@@ -102,11 +125,14 @@ function getActions() {
 			for(drinks in data.playerInfo.drinksOffered)
 			{
 				nom = data.playerInfo.drinksOffered[drinks].name;
-				var test = $('#'+nom+' > td > .prod').val()
-				console.log(nom + " " +test)
+				var prod = $('#'+nom+' > td > .prod').val()
 				var vente = $('#'+nom+' > td > .prixvente').val()
-				console.log(nom + " " +vente)
+
+				var ajout = {"kind": "drinks", "prepare": {nom:prod}, "price": {nom:vente}}
+				tableActions.append(ajout)
 			}
+			localStorage.setItem("tableActions", JSON.stringify(tableActions))
+			console.log(tableActions)
        	});
 }
 
