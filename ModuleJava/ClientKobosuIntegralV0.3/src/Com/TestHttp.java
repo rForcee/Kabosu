@@ -95,8 +95,8 @@ public class TestHttp {
 		response = gson.fromJson(obj,JsonObject.class);
 		data.setMapY(response.get("region").getAsJsonObject().get("center").getAsJsonObject().get("longitude").getAsInt());
 		data.setMapX(response.get("region").getAsJsonObject().get("center").getAsJsonObject().get("latitude").getAsInt());
-		data.setMapSy(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("longitudespan").getAsInt());	
-		data.setMapSx(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("latitudespan").getAsInt());
+		data.setMapSy(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("longitudeSpan").getAsInt());	
+		data.setMapSx(response.get("region").getAsJsonObject().get("span").getAsJsonObject().get("latitudeSpan").getAsInt());
 		reader.close();
 		return data;
 
@@ -226,6 +226,7 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 			URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 			@SuppressWarnings("unused")
 			URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
+			URL urlGet2 = new URL("https://kabosu.herokuapp.com/metrology"); 
 
 			//sendPost(urlPost,speudo,boisson,nb); // post vers https://kabosu.herokuapp.com/sales
 			//System.out.print(traitementTramePlayerInfo(getMap(urlGet))); // get vers https://kabosu.herokuapp.com/map
@@ -233,6 +234,8 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 			//System.out.println(getMap(urlGet));
 			//traitementTramePlayerInfo(getMap(urlGet),"Erwann");
 			//traitementTrameRank(getMap(urlGet));
+			//traitementTrameMap(getMap(urlGet));
+			traitementTrameMetrology(getMap(urlGet2));
 			//traitementTrameItem(getMap(urlGet),"Erwann");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

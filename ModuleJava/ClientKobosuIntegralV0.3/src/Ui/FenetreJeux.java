@@ -1,5 +1,7 @@
 package Ui;
 
+import java.net.URL;
+
 import Com.DataTrameMap;
 import Com.DataTrameMeteo;
 import Com.TestHttp;
@@ -28,11 +30,11 @@ public class FenetreJeux extends Application {
 			Date date = new Date();
 			TestHttp reseau = new TestHttp();
 			try {
-				/*URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
+				URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 				URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
 				URL urlGet2 = new URL("https://kabosu.herokuapp.com/metrology"); 
 				data1 = TestHttp.traitementTrameMap(TestHttp.getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
-				data2 = TestHttp.traitementTrameMetrology(TestHttp.getMap(urlGet2));*/
+				data2 = TestHttp.traitementTrameMetrology(TestHttp.getMap(urlGet2));
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -78,7 +80,7 @@ public class FenetreJeux extends Application {
 					DataTrameMeteo data2 = new DataTrameMeteo();
 					while (true) {
 						try {
-							/*URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
+							URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 							URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
 							URL urlGet2 = new URL("https://kabosu.herokuapp.com/metrology"); 
 							data1 = TestHttp.traitementTrameMap(TestHttp.getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
