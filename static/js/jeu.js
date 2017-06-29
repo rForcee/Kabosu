@@ -179,10 +179,6 @@ function sendActions() {
 	              data: JSON.stringify(data)
 	            });
 	}
-	else
-	{
-		window.open("gameover.html?player="+playerName, "_self");
-	}
 }
 
 window.setInterval(metrology, 3000);

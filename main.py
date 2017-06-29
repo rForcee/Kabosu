@@ -286,7 +286,6 @@ def action_player(player_name):
 		return json_response({"success": False})
 
 	dicoAction[player_name] = content
-
 	for i in dicoAction:
 		if i == player_name:
 			for j in dicoAction[i]['actions']:
