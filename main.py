@@ -212,7 +212,7 @@ def sales_drinks(j, content):
 			else:
 				print "RECETTE ITEM"
 				print recette[item]
-				recette[item] = recette[item] - quantity
+				recette[item] = int(recette[item]) - int(quantity)
 				sales_drinks_update(j, content)
 
 	return True
