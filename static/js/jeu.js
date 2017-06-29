@@ -102,7 +102,7 @@ function getActions() {
 			for(drinks in data.playerInfo.drinksOffered)
 			{
 				nom = data.playerInfo.drinksOffered[drinks].name;
-				var test = $('#'+nom+' > td > input').value()
+				var test = $('#'+nom+' > td > input').val()
 				console.log(test)
 			}
        	});
