@@ -62,10 +62,10 @@ public class Map
 			// System.out.println("client"+i+": "+mymapClient.get("client"+i).getX());
 			//System.out.println(mymapClient.get("client"+i).getY());
 			root.getChildren().add(mymapRec.get("rectangle"+i));
-			// System.out.println(mymapClient.get("client"+i).motivation(meteo));
+			//System.out.println(mymapClient.get("client"+i).motivation(meteo));
 			System.out.println("client"+i);
 
-			if(mymapClient.get("client"+i).motivation(meteo)[1] == true){
+			if(mymapClient.get("client"+i).motivation(meteo)[0] == true){
 				
 
 				ArrayList<String> jpositif = new ArrayList<String>() ;
@@ -296,8 +296,9 @@ public class Map
 				dataItem.getItem().add(l, ((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(i)) ).getItem().get(l)));			
 
 			}
-
-			mymapStand.put("Stand"+i, new StandJoueur(dataItem.getItem().get(i).getNomjoueur(), dataItem.getItem().get(i).getInfluence(), 600/*dataItem.getItem().get(i).getLatitude()*/, 200/* dataItem.getItem().get(i).getLongitude()*/,10));
+if(dataItem.getItem().get(i).getTypeItem().equals("stand"))
+{
+			mymapStand.put("Stand"+i, new StandJoueur(dataItem.getItem().get(i).getNomjoueur(), dataItem.getItem().get(i).getInfluence(), dataItem.getItem().get(i).getLatitude(),  dataItem.getItem().get(i).getLongitude(),10));
 			mymapRec.put("rectangle"+i, new Rectangle());
 			mymapRec.get("rectangle"+i).setX(mymapStand.get("Stand"+i).getItemJoueur().getLatitude());
 			mymapRec.get("rectangle"+i).setY(mymapStand.get("Stand"+i).getItemJoueur().getLongitude());
@@ -307,7 +308,7 @@ public class Map
 			// System.out.println("client"+i+": "+mymapClient.get("client"+i).getX());
 			//System.out.println(mymapClient.get("client"+i).getY());
 			root.getChildren().add(mymapRec.get("rectangle"+i));
-
+}
 			// System.out.println(mymapClient.get("client"+i).motivation(meteo));
 			System.out.println("Stand"+i);
 
@@ -333,7 +334,7 @@ public class Map
 			}
 			if(dataItem.getItem().get(i).getTypeItem().equals( "ad"))
 			{
-				mymapPub.put("Pub"+i, new Publicite(dataItem.getItem().get(i).getNomjoueur(), dataItem.getItem().get(i).getInfluence(), dataItem.getItem().get(i).getLatitude()+200, dataItem.getItem().get(i).getLongitude(), 40));
+				mymapPub.put("Pub"+i, new Publicite(dataItem.getItem().get(i).getNomjoueur(), dataItem.getItem().get(i).getInfluence(), dataItem.getItem().get(i).getLatitude(), dataItem.getItem().get(i).getLongitude(), 40));
 				mymapRec.put("rectangle"+i, new Rectangle());
 				mymapRec.get("rectangle"+i).setX(mymapPub.get("Pub"+i).getItemJoueur().getLatitude());
 				mymapRec.get("rectangle"+i).setY(mymapPub.get("Pub"+i).getItemJoueur().getLongitude());
@@ -355,12 +356,12 @@ public class Map
 	{
 
 		ArrayList<String> joueurPositif = new ArrayList<String>();//mon array list de stands positif
-
+		
 		for (int i = 0; i < joueur.size(); i++) //pour tout les element de ma list d'item
 		{
 			for(int j = 0; j <joueur.get(i).getInfoItem().getItem().size();j++ )
-			{
-				float distance = (float) Math.sqrt(Math.pow(joueur.get(i).getInfoItem().getItem().get(j).getLatitude()+200-ClientCoordX, 2)
+			{System.out.println("tototototo");
+				float distance = (float) Math.sqrt(Math.pow(joueur.get(i).getInfoItem().getItem().get(j).getLatitude()-ClientCoordX, 2)
 						+Math.pow(joueur.get(i).getInfoItem().getItem().get(j).getLongitude()-ClientCoordY, 2));//petite formule pour calculer la distance entre mon item et mon client
 				if (distance <= joueur.get(i).getInfoItem().getItem().get(j).getInfluence()) //Si la distance client/item et inférieur ou egale au rayon d'influence le stand passe en positif
 				{
@@ -381,26 +382,29 @@ public class Map
 		{
 			data.getRank().add((TestHttp.traitementTrameRank(TestHttp.getMap(urlGet)).getRank().get(i)));
 			DataTramePlayerInfo playerInfo = new DataTramePlayerInfo();
+			DataTrameItemJoueur item = new DataTrameItemJoueur();
 			playerInfo.setBudget(TestHttp.traitementTramePlayerInfo(TestHttp.getMap(urlGet), data.getRank().get(i)).getBudget());
 			playerInfo.setProfit(TestHttp.traitementTramePlayerInfo(TestHttp.getMap(urlGet), data.getRank().get(i)).getProfit());
 			playerInfo.setVente(TestHttp.traitementTramePlayerInfo(TestHttp.getMap(urlGet), data.getRank().get(i)).getVente());
 			playerInfo.setPseudo(TestHttp.traitementTramePlayerInfo(TestHttp.getMap(urlGet), data.getRank().get(i)).getPseudo());
+			
 			for(int j = 0; j<TestHttp.traitementTramePlayerInfo(TestHttp.getMap(urlGet), data.getRank().get(i)).getDrink().size(); j++)
 			{
 				playerInfo.getDrink().addAll(j, TestHttp.traitementTramePlayerInfo(TestHttp.getMap(urlGet), data.getRank().get(i)).getDrink());
-				//playerInfo.getDrink().get(j).setNom(TestHttp.traitementTramePlayerInfo(TestHttp.getMap(urlGet), data.getRank().get(i)).getDrink().get(j).getNom());
-				//playerInfo.getDrink().get(j).setChaud(TestHttp.traitementTramePlayerInfo(TestHttp.getMap(urlGet), data.getRank().get(i)).getDrink().get(j).isChaud());
-				//playerInfo.getDrink().get(j).setPrice(TestHttp.traitementTramePlayerInfo(TestHttp.getMap(urlGet), data.getRank().get(i)).getDrink().get(j).getPrice());
-				//playerInfo.getDrink().get(j).setAlcool(TestHttp.traitementTramePlayerInfo(TestHttp.getMap(urlGet), data.getRank().get(i)).getDrink().get(j).isAlcool());
+				
 			}
-
-			Joueur joueur = new Joueur(playerInfo.getBudget(), null, playerInfo.getProfit(), playerInfo.getPseudo(), playerInfo.getVente());
+			for(int j = 0; j<TestHttp.traitementTrameItem(TestHttp.getMap(urlGet), data.getRank().get(i)).getItem().size(); j++)
+			{
+				item.getItem().addAll(j,TestHttp.traitementTrameItem(TestHttp.getMap(urlGet), data.getRank().get(i)).getItem());
+				
+			}
+			Joueur joueur = new Joueur(playerInfo.getBudget(), playerInfo.getDrink(), playerInfo.getProfit(), playerInfo.getPseudo(), playerInfo.getVente(),item.getItem());
 			listJoueur.add(joueur);
 		}
 
 
 
-		return null;
+		return listJoueur;
 
 	}
 	public Double calculeRayon(float X,float Y,float Sx,float Sy){

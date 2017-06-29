@@ -34,11 +34,12 @@ public class Client {
 		boolean achat = false;
 		int ChanceAchat = 0;
 		switch(meteo.getMeteo()){
-			case 1: //"rainy":
+			case 0: //"rainy":
 				ChanceAchat = rand.nextInt() * (100- 0) + 0;
 				if(ChanceAchat >= 0 && ChanceAchat >= 15){
 					achat = true;
 					chaud = false;
+					//System.out.print("Meteo=="+meteo.getMeteo());
 				}
 				ChanceAchat = rand.nextInt() * (100- 0) + 0;
 				if(ChanceAchat >= 0 && ChanceAchat >= 85){
@@ -48,7 +49,7 @@ public class Client {
 					achat = false;
 				}
 				break;
-			case 2: //c"cloudy":
+			case 1: //c"cloudy":
 				ChanceAchat = rand.nextInt() * (100- 0) + 0;
 				if(ChanceAchat >= 0 && ChanceAchat >= 30){
 					achat = true;
@@ -62,7 +63,7 @@ public class Client {
 					achat = false;
 				}
 				break;
-			case 3: //"sunny":
+			case 2: //"sunny":
 				ChanceAchat = rand.nextInt() * (100- 0) + 0;
 				if(ChanceAchat >= 0 && ChanceAchat >= 25){
 					achat = true;
@@ -76,14 +77,16 @@ public class Client {
 					achat = false;
 				}
 				break;
-			case 4://"heatwave":
+			case 3://"heatwave":
 				chaud = false;
 				achat = true;
 				break;
-			case 5:// "thunderstorm":
+			case 4:// "thunderstorm":
 				chaud = true;
 				achat = true;
 				break;
+			default:
+				//System.out.print("Meteo=="+meteo.getMeteo());
 		}
 		boolean[] VenteBoisson = {achat, chaud};
 		return VenteBoisson;

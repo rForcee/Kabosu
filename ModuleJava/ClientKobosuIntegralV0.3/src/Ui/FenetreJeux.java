@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import map.*;
 import objectIhm.*;
+import objectMap.Joueur;
 public class FenetreJeux extends Application {
 	@Override
 	public void start(Stage primaryStage) {
@@ -38,6 +39,7 @@ public class FenetreJeux extends Application {
 				URL urlGet2 = new URL("https://kabosu.herokuapp.com/metrology"); 
 				data1 = TestHttp.traitementTrameMap(TestHttp.getMap(urlGet)); // get vers https://kabosu.herokuapp.com/map
 				data2 = TestHttp.traitementTrameMetrology(TestHttp.getMap(urlGet2));
+
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -70,24 +72,27 @@ public class FenetreJeux extends Application {
 			heure.setText(String.valueOf(date.heureJeux(data2.getHeure()))); // affectation heure de jeux
 			gridpane.add(heure, 1, 1);
 
-			
-			
-		
+
+
 			test.generationMap(root);
-			
+
 			test.generationPopulationStand(root);
-			test.generationPopulationClient(root,50, IcoMeteo, test.initlistJoueur()); 
+			ArrayList<Joueur> joueur = new ArrayList<Joueur>();
+			joueur.addAll(test.initlistJoueur());
+			test.generationPopulationClient(root,50, IcoMeteo, joueur); 
 			test.generationPopulationPub(root, 1);
 			IcoMeteo.afficheMeteo(root, scene);
+
 
 			Task<Void> task = new Task<Void>() {
 
 				public Void call() throws Exception {
 					DataTrameMap data1 = new DataTrameMap ();
 					DataTrameMeteo data2 = new DataTrameMeteo();
-				
+
 					while (true) {
 						try {
+							test.generationPopulationClient(root,50, IcoMeteo, test.initlistJoueur());
 							URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 							URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
 							URL urlGet2 = new URL("https://kabosu.herokuapp.com/metrology"); 
@@ -96,40 +101,28 @@ public class FenetreJeux extends Application {
 							heure.setText(String.valueOf(date.heureJeux(data2.getHeure()))); // affectation heure de jeux
 							jour.setText(String.valueOf(date.jourJeux(data2.getHeure()))); // affectation jour*/
 							//test.generationPopulationClient(root,50, IcoMeteo, test.initlistJoueur());
-							Platform.runLater(new Runnable() {
-							    @Override
-							    public void run() {
-							    	
-									try {
-										
-										
-									} catch (Exception e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-							    }
-							});
+
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						Thread.sleep(5000);
+						Thread.sleep(5);
 					}
 					//return null ;
 				}
 			};
 
-			
+
 			((Group) scene.getRoot()).getChildren().add(vbox);
 			root.getChildren().add(gridpane);
 			new Thread(task).start();
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	
+
 }
