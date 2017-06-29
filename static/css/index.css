@@ -28,8 +28,8 @@
 
 .popover-content td
 {
-	border-top: 1px solid #f00; 
-    border-bottom: 1px solid #0f0; /* move spacing to the cell */
+	border-top: 1px solid black; 
+    border-bottom: 1px solid black; 
 }
 
 .boissonsTD
