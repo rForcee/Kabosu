@@ -134,7 +134,12 @@ function getActions() {
 					prod = 0
 				if(vente == "")
 					vente = 0
-				var ajout = {"kind": "drinks", "prepare": {""+nom+"":prod}, "price": {""+nom+"":vente}}
+
+				var prepare = {};
+				prepare[nom] = prod;        
+				var price = {};
+				price[nom] = price;        
+				var ajout = {"kind": "drinks", "prepare": prepare, "price": price}
 				console.log(tableActions)
 				tableActions.push(ajout)
 			}
