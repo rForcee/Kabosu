@@ -57,6 +57,10 @@ function mapPlayer() {
        .done(function(data){
        		$('#money').text(data.playerInfo.cash + "€");
 			console.log(data.playerInfo.cash);
+			for(drinks in data.playerInfo.drinksOffered)
+			{
+				console.log("drinks:" + drinks)
+			}
 			var ligne = "<tr id=\"" + nom + "\">"+
               "<td>"+"nom"+"</td>"+
               "<td><input type=\"number\" min=\"0\" name=\""+ nom +"\" class=\"form-control\"></td>" +
