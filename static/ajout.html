@@ -116,7 +116,30 @@
               contentType: 'application/json',
               data: JSON.stringify(message)
             });
+
+            var message = {
+              player: 'Erwann',
+              item: 'tea',
+              quantity: 12
+            }
             
+            $.ajax('https://kabosu.herokuapp.com/sales', {
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(message)
+            });
+            
+            var message = {
+              player: 'Erwann',
+              item: 'mojito',
+              quantity: 2
+            }
+            
+            $.ajax('https://kabosu.herokuapp.com/sales', {
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(message)
+            });
       }
 
       function envoyerTest(e) {

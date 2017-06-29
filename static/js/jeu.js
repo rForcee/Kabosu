@@ -48,7 +48,7 @@ function metrology() {
 			var day = Math.floor(hour / 24) + 1;
 			if(dayPrev != day)
 			{
-				//sendActions();
+				sendActions();
 				//alert("Changement de jour")
 			}
 			dayPrev = day;
@@ -135,9 +135,11 @@ function getActions() {
 	$.ajax('https://kabosu.herokuapp.com/map/'+ playerName)
        .done(function(data){
        	var tableActions = []
+       		var priceAll; 
 			for(drinks in data.playerInfo.drinksOffered)
 			{
 				nom = data.playerInfo.drinksOffered[drinks].name;
+				priceAchat = data.playerInfo.drinksOffered[drinks].price;
 				var prod = $('#'+nom+' > td > .prod').val()
 				var vente = $('#'+nom+' > td > .prixvente').val()
 				if(prod == "")
@@ -148,13 +150,19 @@ function getActions() {
 				var prepare = {};
 				prepare[nom] = prod;        
 				var pricePrep = {};
-				pricePrep[nom] = price;        
+				pricePrep[nom] = price;  
+
+				priceAll = priceAll + (priceAchat * prod);
+
 				var ajout = {"kind": "drinks", "prepare": prepare, "price": pricePrep}
-				console.log(tableActions)
+
 				tableActions.push(ajout)
+
 			}
-			localStorage.setItem("tableActions", JSON.stringify(tableActions))
-			console.log(tableActions)
+			if(budget > priceAll)
+				localStorage.setItem("tableActions", JSON.stringify(tableActions))
+			else
+				alert("Vous n'avez pas assez d'argent. Le coût total de votre demande est : " + priceAll + "€. Merci de saisir vos choix.")
        	});
 }
 
@@ -173,7 +181,12 @@ function sendActions() {
 	}
 	else
 	{
-
+		$.ajax('https://kabosu.herokuapp.com/players/' + playerName, {
+	              type: 'DELETE',
+	              contentType: 'application/json'
+	            }).done(function(){
+          			window.open("gameover.html", "_self");
+      });
 	}
 }
 

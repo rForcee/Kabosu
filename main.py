@@ -115,8 +115,10 @@ def add_player():
 # OPTIONNEL
 @app.route("/players/<player_name>", methods=["DELETE"])
 def delete_player(player_name):
-	db.execute("""DELETE FROM joueur WHERE j_pseudo =  @(nom);""", {"nom": player_name})
+	db.execute("""DELETE FROM recette WHERE b_id IN (SELECT b_id FROM boisson WHERE j_id = (SELECT j_pseudo =  @(nom)));""", {"nom": player_name})
 	db.execute("""DELETE FROM ventes WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": player_name})
+	db.execute("""DELETE FROM boisson WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": player_name})
+	db.execute("""DELETE FROM zone WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": player_name})
 	db.execute("""DELETE FROM joueur WHERE j_pseudo =  @(nom);""", {"nom": player_name})
 	return json_response({"delete": True})
 
