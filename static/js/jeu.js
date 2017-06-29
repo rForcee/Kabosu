@@ -1,6 +1,7 @@
 var playerName;
 var tableWeather = ['rainy', 'cloudy', 'sunny', 'heatwave', 'thunderstorm']
 var ingredientsListe;
+var budget;
 
 
 $.urlParam = function(name){
@@ -48,7 +49,7 @@ function metrology() {
 			if(dayPrev != day)
 			{
 				//sendActions();
-				alert("Changement de jour")
+				//alert("Changement de jour")
 			}
 			dayPrev = day;
 			localStorage.setItem("dayPrev", dayPrev)
@@ -67,12 +68,12 @@ function capitalizeFirstLetter(string) {
 function mapPlayer() {
 	$.ajax('https://kabosu.herokuapp.com/map/'+ playerName)
        .done(function(data){
-       		$('#money').text(data.playerInfo.cash + "€");
+       		budget = data.playerInfo.cash;
+       		$('#money').text(budget + "€");
 			$.ajax('https://kabosu.herokuapp.com/ingredients/'+ playerName)
 		       .done(function(ingredients){
 		       	ingredientsListe = ingredients;
 			
-
 				for(drinks in data.playerInfo.drinksOffered)
 				{
 					nom = data.playerInfo.drinksOffered[drinks].name;
@@ -115,8 +116,8 @@ function mapPlayer() {
 
 					var ligne = "<tr id=\"" + nom + "\">"+
 		              "<td class=\"boissonsTD\"><a href=\"#\" title=\"Recette : " + capitalizeFirstLetter(nom) +"\" data-toggle=\"popover\" data-html=\"true\" data-trigger=\"focus\" data-content=\"" + content+ "\" class=\"recette\">"+nom+"</a></td>"+
-		              "<td><input type=\"number\" min=\"0\" name=\""+ nom +"\" class=\"form-control prod\"></td>" +
-		              "<td><input type=\"text\" name=\""+ nom +"\" class=\"form-control prixvente\"></td>" +
+		              "<td><input type=\"number\" min=\"0\" max=\""+budget/price+"\" name=\""+ nom +"\" class=\"form-control prod\"></td>" +
+		              "<td><input type=\"number\" min=\"0\" name=\""+ nom +"\" class=\"form-control prixvente\"></td>" +
 		              "<td>"+ price +"€</td>" +
 		              "<td>"+ hasAlcohol +"</td>" + "<td>"+ isCold +"</td>" +
 		            "</tr>";
@@ -158,13 +159,22 @@ function getActions() {
 }
 
 function sendActions() {
-	var message = localStorage.getItem("tableActions")
-	data = {"actions" : message, "simulated": false}
-	$.ajax('https://kabosu.herokuapp.com/actions/' + playerName, {
-              type: 'POST',
-              contentType: 'application/json',
-              data: JSON.stringify(data)
-            });
+	if(budget > 0)
+	{
+		var message = localStorage.getItem("tableActions")
+		if(message == "")
+			message = []
+		data = {"actions" : message, "simulated": false}
+		$.ajax('https://kabosu.herokuapp.com/actions/' + playerName, {
+	              type: 'POST',
+	              contentType: 'application/json',
+	              data: JSON.stringify(data)
+	            });
+	}
+	else
+	{
+
+	}
 }
 
 window.setInterval(metrology, 3000);
