@@ -203,15 +203,26 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 	}
 	public static DataTrameMeteo traitementTrameMetrology(String trame){
 		DataTrameMeteo  data = new DataTrameMeteo ();
-		trame = trame.replaceAll("[\\[\\]]", "");
 		JsonReader reader = new JsonReader(new StringReader(trame));
 		reader.setLenient(true);
-		JsonElement jelement = new JsonParser().parse(reader);
-		JsonObject json = jelement.getAsJsonObject();
-		System.out.println(json.toString());
-		data.setHeure(json.get("hour").getAsInt());
-		data.setWeather(json.get("weather").getAsInt());
-
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(trame).getAsJsonObject();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonObject response = new JsonObject();
+		response = gson.fromJson(obj,JsonObject.class);
+		JsonArray JArray = new JsonArray();
+		System.out.println(obj.toString());
+		data.setHeure(obj.get("timestamp").getAsInt());
+		System.out.println(data.getHeure());
+		JArray = ((response.get("weather")).getAsJsonArray());
+		if (JArray != null) { 
+			for (int i=0;i<JArray.size();i++){ 
+				
+				data.setWeather(JArray.get(i).getAsJsonObject().get("weather").getAsInt());
+				System.out.println(data.getWeather());
+		
+			}
+		}
 		return data;
 	}
 	public static void main(String[] args) {
