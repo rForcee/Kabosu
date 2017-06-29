@@ -127,8 +127,9 @@ function getActions() {
 				nom = data.playerInfo.drinksOffered[drinks].name;
 				var prod = $('#'+nom+' > td > .prod').val()
 				var vente = $('#'+nom+' > td > .prixvente').val()
-
+				console.log(prod + " " + vente)
 				var ajout = {"kind": "drinks", "prepare": {nom:prod}, "price": {nom:vente}}
+				console.log(ajout)
 				tableActions.append(ajout)
 			}
 			localStorage.setItem("tableActions", JSON.stringify(tableActions))
