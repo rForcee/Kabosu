@@ -181,7 +181,12 @@ function sendActions() {
 	}
 	else
 	{
-		window.open("gameover.html", "_self");
+		$.ajax('https://kabosu.herokuapp.com/players/' + playerName, {
+	              type: 'DELETE',
+	              contentType: 'application/json'
+	            }).done(function(){
+          			window.open("gameover.html", "_self");
+      });
 	}
 }
 
