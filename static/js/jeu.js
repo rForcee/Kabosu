@@ -148,11 +148,11 @@ function getActions() {
 				prepare[nom] = prod;        
 				var pricePrep = {};
 				pricePrep[nom] = price;        
-				var ajout = {"kind": "drinks", "prepare": prepare, "price": price}
+				var ajout = {"kind": "drinks", "prepare": prepare, "price": pricePrep}
 				console.log(tableActions)
 				tableActions.push(ajout)
 			}
-			localStorage.setItem("tableActions", tableActions)
+			localStorage.setItem("tableActions", JSON.stringify(tableActions))
 			console.log(tableActions)
        	});
 }
