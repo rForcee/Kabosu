@@ -89,4 +89,4 @@ function ingredientsPlayer() {
 	});
 }
 
-window.setInterval(metrology, 5000);
+window.setInterval(metrology, 3000);
