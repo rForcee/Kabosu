@@ -60,15 +60,16 @@ function mapPlayer() {
 			console.log(data.playerInfo.drinksOffered)
 			for(drinks in data.playerInfo.drinksOffered)
 			{
-				console.log("drinks:" + drinks)
+				nom = data.playerInfo.drinksOffered[drinks].name;
+				console.log(nom)
 			}
-			var ligne = "<tr id=\"" + nom + "\">"+
+			/*var ligne = "<tr id=\"" + nom + "\">"+
               "<td>"+"nom"+"</td>"+
               "<td><input type=\"number\" min=\"0\" name=\""+ nom +"\" class=\"form-control\"></td>" +
               "<td><input type=\"text\" name=\""+ nom +"\" class=\"form-control\"></td>" +
               "<td></td>" +
               "<td></td>" +
-            "</tr>";
+            "</tr>";*/
 	});
 }
 
