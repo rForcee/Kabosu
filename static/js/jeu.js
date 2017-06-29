@@ -67,8 +67,10 @@ function mapPlayer() {
 				nom = data.playerInfo.drinksOffered[drinks].name;
 				price = data.playerInfo.drinksOffered[drinks].price;
 				var dataContent = "";
+				console.log(ingredientsListe)
 				for(ingredient of ingredientsListe)
 				{
+					console.log(ingredient)
 					if(ingredient.b_nom == nom)
 					{
 						dataContent = dataContent + "<tr><td>"+ ingredient.i_nom + "</td><td>" + ingredient.r_qte + "</td><td>" + ingredient.i_prix + "€</td></tr>"
