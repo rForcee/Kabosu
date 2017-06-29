@@ -143,9 +143,19 @@ function getActions() {
 				console.log(tableActions)
 				tableActions.push(ajout)
 			}
-			localStorage.setItem("tableActions", JSON.stringify(tableActions))
+			localStorage.setItem("tableActions", tableActions)
 			console.log(tableActions)
        	});
+}
+
+function sendActions() {
+	var message = localStorage.getItem("tableActions")
+	data = {"actions" : message, "simulated": false}
+	$.ajax('https://kabosu.herokuapp.com/actions/' + playerName, {
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(data)
+            });
 }
 
 window.setInterval(metrology, 3000);
