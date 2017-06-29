@@ -67,7 +67,7 @@ public class FenetreJeux extends Application {
 
 			test.generationMap(root);
 			test.generationPopulationStand(root, 1);
-			test.generationPopulationClient(root,50, IcoMeteo); 
+			test.generationPopulationClient(root,50, IcoMeteo, null); 
 			test.generationPopulationPub(root, 1);
 			IcoMeteo.afficheMeteo(root, scene);
 
