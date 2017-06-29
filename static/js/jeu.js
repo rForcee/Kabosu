@@ -137,8 +137,8 @@ function getActions() {
 
 				var prepare = {};
 				prepare[nom] = prod;        
-				var price = {};
-				price[nom] = price;        
+				var pricePrep = {};
+				pricePrep[nom] = price;        
 				var ajout = {"kind": "drinks", "prepare": prepare, "price": price}
 				console.log(tableActions)
 				tableActions.push(ajout)
