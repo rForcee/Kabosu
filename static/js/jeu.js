@@ -1,7 +1,5 @@
 var playerName;
 var tableWeather = ['rainy', 'cloudy', 'sunny', 'heatwave', 'thunderstorm']
-var tableActions = [];
-
 
 $.urlParam = function(name){
   var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -122,18 +120,18 @@ function mapPlayer() {
 function getActions() {
 	$.ajax('https://kabosu.herokuapp.com/map/'+ playerName)
        .done(function(data){
+       	var tableActions = []
 			for(drinks in data.playerInfo.drinksOffered)
 			{
 				nom = data.playerInfo.drinksOffered[drinks].name;
 				var prod = $('#'+nom+' > td > .prod').val()
 				var vente = $('#'+nom+' > td > .prixvente').val()
-				console.log(prod + " " + vente)
 				if(prod == "")
 					prod = 0
 				if(vente == "")
 					vente = 0
 				var ajout = {"kind": "drinks", "prepare": {nom:prod}, "price": {nom:vente}}
-				console.log(ajout)
+				console.log(tableActions)
 				tableActions.push(ajout)
 			}
 			localStorage.setItem("tableActions", JSON.stringify(tableActions))
