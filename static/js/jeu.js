@@ -1,5 +1,7 @@
 var playerName;
 var tableWeather = ['rainy', 'cloudy', 'sunny', 'heatwave', 'thunderstorm']
+var ingredientsListe;
+
 
 $.urlParam = function(name){
   var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -41,7 +43,15 @@ function metrology() {
 					previsionWeather = data.weather[time].weather;
 				}
 			}
-			day = Math.floor(hour / 24) + 1;
+			var dayPrev = localStorage.getItem("dayPrev")
+			var day = Math.floor(hour / 24) + 1;
+			if(dayPrev != day)
+			{
+				//sendActions();
+				alert("Changement de jour")
+			}
+			dayPrev = day;
+			localStorage.setItem("dayPrev", dayPrev)
 			$('#weather').text(tableWeather[previsionWeather]);
 			$('#day').text("Jour " + day);
 			$('#hour').text(hour % 24 + ":00");
@@ -49,7 +59,6 @@ function metrology() {
 	});
 }
 
-var ingredientsListe;
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
