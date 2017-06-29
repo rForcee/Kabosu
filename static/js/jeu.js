@@ -169,7 +169,8 @@ function getActions() {
 function sendActions() {
 	if(budget > 0)
 	{
-		var message = localStorage.getItem("tableActions")
+		var messageJSON = localStorage.getItem("tableActions")
+		message = JSON.parse(messageJSON)
 		if(message == "")
 			message = []
 		data = {"actions" : message, "simulated": false}

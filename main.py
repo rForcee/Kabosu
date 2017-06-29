@@ -268,12 +268,18 @@ def sales_ad(j, player_name):
 @app.route('/actions/<player_name>', methods=['POST'])
 def action_player(player_name):
 	content = request.get_json()
+	if content = []:
+		return json_response({"success": False})
+
 	dicoAction[player_name] = content
+
 	for i in dicoAction:
 		if i == player_name:
 			for j in dicoAction[i]['actions']:
-				if j['kind'] == 'ad':
-  					sales_ad(j, player_name)
+				print dicoAction[i]['actions']
+				if 'ad' in j['kind']: 
+					if j['kind'] == 'ad':
+	  					sales_ad(j, player_name)
 				
 				else:
 
