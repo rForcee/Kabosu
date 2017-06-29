@@ -150,7 +150,7 @@ function getActions() {
 				var prepare = {};
 				prepare[nom] = prod;        
 				var pricePrep = {};
-				pricePrep[nom] = price;  
+				pricePrep[nom] = vente;  
 
 				priceAll = priceAll + (priceAchat * prod);
 
