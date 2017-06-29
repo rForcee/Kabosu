@@ -38,14 +38,16 @@ void CLOCK_output() {
       break;
 
     case CLOCK_HOUR :
-      send_hour();
+      Send();
       break;
   }
 }
 
 
-void send_hour() {
+void Send() {
   hour++;
   chrono = millis();
   Serial.println((String)"<{" + hour + "|" + current_weather + "|" + forecast_weather + "}>");
+  lcd.setCursor(0, 0);
+  lcd.print((String)"<{" + hour + "|" + current_weather + "|" + forecast_weather + "}>");
 }

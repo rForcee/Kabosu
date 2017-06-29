@@ -6,6 +6,7 @@ typedef enum {
 WEATHER_STATE WEATHERState;
 
 void WEATHER_init() {
+  gen_weather = false;
   randomSeed(analogRead(5));
   current_weather = random(0, 5);
   forecast_weather = random (0, 5);
@@ -16,15 +17,26 @@ void WEATHER_update() {
 
   switch (WEATHERState) {
     case WEATHER_IDLE :
-      if (hour % 24 == 18) {                              // définition de l'heure pour forcast_weather
+      if (hour % 24 == 23 && !gen_weather) {                              // définition de l'heure pour forcast_weather
+        gen_weather = true;
         nextState = WEATHER_WEATHER;
+      }
+      if (hour % 24 == 0 && gen_weather) {
+        gen_weather = false;
       }
       break;
 
     case WEATHER_WEATHER :
+      current_weather = current(forecast_weather);
+      forecast_weather = forecast();
+      Serial.print("probaf : ");
+      Serial.print(proba);
+      Serial.print(" ----- probabisc : ");
+      Serial.println(probabis);
       nextState = WEATHER_IDLE;
       break;
   }
+  WEATHERState = nextState;
 }
 
 void WEATHER_output() {
@@ -33,8 +45,7 @@ void WEATHER_output() {
       break;
 
     case WEATHER_WEATHER :
-      current_weather = current(forecast_weather);
-      forecast_weather = forecast();
+
       break;
   }
 }
@@ -42,36 +53,34 @@ void WEATHER_output() {
 int current(int fw) {
   probabis = random(0, 100);
   if (probabis < 88) {                                        // 88%
-    cw = fw;
+    return  fw;
   }
   if (probabis >= 88 && probabis < 93) {                      // -10%
-    cw = ((fw + 5 - 1) % 5);
+    return  ((fw + 5 - 1) % 5);
   }
   if (probabis >= 93 && probabis < 98) {                      // +10%
-    cw = ((fw + 5 + 1) % 5);
+    return  ((fw + 5 + 1) % 5);
   }
   else {                                                      // 2%
-    cw = forecast();
+    return  forecast();
   }
-  return cw;
 }
 
 int forecast() {
   proba = random (0, 100);
   if (proba < 15) {
-    forecast_weather = 0;
+    return 0;
   }
   if (proba >= 15 && proba < 35) {
-    forecast_weather = 1;
+    return 1;
   }
   if (proba >= 35 && proba < 75) {
-    forecast_weather = 2;
+    return 2;
   }
   if (proba >= 75 && proba < 95) {
-    forecast_weather = 3;
+    return 3;
   }
   else {
-    forecast_weather = 4;
+    return 4;
   }
-  return forecast_weather;
 }
