@@ -66,15 +66,17 @@ public class Map
 			System.out.println("client"+i);
 
 			if(mymapClient.get("client"+i).motivation(meteo)[1] == true){
-
 				
+
 				ArrayList<String> jpositif = new ArrayList<String>() ;
-				jpositif = rayonInfluence(mymapClient.get("client"+i).getX(), mymapClient.get("client"+i).getY(), al_joueur);
+				jpositif.addAll(rayonInfluence(mymapClient.get("client"+i).getX(), mymapClient.get("client"+i).getY(), al_joueur));
 				if(jpositif.size() > 0){
+					System.out.println("CLIENT NUMBER IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
 					if(jpositif.size() == 1)
 					{
 						mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo), jpositif.get(i));
-					}else
+					}
+					else
 					{
 
 						//todo boucle list
@@ -88,163 +90,67 @@ public class Map
 
 								//if(al_joueur.get(j).getInfojoueur().getPseudo().equals(jpositif.get(j)) )
 								//{
-									float leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice(); //todo int boission voulu 
+								float leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice(); //todo int boission voulu 
 
-									switch(meteo.getMeteo()){
-									case 1:
-										System.out.println("11111111111111111111111111111111111111111");
-										if(goFurther > 0 && goFurther <= 10)
+								switch(meteo.getMeteo()){
+								case 1:
+									
+									if(goFurther > 0 && goFurther <= 10)
+									{
+
+										if(al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice() <= leastExpensive)//si le prix du joueur suivant est le moins cher
 										{
 
-											if(al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice() <= leastExpensive)//si le prix du joueur suivant est le moins cher
-											{
 
+											leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice();
+											JmoinCher = al_joueur.get(j).getInfojoueur().getPseudo();
+											mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinCher);
+											System.out.println("vente");
 
-												leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice();
-												JmoinCher = al_joueur.get(j).getInfojoueur().getPseudo();
-												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinCher);
-												System.out.println("vente");
-												
-											}
-
-										}else
-										{
-											for(int it = 0; it< al_joueur.get(j).getInfoItem().getItem().size(); it++)
-											{
-
-												double distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
-
-												if( (calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude()))
-														<= distanceMin)//si la distance suivante est la plus courte
-												{
-													distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());//TO
-													//TODO methode check rayon
-													JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
-													mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin  );
-													System.out.println("vente");
-												}
-
-											}
-
-											
 										}
 
-										
-										break;
-									case 2:
-										System.out.println("22222222222222222222222222222222222222");
-										if(goFurther >= 0 && goFurther <= 40)
+									}else
+									{
+										for(int it = 0; it< al_joueur.get(j).getInfoItem().getItem().size(); it++)
 										{
 
-											if(al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice() <= leastExpensive)//si le prix du joueur suivant est le moins cher
+											double distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
+
+											if( (calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude()))
+													<= distanceMin)//si la distance suivante est la plus courte
 											{
-
-
-												leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice();//TODO methode boissoin;
-												JmoinCher = al_joueur.get(j).getInfojoueur().getPseudo();
-												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinCher  );
-												System.out.println("vente");
-												
-											}
-
-										}else
-										{
-											for(int it = 0; it< al_joueur.get(j).getInfoItem().getItem().size(); it++)
-											{
-
-												double distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
-
-												if( (calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude()))
-														<= distanceMin)//si la distance suivante est la plus courte
-												{
-													distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
-													JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
-													mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin );
-													System.out.println("vente");
-													
-												}
-											}
-											
-										}//fin else
-									
-										break;
-									case 3:
-										System.out.println("33333333333333333333333333333333");
-										if(goFurther >= 0 && goFurther <= 50)
-										{
-											if(al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice() <= leastExpensive)//si le prix du joueur suivant est le moins cher
-											{
-
-
-												leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice();
-												JmoinCher = al_joueur.get(j).getInfojoueur().getPseudo();
-												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinCher );
-												System.out.println("vente");
-											
-											}
-
-										}else
-										{
-											for(int it = 0; it< al_joueur.get(j).getInfoItem().getItem().size(); it++)
-											{
-
-												double distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
-
-												if( (calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude()))
-														<= distanceMin)//si la distance suivante est la plus courte
-												{
-													distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
-													JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
-													mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin );
-													System.out.println("vente");
-													
-												}
-
-
-											}
-
-										}//fin else
-
-										break;
-									case 4:
-										System.out.println("4444444444444444444444444444444444444444444");
-										if(goFurther >= 0 && goFurther <= 20)
-										{
-
-											if(al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice() <= leastExpensive)//si le prix du joueur suivant est le moins cher
-											{
-
-
-												leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice();
-												JmoinCher = al_joueur.get(j).getInfojoueur().getPseudo();
-												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinCher );
+												distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());//TO
+												//TODO methode check rayon
+												JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
+												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin  );
 												System.out.println("vente");
 											}
 
-										}else
+										}
+
+
+									}
+
+
+									break;
+								case 2:
+									System.out.println("22222222222222222222222222222222222222");
+									if(goFurther >= 0 && goFurther <= 40)
+									{
+
+										if(al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice() <= leastExpensive)//si le prix du joueur suivant est le moins cher
 										{
-											for(int it = 0; it< al_joueur.get(j).getInfoItem().getItem().size(); it++)
-											{
 
-												double distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
 
-												if( (calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude()))
-														<= distanceMin)//si la distance suivante est la plus courte
-												{
-													distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
-													JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
-													mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin );
-													System.out.println("vente");
-													
-												}
-											}
-											
+											leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice();//TODO methode boissoin;
+											JmoinCher = al_joueur.get(j).getInfojoueur().getPseudo();
+											mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinCher  );
+											System.out.println("vente");
 
-										}//fin else
+										}
 
-										//Vente(ItemJoueur.getProprietaire(), BoissonVoulue());
-										break;
-									case 5:
+									}else
+									{
 										for(int it = 0; it< al_joueur.get(j).getInfoItem().getItem().size(); it++)
 										{
 
@@ -257,23 +163,119 @@ public class Map
 												JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
 												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin );
 												System.out.println("vente");
-												
+
+											}
+										}
+
+									}//fin else
+
+									break;
+								case 3:
+									System.out.println("33333333333333333333333333333333");
+									if(goFurther >= 0 && goFurther <= 50)
+									{
+										if(al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice() <= leastExpensive)//si le prix du joueur suivant est le moins cher
+										{
+
+
+											leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice();
+											JmoinCher = al_joueur.get(j).getInfojoueur().getPseudo();
+											mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinCher );
+											System.out.println("vente");
+
+										}
+
+									}else
+									{
+										for(int it = 0; it< al_joueur.get(j).getInfoItem().getItem().size(); it++)
+										{
+
+											double distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
+
+											if( (calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude()))
+													<= distanceMin)//si la distance suivante est la plus courte
+											{
+												distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
+												JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
+												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin );
+												System.out.println("vente");
+
+											}
+
+
+										}
+
+									}//fin else
+
+									break;
+								case 4:
+									System.out.println("4444444444444444444444444444444444444444444");
+									if(goFurther >= 0 && goFurther <= 20)
+									{
+
+										if(al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice() <= leastExpensive)//si le prix du joueur suivant est le moins cher
+										{
+
+
+											leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice();
+											JmoinCher = al_joueur.get(j).getInfojoueur().getPseudo();
+											mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinCher );
+											System.out.println("vente");
+										}
+
+									}else
+									{
+										for(int it = 0; it< al_joueur.get(j).getInfoItem().getItem().size(); it++)
+										{
+
+											double distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
+
+											if( (calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude()))
+													<= distanceMin)//si la distance suivante est la plus courte
+											{
+												distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
+												JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
+												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin );
+												System.out.println("vente");
+
 											}
 										}
 
 
-										//Vente(ItemJoueur.getProprietaire(), BoissonVoulue());
-										break;
-									}
-								}
+									}//fin else
 
+									//Vente(ItemJoueur.getProprietaire(), BoissonVoulue());
+									break;
+								case 5:
+									for(int it = 0; it< al_joueur.get(j).getInfoItem().getItem().size(); it++)
+									{
+
+										double distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
+
+										if( (calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude()))
+												<= distanceMin)//si la distance suivante est la plus courte
+										{
+											distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
+											JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
+											mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin );
+											System.out.println("vente");
+
+										}
+									}
+
+
+									//Vente(ItemJoueur.getProprietaire(), BoissonVoulue());
+									break;
+								}
 							}
 
 						}
 
 					}
-				}//Fin algo Marvin
-			}
+
+				}
+			}//Fin algo Marvin
+		}
 		//}
 		return mymapRec;
 	}
@@ -291,24 +293,24 @@ public class Map
 
 			for(int l = 0; l<(get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(i)) ).getItem().size();l++)
 			{			
-					dataItem.getItem().add(l, ((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(i)) ).getItem().get(l)));			
-				
+				dataItem.getItem().add(l, ((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(i)) ).getItem().get(l)));			
+
 			}
 
-				mymapStand.put("Stand"+i, new StandJoueur(dataItem.getItem().get(i).getNomjoueur(), dataItem.getItem().get(i).getInfluence(), 600/*dataItem.getItem().get(i).getLatitude()*/, 200/* dataItem.getItem().get(i).getLongitude()*/,10));
-				mymapRec.put("rectangle"+i, new Rectangle());
-				mymapRec.get("rectangle"+i).setX(mymapStand.get("Stand"+i).getItemJoueur().getLatitude());
-				mymapRec.get("rectangle"+i).setY(mymapStand.get("Stand"+i).getItemJoueur().getLongitude());
-				mymapRec.get("rectangle"+i).setWidth(30);
-				mymapRec.get("rectangle"+i).setHeight(30);
-				mymapRec.get("rectangle"+i).setFill(new ImagePattern(mymapStand.get("Stand"+i).getSkinStand()));
-				// System.out.println("client"+i+": "+mymapClient.get("client"+i).getX());
-				//System.out.println(mymapClient.get("client"+i).getY());
-				root.getChildren().add(mymapRec.get("rectangle"+i));
-				
-				// System.out.println(mymapClient.get("client"+i).motivation(meteo));
-				System.out.println("Stand"+i);
-			
+			mymapStand.put("Stand"+i, new StandJoueur(dataItem.getItem().get(i).getNomjoueur(), dataItem.getItem().get(i).getInfluence(), 600/*dataItem.getItem().get(i).getLatitude()*/, 200/* dataItem.getItem().get(i).getLongitude()*/,10));
+			mymapRec.put("rectangle"+i, new Rectangle());
+			mymapRec.get("rectangle"+i).setX(mymapStand.get("Stand"+i).getItemJoueur().getLatitude());
+			mymapRec.get("rectangle"+i).setY(mymapStand.get("Stand"+i).getItemJoueur().getLongitude());
+			mymapRec.get("rectangle"+i).setWidth(30);
+			mymapRec.get("rectangle"+i).setHeight(30);
+			mymapRec.get("rectangle"+i).setFill(new ImagePattern(mymapStand.get("Stand"+i).getSkinStand()));
+			// System.out.println("client"+i+": "+mymapClient.get("client"+i).getX());
+			//System.out.println(mymapClient.get("client"+i).getY());
+			root.getChildren().add(mymapRec.get("rectangle"+i));
+
+			// System.out.println(mymapClient.get("client"+i).motivation(meteo));
+			System.out.println("Stand"+i);
+
 
 		}
 		return mymapRec;
@@ -326,8 +328,8 @@ public class Map
 		{
 			for(int l = 0; l<(get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(i)) ).getItem().size();l++)
 			{			
-					dataItem.getItem().add(l, ((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(i)) ).getItem().get(l)));			
-				
+				dataItem.getItem().add(l, ((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(i)) ).getItem().get(l)));			
+
 			}
 			if(dataItem.getItem().get(i).getTypeItem().equals( "ad"))
 			{
@@ -391,15 +393,15 @@ public class Map
 				//playerInfo.getDrink().get(j).setPrice(TestHttp.traitementTramePlayerInfo(TestHttp.getMap(urlGet), data.getRank().get(i)).getDrink().get(j).getPrice());
 				//playerInfo.getDrink().get(j).setAlcool(TestHttp.traitementTramePlayerInfo(TestHttp.getMap(urlGet), data.getRank().get(i)).getDrink().get(j).isAlcool());
 			}
-			
+
 			Joueur joueur = new Joueur(playerInfo.getBudget(), null, playerInfo.getProfit(), playerInfo.getPseudo(), playerInfo.getVente());
 			listJoueur.add(joueur);
 		}
-		
-		
-		
+
+
+
 		return null;
-		
+
 	}
 	public Double calculeRayon(float X,float Y,float Sx,float Sy){
 		double tmpCal = ((Y-X)*(Y-X))+((Sy-Sx)*(Sy-Sx));
