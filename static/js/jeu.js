@@ -52,14 +52,15 @@ function metrology() {
 	});
 }
 
+var ingredientsListe;
+
 function mapPlayer() {
 	$.ajax('https://kabosu.herokuapp.com/map/'+ playerName)
        .done(function(data){
        		$('#money').text(data.playerInfo.cash + "€");
-       		var ingredientsListe;
 			$.ajax('https://kabosu.herokuapp.com/ingredients/'+ playerName)
 		       .done(function(ingredients){
-		       	ingredientsListe = ingredients;
+		       	window.ingredientsListe = ingredients;
 			});
 
 			for(drinks in data.playerInfo.drinksOffered)
