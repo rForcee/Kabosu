@@ -1,6 +1,6 @@
 var playerName;
 var tableWeather = ['rainy', 'cloudy', 'sunny', 'heatwave', 'thunderstorm']
-var tableActions;
+var tableActions = [];
 
 
 $.urlParam = function(name){
@@ -134,7 +134,7 @@ function getActions() {
 					vente = 0
 				var ajout = {"kind": "drinks", "prepare": {nom:prod}, "price": {nom:vente}}
 				console.log(ajout)
-				tableActions.append(ajout)
+				tableActions.push(ajout)
 			}
 			localStorage.setItem("tableActions", JSON.stringify(tableActions))
 			console.log(tableActions)
