@@ -56,12 +56,25 @@ function mapPlayer() {
 	$.ajax('https://kabosu.herokuapp.com/map/'+ playerName)
        .done(function(data){
        		$('#money').text(data.playerInfo.cash + "€");
-			console.log(data.playerInfo.cash);
-			console.log(data.playerInfo.drinksOffered)
+       		var ingredientsListe;
+			$.ajax('https://kabosu.herokuapp.com/ingredients/'+ playerName)
+		       .done(function(ingredients){
+		       	ingredientsListe = ingredients;
+			});
+
 			for(drinks in data.playerInfo.drinksOffered)
 			{
 				nom = data.playerInfo.drinksOffered[drinks].name;
 				price = data.playerInfo.drinksOffered[drinks].price;
+				var dataContent = "";
+				"<table><thead><tr><th>Ingrédient</th><th>Quantité</th><th>Prix unitaire</th></tr></thead><tbody><tr><td>Eau gazeuse</td><td>1</td><td>0.4</td></tr></tbody></table>"
+				for(ingredient of ingredients)
+				{
+					if(ingredient.b_nom == nom)
+					{
+						dataContent = dataContent + "<tr><td>"+ ingredient.i_nom + "</td><td>" + ingredient.r_qte + "</td><td>" + ingredient.i_prix + "€</td></tr>"
+					}
+				}
 			
 				var ligne = "<tr id=\"" + nom + "\">"+
 	              "<td class=\"boissonsTD\">"+nom+"</td>"+

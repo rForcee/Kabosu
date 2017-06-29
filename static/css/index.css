@@ -22,7 +22,7 @@
 
 .boissonsTD
 {
-	text-transform: uppercase;
+	text-transform: capitalize;
 }
 
 .bodyIndex {
