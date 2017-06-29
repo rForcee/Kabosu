@@ -57,6 +57,7 @@ function mapPlayer() {
        .done(function(data){
        		$('#money').text(data.playerInfo.cash + "€");
 			console.log(data.playerInfo.cash);
+			console.log(data.playerInfo.drinksOffered)
 			for(drinks in data.playerInfo.drinksOffered)
 			{
 				console.log("drinks:" + drinks)
