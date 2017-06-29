@@ -30,8 +30,8 @@ def reset_partie():
 	db.execute("DELETE FROM recette;")
 	db.execute("DELETE FROM ventes;")
 	db.execute("DELETE FROM boisson;")
-	db.execute("DELETE FROM joueur;")
 	db.execute("DELETE FROM zone;")
+	db.execute("DELETE FROM joueur;")
 	db.execute("DELETE FROM dayinfo;")
 	return json_response({"Success": True})
 
