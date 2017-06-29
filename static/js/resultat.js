@@ -15,4 +15,37 @@ $.urlParam = function(name){
 $( document ).ready(function() {
     playerName = decodeURIComponent($.urlParam('player'));
     $('#name').text(playerName);
+    mapPlayer();
 });
+
+function mapPlayer() {
+	$.ajax('https://kabosu.herokuapp.com/map/'+ playerName)
+       .done(function(data){
+       		$('#sales').text(data.playerInfo.sales);
+
+       		if((data.playerInfo.profit) > 0)
+       		{
+       			$('#profit').text("+" + data.playerInfo.profit + "€");
+       		}
+       		else
+       		{
+       			$('#profit').text(data.playerInfo.profit + "€");
+       		}
+       		
+       		var classement = data.map.ranking.indexOf(playerName) + 1;
+       		var nbJoueurs = data.map.ranking.length;
+       		$('#ranking').text(classement + "/" + nbJoueurs);
+
+       		var cptPubs = 0;
+       		for(zone in data.map.itemsByPlayer)
+       		{
+       			console.log(data.map.itemsByPlayer[zone].kind)
+       			if(data.map.itemsByPlayer[zone].kind == 'ad')
+       			{
+       				cptPubs++;
+       			}
+       		}
+
+       		$('#pub').text(cptPubs);
+	});
+}

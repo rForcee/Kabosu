@@ -5,24 +5,20 @@
 
 /* Popover Header */
 .popover-title {
-    background-color: #73AD21; 
-    color: #FFFFFF; 
-    font-size: 28px;
     text-align:center;
 }
 
-/* Popover Body */
-.popover-content table{
-    background-color: green;
-    color: #FFFFFF;
-    padding: 25px;
+.popover-content table {
+	border-collapse: collapse !important;
+	color: black;
+	vertical-align: center !important;
+	text-align: center;
+	padding: 25px;
 }
-
-/* Popover Arrow */
-.arrow {
-    border-right-color: red !important;
+.popover-content td,
+.popover-content th {
+	background-color: #fff !important;
 }
-
 
 .bodyIndex {
 	background: #95a5a6 !important;
