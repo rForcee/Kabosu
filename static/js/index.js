@@ -17,4 +17,5 @@ function envoyer() {
 
 $(function(){    
   $('#send').on('click', envoyer);
+  localStorage.setItem("tableActions", "")
 })
