@@ -16,15 +16,20 @@
 	text-align: center;
 	padding: 25px;
 	text-transform: capitalize;
-
 }
+
 .popover-content td,
 .popover-content th {
 	background-color: #fff !important;
 	text-transform: capitalize;
 	padding-left: 20px;
 	margin-left: 20px;
+}
 
+.popover-content td
+{
+	border-top: 1px solid #f00; 
+    border-bottom: 1px solid #0f0; /* move spacing to the cell */
 }
 
 .boissonsTD
