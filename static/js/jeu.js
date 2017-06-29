@@ -91,6 +91,7 @@ function mapPlayer() {
 
         	}
         	});
+		$('[data-toggle="popover"]').popover();   
 	});
 }
 
