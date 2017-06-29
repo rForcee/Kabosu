@@ -135,7 +135,7 @@ function getActions() {
 	$.ajax('https://kabosu.herokuapp.com/map/'+ playerName)
        .done(function(data){
        	var tableActions = []
-       		var priceAll; 
+       		var priceAll = 0; 
 			for(drinks in data.playerInfo.drinksOffered)
 			{
 				nom = data.playerInfo.drinksOffered[drinks].name;
