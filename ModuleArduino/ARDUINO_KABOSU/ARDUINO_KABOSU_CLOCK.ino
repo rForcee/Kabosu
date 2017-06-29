@@ -47,7 +47,7 @@ void CLOCK_output() {
 void Send() {
   hour++;
   chrono = millis();
-  Serial.println((String)"<{" + hour + "|" + current_weather + "|" + forecast_weather + "}>");
+  Serial.println((String)"[" + hour + "|" + current_weather + "|" + forecast_weather + "]");
   lcd.setCursor(0, 0);
-  lcd.print((String)"<{" + hour + "|" + current_weather + "|" + forecast_weather + "}>");
+  lcd.print((String)"[" + hour + "|" + current_weather + "|" + forecast_weather + "]");
 }

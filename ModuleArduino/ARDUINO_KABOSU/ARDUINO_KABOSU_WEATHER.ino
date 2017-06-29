@@ -17,7 +17,7 @@ void WEATHER_update() {
 
   switch (WEATHERState) {
     case WEATHER_IDLE :
-      if (hour % 24 == 23 && !gen_weather) {                              // définition de l'heure pour forcast_weather
+      if (hour % 24 == 23 && !gen_weather) {
         gen_weather = true;
         nextState = WEATHER_WEATHER;
       }
@@ -28,11 +28,11 @@ void WEATHER_update() {
 
     case WEATHER_WEATHER :
       current_weather = current(forecast_weather);
-      forecast_weather = forecast();
-      Serial.print("probaf : ");
-      Serial.print(proba);
-      Serial.print(" ----- probabisc : ");
-      Serial.println(probabis);
+      forecast_weather = forecast();      
+      //Serial.print("probaf : ");
+      //Serial.print(proba);
+      //Serial.print("      probabisc : ");
+      //Serial.println(probabis);
       nextState = WEATHER_IDLE;
       break;
   }
@@ -55,10 +55,10 @@ int current(int fw) {
   if (probabis < 88) {                                        // 88%
     return  fw;
   }
-  if (probabis >= 88 && probabis < 93) {                      // -10%
+  if (probabis >= 88 && probabis < 93) {                      // -5%
     return  ((fw + 5 - 1) % 5);
   }
-  if (probabis >= 93 && probabis < 98) {                      // +10%
+  if (probabis >= 93 && probabis < 98) {                      // +5%
     return  ((fw + 5 + 1) % 5);
   }
   else {                                                      // 2%

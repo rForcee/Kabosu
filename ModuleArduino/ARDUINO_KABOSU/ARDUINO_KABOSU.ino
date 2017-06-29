@@ -3,12 +3,12 @@
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
 
-long Speed;  // Vitesse = heure réel en milliseconde
+long Speed;  // Speed = heure réel en milliseconde
 long hour, chrono;
 int current_weather, forecast_weather, proba, probabis, cw, fw, tmp, button;
 boolean state_button, gen_weather;
 
-//déclaration des fonctions
+//déclaration de toues les fonctions
 void CLOCK_init();
 void WEATHER_init();
 void CLICK_init();
