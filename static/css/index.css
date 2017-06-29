@@ -26,7 +26,7 @@
 	margin-left: 20px;
 }
 
-.popover-content > table > tbody > tr:nth-of-type(odd) {
+.popover-content table tbody tr:nth-of-type(odd) {
   background-color: #22313F;
 }
 

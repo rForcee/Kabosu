@@ -128,6 +128,10 @@ function getActions() {
 				var prod = $('#'+nom+' > td > .prod').val()
 				var vente = $('#'+nom+' > td > .prixvente').val()
 				console.log(prod + " " + vente)
+				if(prod == "")
+					prod = 0
+				if(vente == "")
+					vente = 0
 				var ajout = {"kind": "drinks", "prepare": {nom:prod}, "price": {nom:vente}}
 				console.log(ajout)
 				tableActions.append(ajout)
