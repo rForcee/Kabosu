@@ -1,6 +1,7 @@
 package Ui;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 import Com.DataTrameMap;
 import Com.DataTrameMeteo;
@@ -19,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import map.*;
 import objectIhm.*;
+import objectMap.Joueur;
 public class FenetreJeux extends Application {
 	@Override
 	public void start(Stage primaryStage) {
@@ -67,10 +69,13 @@ public class FenetreJeux extends Application {
 			heure.setText(String.valueOf(date.heureJeux(data2.getHeure()))); // affectation heure de jeux
 			gridpane.add(heure, 1, 1);
 
+			
+			
+		
 			test.generationMap(root);
-			test.generationPopulationStand(root, 1);
-			test.generationPopulationClient(root,50, IcoMeteo, null); 
-			test.generationPopulationPub(root, 1);
+			test.generationPopulationStand(root);
+			test.generationPopulationClient(root,50, IcoMeteo, test.initlistJoueur()); 
+			//test.generationPopulationPub(root, 1);
 			IcoMeteo.afficheMeteo(root, scene);
 
 			Task<Void> task = new Task<Void>() {

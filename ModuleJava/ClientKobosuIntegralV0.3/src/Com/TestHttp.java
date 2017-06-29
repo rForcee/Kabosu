@@ -4,14 +4,12 @@ import java.net.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 public class TestHttp {
 
 	///////////////////////////////////////////////Methode post sales///////////////////////////////////////
@@ -65,7 +63,6 @@ public class TestHttp {
 	//////////////////////////////////////////////Methode get map/////////////////////////////////////////
 
 	public static String getMap(URL url ) throws Exception {
-		int i =0;
 		StringBuilder result = new StringBuilder();
 		// crée un nouveau objet url
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection(); //
@@ -148,7 +145,7 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 		return data;
 
 	}
-	public static DataTrameItemJoueur traitementTrameItem(String trame, String joueur) throws IOException {
+	public DataTrameItemJoueur traitementTrameItem(String trame, String joueur) throws IOException {
 	
 		DataTrameItemJoueur  data = new DataTrameItemJoueur();
 		DataItemJoueur item = new DataItemJoueur();
@@ -157,7 +154,6 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 		JsonParser parser = new JsonParser();
 		JsonObject obj = parser.parse(trame).getAsJsonObject();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		JsonObject jsonObject = obj.getAsJsonObject();
 		JsonObject response = new JsonObject();
 		response = gson.fromJson(obj,JsonObject.class);
 		data.joueur = joueur;
@@ -201,7 +197,7 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 		return data;
 
 	}
-	public static DataTrameMeteo traitementTrameMetrology(String trame){
+	public static DataTrameMeteo traitementTrameMetrology(String trame) throws IOException{
 		DataTrameMeteo  data = new DataTrameMeteo ();
 		JsonReader reader = new JsonReader(new StringReader(trame));
 		reader.setLenient(true);
@@ -223,6 +219,7 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 		
 			}
 		}
+		reader.close();
 		return data;
 	}
 	public static void main(String[] args) {
@@ -238,7 +235,7 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 			@SuppressWarnings("unused")
 			URL urlGet = new URL("https://kabosu.herokuapp.com/map"); 
 			URL urlGet2 = new URL("https://kabosu.herokuapp.com/metrology"); 
-
+TestHttp get = new TestHttp();
 			//sendPost(urlPost,speudo,boisson,nb); // post vers https://kabosu.herokuapp.com/sales
 			//System.out.print(traitementTramePlayerInfo(getMap(urlGet))); // get vers https://kabosu.herokuapp.com/map
 			//getMap(urlGet);
@@ -246,8 +243,8 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 			//traitementTramePlayerInfo(getMap(urlGet),"Erwann");
 			//traitementTrameRank(getMap(urlGet));
 			//traitementTrameMap(getMap(urlGet));
-			traitementTrameMetrology(getMap(urlGet2));
-			//traitementTrameItem(getMap(urlGet),"Erwann");
+			//traitementTrameMetrology(getMap(urlGet2));
+			get.traitementTrameItem(getMap(urlGet),"Erwann");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

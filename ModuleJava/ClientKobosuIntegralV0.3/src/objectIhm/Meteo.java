@@ -20,19 +20,19 @@ public class Meteo {
 		if(this.isPrevision == 0)
 		{
 			switch (this.meteo){
-			case 1:
+			case 0:
 				setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/canicule.png"));
 				return skin;
-			case 2:
+			case 1:
 				setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/soleil.png"));
 				return skin;
-			case 3:
+			case 2:
 				setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/nuage.png"));
 				return skin;
-			case 4:
+			case 3:
 				setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/pluie.png"));
 				return skin;
-			case 5:
+			case 4:
 				setSkin(new Image("file:b:/projet1A/git/Kabosu/ModuleJava/ClientKobosuIntegralV0.3/src/orage.png"));
 				return skin;
 			default:
