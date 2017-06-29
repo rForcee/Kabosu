@@ -157,6 +157,13 @@ function getActions() {
 				tableActions.push(ajout)
 
 			}
+			if($('#pubX').val() != "" && $('#pubY').val() != "")
+			{
+				var ajout = {"kind": "ad", "location": {"latitude": $('#pubX').val(), "longitude": $('#pubY').val()}, "price": 27}
+
+				tableActions.push(ajout)
+			}
+
 			if(budget > priceAll)
 				localStorage.setItem("tableActions", JSON.stringify(tableActions))
 			else
@@ -178,6 +185,7 @@ function sendActions() {
 	              contentType: 'application/json',
 	              data: JSON.stringify(data)
 	            });
+		localStorage.setItem("tableActions", "")
 	}
 }
 

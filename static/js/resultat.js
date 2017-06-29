@@ -18,7 +18,6 @@ $( document ).ready(function() {
     $('#name').text(playerName);
     mapPlayer();
     tableActions = localStorage.getItem("tableActions");
-    alert(tableActions);
 });
 
 function mapPlayer() {
