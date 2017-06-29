@@ -20,11 +20,8 @@ $( document ).ready(function() {
     ingredientsPlayer();
 });
 
-var message = "<table><thead><tr><th>Ingrédient</th><th>Quantité</th><th>Prix unitaire</th></tr></thead><tbody><tr><td>Citron</td><td>2</td><td>0.2€</td></tr><tr><td>Eau gazeuse</td><td>1</td><td>0.4</td></tr></tbody></table>"
 $(document).ready(function(){
-  $('[data-toggle="popover"]').popover({
-    content: message
-  });   
+  $('[data-toggle="popover"]').popover();   
 });
 
 function metrology() {
@@ -60,7 +57,7 @@ function mapPlayer() {
        		$('#money').text(data.playerInfo.cash + "€");
 			$.ajax('https://kabosu.herokuapp.com/ingredients/'+ playerName)
 		       .done(function(ingredients){
-		       	window.ingredientsListe = ingredients;
+		       	ingredientsListe = ingredients;
 			});
 
 			for(drinks in data.playerInfo.drinksOffered)
