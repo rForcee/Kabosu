@@ -1,6 +1,5 @@
 package objectMap;
 import Com.DataItemJoueur;
-import map.Position;
 public class ItemJoueur {
 	
 	protected DataItemJoueur itemJoueur = new DataItemJoueur();	
