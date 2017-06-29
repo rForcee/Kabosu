@@ -186,7 +186,7 @@ def sales_drinks_update(j, content):
 		{"nom": player})[0]['j_budget']
 
 	calBudget = budget + (quantity*prixVente)
-
+	print calBudget;
 	db.execute("""UPDATE joueur SET (j_budget) = (@(budget)) 
 		WHERE j_pseudo = @(nom);""", {"budget": calBudget, "nom": player})
 	db.execute("""INSERT INTO ventes(v_qte, v_hour, v_weather, v_prix, j_id, b_id) 
@@ -206,6 +206,7 @@ def sales_drinks(j, content):
 			if quantity > recette[item]:
 				quantity = recette[item]
 				recette[item] = 0
+				print "IN"
 				sales_drinks_update(j, content)
 			else:
 				recette[item] = recette[item] - quantity

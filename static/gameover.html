@@ -26,26 +26,19 @@
     <script src="js/bootstrap.min.js"></script>
 
     <script>
-	  function envoyer(e) {
-  		e.preventDefault()
+	  $.urlParam = function(name){
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      if (results==null){
+         return null;
+      }
+      else{
+         return decodeURI(results[1]) || 0;
+      }
+    }
 
-  	      var message = {
-  		      pseudo: $('#pseudo').val()
-  	      }
-
-          console.log(message);
-  	      
-  	      $.ajax('https://kabosu.herokuapp.com/pseudo', {
-        		type: 'POST',
-        		contentType: 'application/json',
-        		data: JSON.stringify(message)
-  	      })
-		      
-	  }
-    
-    $(function(){    
-      $('#send').on('click', envoyer);
-    })
+    $( document ).ready(function() {
+        playerName = decodeURIComponent($.urlParam('player'));
+    });
 
     </script>
 
