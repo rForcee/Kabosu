@@ -64,7 +64,7 @@ function mapPlayer() {
 				price = data.playerInfo.drinksOffered[drinks].price;
 			
 				var ligne = "<tr id=\"" + nom + "\">"+
-	              "<td>"+"nom"+"</td>"+
+	              "<td>"+nom+"</td>"+
 	              "<td><input type=\"number\" min=\"0\" name=\""+ nom +"\" class=\"form-control\"></td>" +
 	              "<td><input type=\"text\" name=\""+ nom +"\" class=\"form-control\"></td>" +
 	              "<td>"+ price +"</td>" +
@@ -80,18 +80,7 @@ function mapPlayer() {
 function ingredientsPlayer() {
 	$.ajax('https://kabosu.herokuapp.com/ingredients/'+ playerName)
        .done(function(data){
-			var tbl_body = document.createElement("tbody");
-		    var odd_even = false;
-		    $.each(data, function() {
-	        var tbl_row = tbl_body.insertRow();
-	        tbl_row.className = odd_even ? "odd" : "even";
-	        $.each(this, function(k , v) {
-            var cell = tbl_row.insertCell();
-            cell.appendChild(document.createTextNode(v.toString()));
-        	})        
-        odd_even = !odd_even;               
-    	})
-    $("#target_table_id").appendChild(tbl_body);
+
 	});
 }
 
