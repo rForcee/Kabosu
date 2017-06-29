@@ -145,7 +145,7 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 		return data;
 
 	}
-	public DataTrameItemJoueur traitementTrameItem(String trame, String joueur) throws IOException {
+	public static DataTrameItemJoueur traitementTrameItem(String trame, String joueur) throws IOException {
 	
 		DataTrameItemJoueur  data = new DataTrameItemJoueur();
 		DataItemJoueur item = new DataItemJoueur();
@@ -168,6 +168,7 @@ public static DataTramePlayerInfo traitementTramePlayerInfo(String trame, String
 				item.setLatitude(JArray.get(i).getAsJsonObject().get("location").getAsJsonObject().get("latitude").getAsFloat());
 				item.setLongitude(JArray.get(i).getAsJsonObject().get("location").getAsJsonObject().get("longitude").getAsFloat());
 				data.item.add(item);
+				System.out.println("data.item: "+data.item);
 		
 			}
 		}
@@ -242,7 +243,7 @@ TestHttp get = new TestHttp();
 			//System.out.println(getMap(urlGet));
 			//traitementTramePlayerInfo(getMap(urlGet),"Erwann");
 			//traitementTrameRank(getMap(urlGet));
-			//traitementTrameMap(getMap(urlGet));
+			traitementTrameItem(getMap(urlGet), "Erwann");
 			//traitementTrameMetrology(getMap(urlGet2));
 			get.traitementTrameItem(getMap(urlGet),"Erwann");
 		} catch (Exception e) {
