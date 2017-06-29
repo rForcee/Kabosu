@@ -86,7 +86,7 @@ def add_player():
 	coord = db.select("""SELECT z_centerX as latitude, z_centerY as longitude FROM zone WHERE j_id = 
 					(SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",{"nom": name})[0]
 	budgetBase = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""",{"nom": name})[0]['j_budget']
-	nbSales = db.select("""SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes WHERE j_id = 
+	nbSales = db.select("""SELECT COALESCE(SUM(v_qte),0) as nbSales FROM ventes WHERE j_id = 
 						(SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",{"nom": name})[0]['nbsales']
 	drinksInfo = db.select("""SELECT b_nom as name, b_prixprod as price, b_hasAlcohol as hasAlcohol, b_isCold as isCold FROM boisson 
 							WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""",{"nom": name})
@@ -318,7 +318,7 @@ def envoieMapJava():
 		coord = db.select("""SELECT z_centerX as latitude, z_centerY as longitude FROM zone 
 			WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": i['name']})[0]
 		budgetBase = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""", {"nom": i['name']})[0]['j_budget']
-		nbSales = db.select("""SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes 
+		nbSales = db.select("""SELECT COALESCE(SUM(v_qte),0) as nbSales FROM ventes 
 			WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": i['name']})[0]['nbsales']
 		drinksInfo = db.select("""SELECT b_nom as name, b_prixvente as price, b_hasAlcohol as hasAlcohol, 
 			b_isCold as isCold FROM boisson 
@@ -390,7 +390,7 @@ def getMapPlayer(player_name):
 	coord = db.select("""SELECT z_centerX as latitude, z_centerY as longitude FROM zone 
 		WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": player_name})[0]
 	budgetBase = db.select("""SELECT j_budget FROM joueur WHERE j_pseudo = @(nom);""", {"nom": player_name})[0]['j_budget']
-	nbSales = db.select("""SELECT COALESCE(0,SUM(v_qte)) as nbSales FROM ventes 
+	nbSales = db.select("""SELECT COALESCE(SUM(v_qte),0) as nbSales FROM ventes 
 		WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": player_name})[0]['nbsales']
 	drinksInfo = db.select("""SELECT b_nom as name, b_prixprod as price, b_hasAlcohol as hasAlcohol, b_isCold as isCold FROM boisson 
 		WHERE j_id = (SELECT j_id FROM joueur WHERE j_pseudo = @(nom));""", {"nom": player_name})

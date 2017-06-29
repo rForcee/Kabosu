@@ -17,9 +17,10 @@ $( document ).ready(function() {
     metrology();
     $('#name').text(playerName);
     mapPlayer();
+    ingredientsPlayer();
 });
 
-var message = "<table class=" + "table tableProd" + "><thead><tr><th>Ingrédient</th><th>Quantité</th><th>Prix unitaire</th></tr></thead><tbody><tr><td>Citron</td><td>2</td><td>0.2€</td></tr><tr><td>Eau gazeuse</td><td>1</td><td>0.4</td></tr></tbody></table>"
+var message = "<table><thead><tr><th>Ingrédient</th><th>Quantité</th><th>Prix unitaire</th></tr></thead><tbody><tr><td>Citron</td><td>2</td><td>0.2€</td></tr><tr><td>Eau gazeuse</td><td>1</td><td>0.4</td></tr></tbody></table>"
 $(document).ready(function(){
   $('[data-toggle="popover"]').popover({
     content: message
@@ -53,6 +54,15 @@ function metrology() {
 
 function mapPlayer() {
 	$.ajax('https://kabosu.herokuapp.com/map/'+ playerName)
+       .done(function(data){
+       		$('#money').text(data.playerInfo.cash + "€");
+			console.log(data.playerInfo.cash);
+
+	});
+}
+
+function ingredientsPlayer() {
+	$.ajax('https://kabosu.herokuapp.com/ingredients/'+ playerName)
        .done(function(data){
 			console.log(data);
 
