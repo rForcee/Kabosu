@@ -7,8 +7,8 @@ public class DataItemJoueur {
 	float latitude;
 	float longitude;
 	float influence;
-	
 	String typeItem;
+	
 	public String getTypeItem() {
 		return typeItem;
 	}

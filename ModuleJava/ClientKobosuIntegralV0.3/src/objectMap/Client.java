@@ -88,17 +88,20 @@ public class Client {
 		boolean[] VenteBoisson = {achat, chaud};
 		return VenteBoisson;
 	}
-	public void vente(Boolean[] venteInfo, String joueur, String boisson) throws Exception
+	public void vente(boolean[] bs, String joueur) throws Exception
 	{
+		String boisson;
 		URL urlPost = new URL("https://kabosu.herokuapp.com/sales");
 		TestHttp post = new TestHttp();
-		if(venteInfo[0] == true )
+		if(bs[0] == true )
 		{
-			if(venteInfo[1] == true)
+			if(bs[1] == true)
 			{
+				boisson = "tea";
 				TestHttp.sendPost(urlPost, joueur, boisson, 1);
 			}else{
-				
+				boisson = "lemonade";
+				TestHttp.sendPost(urlPost, joueur, boisson, 1);
 			}
 		}
 	}

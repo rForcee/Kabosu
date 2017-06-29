@@ -44,7 +44,7 @@ public class Map
 		circle.setFill(new ImagePattern(getSkinMap())); // ajoute le skins de la map dans le cercle
 		root.getChildren().add(circle);
 	}
-	public HashMap<String, Rectangle> generationPopulationClient(Group root, int nbClient, Meteo meteo, ArrayList<Joueur> al_joueur){
+	public HashMap<String, Rectangle> generationPopulationClient(Group root, int nbClient, Meteo meteo, ArrayList<Joueur> al_joueur) throws Exception{
 		int boisson = 0;
 		String JmoinCher;
 		String JmoinLoin;
@@ -67,13 +67,13 @@ public class Map
 
 			if(mymapClient.get("client"+i).motivation(meteo)[1] == true){
 
-				// System.out.println("todo :choix stand");
+				
 				ArrayList<String> jpositif = new ArrayList<String>() ;
 				jpositif = rayonInfluence(mymapClient.get("client"+i).getX(), mymapClient.get("client"+i).getY(), al_joueur);
 				if(jpositif.size() > 0){
 					if(jpositif.size() == 1)
 					{
-						//Vente(ItemJoueur.getProprietaire(), BoissonVoulue());
+						mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo), jpositif.get(i));
 					}else
 					{
 
@@ -81,17 +81,18 @@ public class Map
 						Random rand = new Random();
 						int goFurther = (int) (rand.nextFloat() * (100 - 0) + 0);
 
-						for(int j = 0 /*jpositif.size()*/; j <= al_joueur.size(); j++)
+						for(int j = 0 ; j <= al_joueur.size(); j++)
 						{
 							for(int p = 0; p < jpositif.size(); p++)
 							{
 
-								if(al_joueur.get(j).getInfojoueur().getPseudo() == jpositif.get(j) )
-								{
+								//if(al_joueur.get(j).getInfojoueur().getPseudo().equals(jpositif.get(j)) )
+								//{
 									float leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice(); //todo int boission voulu 
 
 									switch(meteo.getMeteo()){
 									case 1:
+										System.out.println("11111111111111111111111111111111111111111");
 										if(goFurther > 0 && goFurther <= 10)
 										{
 
@@ -101,6 +102,9 @@ public class Map
 
 												leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice();
 												JmoinCher = al_joueur.get(j).getInfojoueur().getPseudo();
+												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinCher);
+												System.out.println("vente");
+												
 											}
 
 										}else
@@ -116,17 +120,19 @@ public class Map
 													distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());//TO
 													//TODO methode check rayon
 													JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
+													mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin  );
+													System.out.println("vente");
 												}
-
 
 											}
 
-
+											
 										}
 
-										//Vente(ItemJoueur.getProprietaire(), BoissonVoulue());
+										
 										break;
 									case 2:
+										System.out.println("22222222222222222222222222222222222222");
 										if(goFurther >= 0 && goFurther <= 40)
 										{
 
@@ -136,6 +142,9 @@ public class Map
 
 												leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice();//TODO methode boissoin;
 												JmoinCher = al_joueur.get(j).getInfojoueur().getPseudo();
+												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinCher  );
+												System.out.println("vente");
+												
 											}
 
 										}else
@@ -150,15 +159,17 @@ public class Map
 												{
 													distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
 													JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
+													mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin );
+													System.out.println("vente");
+													
 												}
-
-
 											}
-
+											
 										}//fin else
-										//Vente(ItemJoueur.getProprietaire(), BoissonVoulue());
+									
 										break;
 									case 3:
+										System.out.println("33333333333333333333333333333333");
 										if(goFurther >= 0 && goFurther <= 50)
 										{
 											if(al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice() <= leastExpensive)//si le prix du joueur suivant est le moins cher
@@ -167,6 +178,9 @@ public class Map
 
 												leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice();
 												JmoinCher = al_joueur.get(j).getInfojoueur().getPseudo();
+												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinCher );
+												System.out.println("vente");
+											
 											}
 
 										}else
@@ -181,15 +195,19 @@ public class Map
 												{
 													distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
 													JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
+													mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin );
+													System.out.println("vente");
+													
 												}
 
 
 											}
 
 										}//fin else
-										//Vente(ItemJoueur.getProprietaire(), BoissonVoulue());
+
 										break;
 									case 4:
+										System.out.println("4444444444444444444444444444444444444444444");
 										if(goFurther >= 0 && goFurther <= 20)
 										{
 
@@ -199,6 +217,8 @@ public class Map
 
 												leastExpensive = al_joueur.get(j).getInfojoueur().getDrink().get(boisson).getPrice();
 												JmoinCher = al_joueur.get(j).getInfojoueur().getPseudo();
+												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinCher );
+												System.out.println("vente");
 											}
 
 										}else
@@ -213,8 +233,12 @@ public class Map
 												{
 													distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
 													JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
+													mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin );
+													System.out.println("vente");
+													
 												}
 											}
+											
 
 										}//fin else
 
@@ -231,6 +255,9 @@ public class Map
 											{
 												distanceMin = calculeRayon(mymapClient.get("client"+i).getX(),mymapClient.get("client"+i).getY(),al_joueur.get(j).getInfoItem().getItem().get(it).getLatitude(),al_joueur.get(j).getInfoItem().getItem().get(it).getLongitude());
 												JmoinLoin = al_joueur.get(j).getInfojoueur().getPseudo();
+												mymapClient.get("client"+i).vente(mymapClient.get("client"+i).motivation(meteo),JmoinLoin );
+												System.out.println("vente");
+												
 											}
 										}
 
@@ -247,7 +274,7 @@ public class Map
 					}
 				}//Fin algo Marvin
 			}
-		}
+		//}
 		return mymapRec;
 	}
 	public HashMap<String, Rectangle> generationPopulationStand(Group root) throws IOException, Exception{
@@ -256,45 +283,32 @@ public class Map
 		TestHttp get = new TestHttp();
 		DataTrameRank  data = new DataTrameRank ();
 		DataTrameItemJoueur  dataItem = new DataTrameItemJoueur();
-		//get.traitementTrameItem(TestHttp.getMap(urlGet), null);
+
 		HashMap<String,  Rectangle> mymapRec = new HashMap<String,  Rectangle>();
 		for (int i=0; i<TestHttp.traitementTrameRank(TestHttp.getMap(urlGet)).getRank().size(); i++)
 		{
-
 			data.getRank().add((TestHttp.traitementTrameRank(TestHttp.getMap(urlGet)).getRank().get(i)));
 
 			for(int l = 0; l<(get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(i)) ).getItem().size();l++)
-			{
-				
-					//dataItem.getItem().addAll(((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(r)) ).getItem()));
-					dataItem.getItem().add(l, ((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(i)) ).getItem().get(l)));
-					//dataItem.getItem().get(l).setNomjoueur((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(r)) ).getItem().get(l).getNomjoueur());
-					//dataItem.getItem().get(l).setLatitude((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(r)) ).getItem().get(l).getLatitude());
-					//dataItem.getItem().get(l).setLongitude((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(r)) ).getItem().get(l).getLongitude());
-					//dataItem.getItem().get(l).setInfluence((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(r)) ).getItem().get(l).getInfluence());
-					//dataItem.getItem().get(l).setTypeItem((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(r)) ).getItem().get(l).getTypeItem());
-					System.out.println("lollllllllll:"+dataItem.getItem().get(l).getTypeItem());
+			{			
+					dataItem.getItem().add(l, ((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(i)) ).getItem().get(l)));			
 				
 			}
 
-
-
-		//	if( dataItem.getItem().get(i).getTypeItem().equals("stand"))
-			//{
-				System.out.println("sqdfghjkghygfdsfghjkgfdsghjk");
-				mymapStand.put("Stand"+i, new StandJoueur(dataItem.getItem().get(i).getNomjoueur(), dataItem.getItem().get(i).getInfluence(), dataItem.getItem().get(i).getLatitude(),  dataItem.getItem().get(i).getLongitude(),10));
+				mymapStand.put("Stand"+i, new StandJoueur(dataItem.getItem().get(i).getNomjoueur(), dataItem.getItem().get(i).getInfluence(), 600/*dataItem.getItem().get(i).getLatitude()*/, 200/* dataItem.getItem().get(i).getLongitude()*/,10));
 				mymapRec.put("rectangle"+i, new Rectangle());
 				mymapRec.get("rectangle"+i).setX(mymapStand.get("Stand"+i).getItemJoueur().getLatitude());
 				mymapRec.get("rectangle"+i).setY(mymapStand.get("Stand"+i).getItemJoueur().getLongitude());
-				mymapRec.get("rectangle"+i).setWidth(50);
-				mymapRec.get("rectangle"+i).setHeight(50);
+				mymapRec.get("rectangle"+i).setWidth(30);
+				mymapRec.get("rectangle"+i).setHeight(30);
 				mymapRec.get("rectangle"+i).setFill(new ImagePattern(mymapStand.get("Stand"+i).getSkinStand()));
 				// System.out.println("client"+i+": "+mymapClient.get("client"+i).getX());
 				//System.out.println(mymapClient.get("client"+i).getY());
 				root.getChildren().add(mymapRec.get("rectangle"+i));
+				
 				// System.out.println(mymapClient.get("client"+i).motivation(meteo));
 				System.out.println("Stand"+i);
-			//}
+			
 
 		}
 		return mymapRec;
@@ -303,22 +317,26 @@ public class Map
 	public HashMap<String, Rectangle> generationPopulationPub(Group root, int nbPub) throws IOException, Exception{
 		HashMap<String, Publicite> mymapPub = new HashMap<String, Publicite>();
 		URL urlGet = new URL("https://kabosu.herokuapp.com/map");
-
+		TestHttp get = new TestHttp();
 		DataTrameItemJoueur  dataItem = new DataTrameItemJoueur();
 		DataTrameRank  data = new DataTrameRank ();
 		data = TestHttp.traitementTrameRank(TestHttp.getMap(urlGet));
 		HashMap<String,  Rectangle> mymapRec = new HashMap<String,  Rectangle>();
 		for (int i=0; i<data.getRank().size(); i++)
 		{
-
-			if(dataItem.getItem().get(i).getTypeItem() == "stand")
+			for(int l = 0; l<(get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(i)) ).getItem().size();l++)
+			{			
+					dataItem.getItem().add(l, ((get.traitementTrameItem(TestHttp.getMap(urlGet),data.getRank().get(i)) ).getItem().get(l)));			
+				
+			}
+			if(dataItem.getItem().get(i).getTypeItem().equals( "ad"))
 			{
-				mymapPub.put("Pub"+i, new Publicite("toto", 40, 350, 500, 40));
+				mymapPub.put("Pub"+i, new Publicite(dataItem.getItem().get(i).getNomjoueur(), dataItem.getItem().get(i).getInfluence(), dataItem.getItem().get(i).getLatitude()+200, dataItem.getItem().get(i).getLongitude(), 40));
 				mymapRec.put("rectangle"+i, new Rectangle());
 				mymapRec.get("rectangle"+i).setX(mymapPub.get("Pub"+i).getItemJoueur().getLatitude());
 				mymapRec.get("rectangle"+i).setY(mymapPub.get("Pub"+i).getItemJoueur().getLongitude());
-				mymapRec.get("rectangle"+i).setWidth(50);
-				mymapRec.get("rectangle"+i).setHeight(50);
+				mymapRec.get("rectangle"+i).setWidth(30);
+				mymapRec.get("rectangle"+i).setHeight(30);
 				mymapRec.get("rectangle"+i).setFill(new ImagePattern(mymapPub.get("Pub"+i).getSkinPub()));
 				// System.out.println("client"+i+": "+mymapClient.get("client"+i).getX());
 				//System.out.println(mymapClient.get("client"+i).getY());
@@ -336,11 +354,11 @@ public class Map
 
 		ArrayList<String> joueurPositif = new ArrayList<String>();//mon array list de stands positif
 
-		for (int i = 0; i < 2; i++) //pour tout les element de ma list d'item
+		for (int i = 0; i < joueur.size(); i++) //pour tout les element de ma list d'item
 		{
 			for(int j = 0; j <joueur.get(i).getInfoItem().getItem().size();j++ )
 			{
-				float distance = (float) Math.sqrt(Math.pow(joueur.get(i).getInfoItem().getItem().get(j).getLatitude()-ClientCoordX, 2)
+				float distance = (float) Math.sqrt(Math.pow(joueur.get(i).getInfoItem().getItem().get(j).getLatitude()+200-ClientCoordX, 2)
 						+Math.pow(joueur.get(i).getInfoItem().getItem().get(j).getLongitude()-ClientCoordY, 2));//petite formule pour calculer la distance entre mon item et mon client
 				if (distance <= joueur.get(i).getInfoItem().getItem().get(j).getInfluence()) //Si la distance client/item et inférieur ou egale au rayon d'influence le stand passe en positif
 				{
