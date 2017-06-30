@@ -167,10 +167,14 @@ function getActions() {
 			}
 
 			if(budget > priceAll)
+			{
 				alert("Vous dépenserez : " + priceAll.toFixed(2) + "€")
 				localStorage.setItem("tableActions", JSON.stringify(tableActions))
+			}
 			else
+			{
 				alert("Vous n'avez pas assez d'argent. Le coût total de votre demande est : " + priceAll + "€. Merci de saisir vos choix.")
+			}
        	});
 }
 
