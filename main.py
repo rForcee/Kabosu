@@ -462,60 +462,6 @@ def get_ingredients():
 ###########################################################"""
 ###########################################################"""
 
-# Fonction pour la route /inscrire/boisson avec POST
-# Ajout d'une boisson en BDD
-@app.route('/inscrire/boisson', methods=['POST'])
-def inscriptionBoisson():
-	content = request.get_json()
-	nom = content['nom']
-	alcool = content['alcool']
-	hot = content['hot']
-
-
-	sql = "INSERT INTO boisson(b_nom, b_hasAlcohol, b_isCold, b_prixvente, b_prixprod, j_id) VALUES('"+ nom +"','"+ str(alcool) +"','"+ str(hot) + "', 0);"
-	db.execute(sql)
-
-	return json_response(content)
-
-# Fonction pour la route /inscrire/boisson avec GET
-# SELECT toutes les boissons
-@app.route('/inscrire/boisson', methods=['GET'])
-def getBoisson():
-  
-	sql = "SELECT z_type as kind, z_centerX as X, z_centerY as Y, z_rayon as influence, j_pseudo as owner FROM zone INNER JOIN joueur ON zone.j_id = joueur.j_id WHERE zone.j_id = (SELECT j_id FROM joueur WHERE j_pseudo = 'Erwann');"
-	result = db.select(sql)
-
-	return json_response(result)
-
-
-#------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-# Fonction pour la route /inscrire/ingredient avec POST
-# Ajout d'un ingredient en BDD
-@app.route('/inscrire/ingredient', methods=['POST'])
-def inscriptionIngredient():
-	content = request.get_json()
-	nom = content['nom']
-	prix = content['prix']
-
-
-	sql = "INSERT INTO ingredient(i_nom, i_prix) VALUES('"+ nom +"','"+ str(prix) +"');"
-	db.execute(sql)
-
-	return json_response(content)
-
-# Fonction pour la route /inscrire/ingredient avec GET
-# SELECT tous les ingredients
-@app.route('/inscrire/ingredient', methods=['GET'])
-def getIngredient():
-  
-	sql = "SELECT * FROM ingredient;"
-	result = db.select(sql)
-
-	return json_response(result)
-
-
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -535,31 +481,17 @@ def getIngredientsJoueur(player_name):
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 
+# Fonction pour la route /inscrire/ingredient avec POST
+# Ajout d'un ingredient en BDD
+@app.route('/sales/<player_name>', methods=['GET'])
+def getVentesByBoissons(player_name):
 
-# Fonction pour la route /inscrire/recette avec POST
-# Ajout d'une recette en BDD
-@app.route('/inscrire/recette', methods=['POST'])
-def inscriptionRecette():
-	content = request.get_json()
-	ing = content['ing']
-	drink = content['drink']
-	qte = content['qte']
+	listVentes = db.select("""SELECT SUM(v_qte) as quantite, b_nom as boisson, v_weather as weather FROM ventes 
+		INNER JOIN boisson ON boisson.b_id = ventes.b_id WHERE ventes.j_id = 
+		(SELECT j_id FROM joueur WHERE j_pseudo = @(nom)) GROUP BY v_weather, b_nom;""",{"nom": player_name})
 
 
-	sql = "INSERT INTO recette(b_id, i_id, r_qte) VALUES((SELECT b_id FROM boisson WHERE b_nom = '" + drink + "'),(SELECT i_id FROM ingredient WHERE i_nom = '" + ing + "'),'"+ str(qte) +"');"
-	db.execute(sql)
-
-	return json_response(content)
-
-# Fonction pour la route /inscrire/recette avec GET
-# SELECT toutes les recettes
-@app.route('/inscrire/recette', methods=['GET'])
-def getRecette():
-  
-	sql = "SELECT * FROM recette;"
-	result = db.select(sql)
-
-	return json_response(result)
+	return json_response(listVentes)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------------

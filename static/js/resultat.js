@@ -49,5 +49,86 @@ function mapPlayer() {
        		}
 
        		$('#pub').text(cptPubs);
+
+       		function ventes() {
+				$.ajax('https://kabosu.herokuapp.com/sales/' + playerName)
+			       .done(function(listVentes){
+
+			       	for(drinks in data.playerInfo.drinksOffered)
+					{
+						nom = data.playerInfo.drinksOffered[drinks].name;
+
+						var weatherT = [0,0,0,0,0]						
+
+						for(vente in listVentes)
+						{
+							if(listVentes[vente].boisson == nom)
+							{
+								weatherT[listVentes[vente].weather] = listVentes[vente].quantite
+							}
+						}
+						var line = "<tr><td>"+ nom + "</td><td>" + weatherT[0] + "</td><td>" + weatherT[1] + "</td><td>" + weatherT[2] + "</td><td>" + weatherT[3] + "</td><td>" + weatherT[4] + "</td></tr>"
+
+			            $('#ventes > tbody:last-child').append(line);
+
+		    		}
+				});
+			}
+
 	});
 }
+
+
+
+function metrology() {
+	$.ajax('https://kabosu.herokuapp.com/metrology')
+       .done(function(data){
+			var hour = data.timestamp;
+			var currentWeather;
+			var previsionWeather;
+			for (var time in data.weather)
+			{
+				if (data.weather[time].dfn == 0)
+				{
+					currentWeather = data.weather[time].weather;
+				}
+				else
+				{
+					previsionWeather = data.weather[time].weather;
+				}
+			}
+			var dayPrev = localStorage.getItem("dayPrev")
+			var day = Math.floor(hour / 24) + 1;
+			if(dayPrev != day)
+			{
+				sendActions();
+				//alert("Changement de jour")
+			}
+			dayPrev = day;
+			localStorage.setItem("dayPrev", dayPrev)
+			$('#weather').text(tableWeather[previsionWeather]);
+			$('#day').text("Jour " + day);
+			$('#hour').text(hour % 24 + ":00");
+
+	});
+}
+
+function sendActions() {
+	if(budget > 0)
+	{
+		var messageJSON = localStorage.getItem("tableActions")
+		message = JSON.parse(messageJSON)
+		console.log(message)
+		if(message == "")
+			message = []
+		data = {"actions" : message, "simulated": false}
+		$.ajax('https://kabosu.herokuapp.com/actions/' + playerName, {
+	              type: 'POST',
+	              contentType: 'application/json',
+	              data: JSON.stringify(data)
+	            });
+		localStorage.setItem("tableActions", "")
+	}
+}
+
+window.setInterval(metrology, 3000);
