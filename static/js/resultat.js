@@ -53,7 +53,6 @@ function mapPlayer() {
        		$('#pub').text(cptPubs);
 			console.log("Toto")
 
-       		function ventes() {
 				$.ajax('https://kabosu.herokuapp.com/sales/' + playerName)
 			       .done(function(listVentes){
 			       	console.log("ICI")
@@ -79,7 +78,6 @@ function mapPlayer() {
 
 		    		}
 				});
-			}
 
 	});
 }
