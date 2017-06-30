@@ -133,7 +133,7 @@ function sendActions() {
 			              contentType: 'application/json',
 			              data: JSON.stringify(data)
 			            });
-				localStorage.setItem("tableActions", "")
+				localStorage.setItem("tableActions", {})
 			}
 	}
 }
