@@ -168,8 +168,8 @@ function getActions() {
 
 			if(budget > priceAll)
 			{
-				alert("Vous dépenserez : " + priceAll.toFixed(2) + "€")
 				localStorage.setItem("tableActions", JSON.stringify(tableActions))
+				alert("Vous dépenserez : " + priceAll.toFixed(2) + "€")
 			}
 			else
 			{
