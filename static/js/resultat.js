@@ -124,16 +124,19 @@ function sendActions() {
 	{
 		var messageJSON = localStorage.getItem("tableActions")
 		if(messageJSON != "")
+		{
 			message = JSON.parse(messageJSON)
-		if(message == "" || messageJSON == "")
-			message = []
-		data = {"actions" : message, "simulated": false}
-		$.ajax('https://kabosu.herokuapp.com/actions/' + playerName, {
-	              type: 'POST',
-	              contentType: 'application/json',
-	              data: JSON.stringify(data)
-	            });
-		localStorage.setItem("tableActions", "")
+				console.log(message)
+				if(message == "")
+					message = []
+				data = {"actions" : message, "simulated": false}
+				$.ajax('https://kabosu.herokuapp.com/actions/' + playerName, {
+			              type: 'POST',
+			              contentType: 'application/json',
+			              data: JSON.stringify(data)
+			            });
+				localStorage.setItem("tableActions", "")
+			}
 	}
 }
 
