@@ -56,7 +56,8 @@ function mapPlayer() {
        		function ventes() {
 				$.ajax('https://kabosu.herokuapp.com/sales/' + playerName)
 			       .done(function(listVentes){
-
+			       	console.log("ICI")
+			       	console.log(data.playerInfo.drinksOffered)
 			       	for(drinks in data.playerInfo.drinksOffered)
 					{
 
