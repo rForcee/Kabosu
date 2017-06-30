@@ -35,6 +35,12 @@
 	text-transform: capitalize;
 }
 
+#ventes thead tr th,
+#ventes thead tr td
+{
+	width: 16%;
+}
+
 .bodyIndex {
 	background: #95a5a6 !important;
 }
