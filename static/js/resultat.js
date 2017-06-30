@@ -49,6 +49,7 @@ function mapPlayer() {
        		}
 
        		$('#pub').text(cptPubs);
+			console.log("Toto")
 
        		function ventes() {
 				$.ajax('https://kabosu.herokuapp.com/sales/' + playerName)
@@ -56,7 +57,9 @@ function mapPlayer() {
 
 			       	for(drinks in data.playerInfo.drinksOffered)
 					{
+
 						nom = data.playerInfo.drinksOffered[drinks].name;
+						console.log(nom)
 
 						var weatherT = [0,0,0,0,0]						
 
@@ -68,7 +71,7 @@ function mapPlayer() {
 							}
 						}
 						var line = "<tr><td>"+ nom + "</td><td>" + weatherT[0] + "</td><td>" + weatherT[1] + "</td><td>" + weatherT[2] + "</td><td>" + weatherT[3] + "</td><td>" + weatherT[4] + "</td></tr>"
-
+						console.log(line)
 			            $('#ventes > tbody:last-child').append(line);
 
 		    		}
