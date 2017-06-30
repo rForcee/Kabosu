@@ -58,7 +58,7 @@ def ajoutJoueur(name):
 		{"nom": name, "coordX": coordX, "coordY": coordY, "influence": rayonInfluenceStand})
 	db.execute("""INSERT INTO boisson(b_nom, b_hasAlcohol, b_isCold, b_prixvente, b_prixprod, j_id) 
 		VALUES ('lemonade', FALSE,TRUE,0,0.8, @(p_id)), ('tea', FALSE,FALSE,0,0.8, @(p_id)), 
-		('mojito',TRUE,TRUE,0,2, @(p_id));""", {"p_id": playerId})
+		('mojito',TRUE,TRUE,0,2.4, @(p_id));""", {"p_id": playerId})
 	db.execute("""INSERT INTO recette(r_qte, b_id, i_id) VALUES 
 		(2,(SELECT b_id FROM boisson WHERE b_nom = 'lemonade' AND j_id = @(p_id)),
 		(SELECT i_id FROM ingredient WHERE i_nom = 'lemon')),
