@@ -30,7 +30,7 @@
   background-color: #22313F;
 }
 
-.boissonsTD
+.boissonsTD, #ventes
 {
 	text-transform: capitalize;
 }
