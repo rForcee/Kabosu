@@ -1,5 +1,5 @@
 package objectIhm;
-
+// class pour recupere et calculer l'heure
 public class Date {
 	
 
