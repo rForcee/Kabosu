@@ -126,9 +126,14 @@
 	color: white;
 }
 
+#whiteH2
+{
+	color: white;
+}
+
 /* FOOTER */
 #footer {
-  height: 60px;
+  height: 100px;
   margin-top:50px;
   padding-top:20px;
   padding-bottom:20px;
@@ -145,7 +150,6 @@
 #footer div p
 {
 	color: white;
-	height: 20em;
 }
 
 #button-center
