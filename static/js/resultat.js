@@ -1,6 +1,7 @@
 var playerName;
 var tableWeather = ['rainy', 'cloudy', 'sunny', 'heatwave', 'thunderstorm']
 var tableActions;
+var budget;
 
 
 $.urlParam = function(name){
@@ -23,6 +24,7 @@ $( document ).ready(function() {
 function mapPlayer() {
 	$.ajax('https://kabosu.herokuapp.com/map/'+ playerName)
        .done(function(data){
+       		budget = data.playerInfo.cash;
        		$('#sales').text(data.playerInfo.sales);
 
        		if((data.playerInfo.profit) > 0)
