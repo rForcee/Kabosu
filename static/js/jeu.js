@@ -163,9 +163,11 @@ function getActions() {
 				var ajoutAd = {"kind": "ad", "location": {"latitude": $('#pubX').val(), "longitude": $('#pubY').val()}, "radius": 15,"price": 27}
 				console.log(ajoutAd)
 				tableActions.push(ajoutAd)
+				priceAll = priceAll + 27;
 			}
 
 			if(budget > priceAll)
+				alert("Vous dépenserez : " + priceAll.toFixed(2) + "€")
 				localStorage.setItem("tableActions", JSON.stringify(tableActions))
 			else
 				alert("Vous n'avez pas assez d'argent. Le coût total de votre demande est : " + priceAll + "€. Merci de saisir vos choix.")
